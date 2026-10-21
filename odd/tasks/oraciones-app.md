@@ -60,7 +60,7 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
 | O1 | Research: the verbatim Spanish text and source URL of each of the 13 prayers. Report the copyright status, length and any variant | delegated research worker (more than 5 lookups) | [ ] |
 | O2 | `feat`: app scaffold from the Rosario. Manifest (UUID 10421347-cc46-4b32-9c0c-4faa7adf3579), jungle, the copied layout and i18n code, the group and prayer lists, the reading view, the dove ring, tests | delegated writer (2+ non-trivial files) | [x] b353e4d lists (+2435: 102 generated, about 590 copied scripts, 764 tests, this document) RED 10 passed, 8 failed -> GREEN 18/18; 8f5adc9 reading (+751/-3) RED 21 passed, 4 failed -> GREEN 25/25. Debug and release `-w`: 0 warnings, release 15,900 bytes |
 | O3 | `feat`: the 13 prayer texts from O1 and the glance with the last prayer read, plus fit tests over every text | delegated writer (2+ non-trivial files) | [x] 459a2e6 texts (+527/-23) RED 25 passed, 2 failed -> GREEN 28/28; 1faca9b glance (+255/-122) RED 28 passed, 2 failed -> GREEN 30/30; 76ff5db verse layout (+124/-62) RED 30 passed, 1 failed -> GREEN 32/32. `check-texts.py` ALL VERBATIM (13 texts, the Magníficat's 2 corrections). Debug and release `-w`: 0 warnings, release 26,556 bytes. Glance 8,552 bytes with no prayer read, 8,616 after one (of 28,488); widget 26,128 with Psalm 27 open |
-| O4 | `docs`: README, LICENSE (MIT), NOTICE with the text sources | delegated writer | [ ] |
+| O4 | `docs`: README, LICENSE (MIT), NOTICE with the text sources | delegated writer (3 new files) | [x] 64e12f9 (+399): README (English, Spanish summary), LICENSE (MIT, Cesar Tapasco, 2026), NOTICE (each text's source, publisher, notice and the Magníficat's corrections). Structural readback: every README anchor resolves, every table has even columns |
 
 ## Acceptance criteria
 
@@ -179,6 +179,13 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
     - The first probe laid out and drew all 13 views in one update and tripped the watchdog ("Code Executed Too Long"). One view per update ran clean, as the app does when it opens a prayer.
     - The simulator stopped answering once during O3 and was relaunched by the user; nothing was committed while it was down.
 
+- O4, route: delegated writer, after loading the `cognitive-doc-design` skill.
+  - **64e12f9 `docs`:**
+    - `README.md` leads with a quick start, then the features, the 13 prayers with their page counts, the controls, development (build, tests, texts and languages, the text check, simulator, sideload), the project layout and the text sources, and closes with a Spanish summary.
+    - `LICENSE`: MIT, Cesar Tapasco, 2026, the Rosario's text.
+    - `NOTICE`, in the Rosario's style: each text's source URL, publisher and copyright notice as researched, and the changes made to it (the psalms' superscriptions, the Magníficat's two corrections, the Sequence's missing "Amén"). Where a source states no terms, none is claimed.
+  - **Checks:** structural readback (every anchor resolves, every table has even columns). Final `scripts/test-all.sh` with `TEXT_SOURCES`: Texts ALL VERBATIM: 13 texts; Translations OK; Glance texts OK; Tests PASSED (passed=32, failed=0, errors=0). Debug and release `-w`: 0 warnings, release 26,556 bytes.
+
 ## Next step
 
-O4: README, LICENSE (MIT), NOTICE.
+The user checks the app on the watch, above all how Psalms 27 and 51 read at 29 and 28 pages. Then the user decides on the pull request and the GitHub repository; creating the repository is a remote operation that needs the user's go-ahead.
