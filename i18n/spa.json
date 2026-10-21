@@ -1,0 +1,35 @@
+{
+    "//": "Spanish, the model language: its tables, their ids and their order are the ones every language defines (scripts/gen-i18n.py). The first table is the glance's, the only one the glance can load.",
+    "glance": {
+        "GlanceTitle": "Oraciones",
+        "//GlanceCount": "$1$ is the number of prayers the app holds.",
+        "GlanceCount": "$1$ oraciones"
+    },
+    "ui": {
+        "//GroupsTitle": "The header of the list of groups, beside the lens.",
+        "GroupsTitle": "Oraciones",
+        "//GroupHolySpirit": "The groups label the bars of the first list in the large font (148px), and head their prayer list.",
+        "GroupHolySpirit": "Espíritu Santo",
+        "GroupPsalms": "Salmos",
+        "GroupMarian": "Marianas",
+        "GroupClassic": "Clásicas",
+        "//TextPending": "What the reading view shows until a prayer's text is added.",
+        "TextPending": "Texto en preparación."
+    },
+    "titles": {
+        "//": "The prayers' short titles: they label the bars of a group's list in the large font, and head the reading view.",
+        "TitleComeHolySpirit": "Ven, Espíritu",
+        "TitleVeniCreator": "Veni Creator",
+        "TitleSequence": "Secuencia",
+        "TitlePsalm23": "Salmo 23",
+        "TitlePsalm27": "Salmo 27",
+        "TitlePsalm51": "Salmo 51",
+        "TitleMagnificat": "Magníficat",
+        "TitleAngelus": "Ángelus",
+        "TitleAnimaChristi": "Alma de Cristo",
+        "TitleSaintFrancis": "San Francisco",
+        "TitleNadaTeTurbe": "Nada te turbe",
+        "TitleAbandonment": "Abandono",
+        "TitleSaintMichael": "San Miguel"
+    }
+}

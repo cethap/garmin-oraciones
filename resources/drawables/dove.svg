@@ -1,0 +1,12 @@
+<svg width="32" height="32" viewBox="0 0 62 62" xmlns="http://www.w3.org/2000/svg">
+  <!-- The launcher icon's dove (launcher_icon.svg) at 32x32 on a transparent background, for the subscreen. -->
+  <g fill="#FFFFFF">
+    <polygon points="24,38 17,27 13,16 17,15 24,21 31,31 33,38"/>
+    <polygon points="27,40 30,26 36,16 44,11 51,10 48,15 53,15 47,20 50,22 44,27 39,37 33,41"/>
+    <circle cx="15" cy="40" r="5"/>
+    <polygon points="11,38 5,41.5 11,43"/>
+    <ellipse cx="29" cy="44" rx="14" ry="6.5"/>
+    <polygon points="40,41 54,35 57,39 54,42 58,45 54,49 41,48"/>
+  </g>
+  <polyline points="25,39 29,29 31,38" fill="none" stroke="#000000" stroke-width="1.5"/>
+</svg>

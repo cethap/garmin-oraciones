@@ -1,0 +1,5 @@
+<drawables xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <bitmap id="LauncherIcon" filename="launcher_icon.svg" dithering="none" />
+    <!-- The dove in the subscreen ring (source/Subscreen.mc): the launcher icon's dove at 32x32. -->
+    <bitmap id="Dove" filename="dove.svg" dithering="none" />
+</drawables>
