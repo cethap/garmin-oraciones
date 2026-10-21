@@ -59,7 +59,7 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
 |----|------|-------|--------|
 | O1 | Research: the verbatim Spanish text and source URL of each of the 13 prayers. Report the copyright status, length and any variant | delegated research worker (more than 5 lookups) | [ ] |
 | O2 | `feat`: app scaffold from the Rosario. Manifest (UUID 10421347-cc46-4b32-9c0c-4faa7adf3579), jungle, the copied layout and i18n code, the group and prayer lists, the reading view, the dove ring, tests | delegated writer (2+ non-trivial files) | [x] b353e4d lists (+2435: 102 generated, about 590 copied scripts, 764 tests, this document) RED 10 passed, 8 failed -> GREEN 18/18; 8f5adc9 reading (+751/-3) RED 21 passed, 4 failed -> GREEN 25/25. Debug and release `-w`: 0 warnings, release 15,900 bytes |
-| O3 | `feat`: the 13 prayer texts from O1 and the glance with the last prayer read, plus fit tests over every text | delegated writer (2+ non-trivial files) | [ ] code done, memory pending: 459a2e6 texts (+527/-23) RED 25 passed, 2 failed -> GREEN 28/28; 1faca9b glance (+255/-122) RED 28 passed, 2 failed -> GREEN 30/30. `check-texts.py` ALL VERBATIM (13 texts, the Magníficat's 2 corrections). Debug and release `-w`: 0 warnings, release 26,348 bytes. The glance and widget memory runs are pending: the simulator stopped answering |
+| O3 | `feat`: the 13 prayer texts from O1 and the glance with the last prayer read, plus fit tests over every text | delegated writer (2+ non-trivial files) | [x] 459a2e6 texts (+527/-23) RED 25 passed, 2 failed -> GREEN 28/28; 1faca9b glance (+255/-122) RED 28 passed, 2 failed -> GREEN 30/30; 76ff5db verse layout (+124/-62) RED 30 passed, 1 failed -> GREEN 32/32. `check-texts.py` ALL VERBATIM (13 texts, the Magníficat's 2 corrections). Debug and release `-w`: 0 warnings, release 26,556 bytes. Glance 8,552 bytes with no prayer read, 8,616 after one (of 28,488); widget 26,128 with Psalm 27 open |
 | O4 | `docs`: README, LICENSE (MIT), NOTICE with the text sources | delegated writer | [ ] |
 
 ## Acceptance criteria
@@ -131,28 +131,54 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
     - `scripts/test-all.sh` with `TEXT_SOURCES`: Texts ALL VERBATIM: 13 texts; Translations OK (15 tables, 33 texts); Glance texts OK (15 texts looked up); Tests PASSED (passed=30, failed=0, errors=0).
     - Debug `-w` and release `-r -w`: 0 warnings. Release `.prg`: 26,348 bytes.
     - FONT_TINY has every glyph the texts use, the en dash "–" of Psalm 51 included. The texts hold no curly quotes.
-  - **Pages per prayer,** at 4 lines a page, with a blank line after each "\n" as O2 built it (in brackets: without the blank lines):
+  - **Pages per prayer, first layout** (O2's blank line after each "\n"): Psalm 27 39 pages, Psalm 51 38, Veni Creator 23, Secuencia 22.
+  - **76ff5db `feat(reading)`: the texts set as verse** (the parent's decision on that finding).
+    - The texts' "\n" mark printed lines, not paragraphs. Each one now starts a new line with no blank line between.
+    - A printed line too long for the window wraps at spaces onto continuation lines indented 8px (`ReadingLayout.INDENT`).
+    - Lines align to the window's left edge (x 22, continuations x 30) instead of centered.
+    - A body line keeps its continuation as a leading space, which no other line has, so the view holds no extra array.
+    - The space-only wrap, the page indicator and the 4-line pages are unchanged.
+    - Tests: the fit tests check every placeholder and every real text at every offset, with each line's x and left justification. A new test pins each prayer's page count.
+    - RED: FAILED (passed=30, failed=1), only the new indent test (blank lines, every line centered at x 88). GREEN: 31/31, then 32/32 with the page pins.
+  - **Pages per prayer, verse layout,** at 4 lines a page:
 
-    | Prayer | Characters | Lines | Pages |
+    | Prayer | Characters | Lines (continued) | Pages |
     |---|---|---|---|
-    | Ven, Espíritu | 381 | 33 | 9 (7) |
-    | Veni Creator | 819 | 91 | 23 (16) |
-    | Secuencia | 822 | 88 | 22 (15) |
-    | Salmo 23 | 529 | 60 | 15 (11) |
-    | Salmo 27 | 1,472 | 155 | 39 (28) |
-    | Salmo 51 | 1,466 | 149 | 38 (28) |
-    | Magníficat | 733 | 60 | 15 (13) |
-    | Ángelus | 667 | 72 | 18 (13) |
-    | Alma de Cristo | 396 | 40 | 10 (7) |
-    | San Francisco | 588 | 58 | 15 (11) |
-    | Nada te turbe | 143 | 18 | 5 (3) |
-    | Abandono | 407 | 45 | 12 (8) |
-    | San Miguel | 384 | 33 | 9 (7) |
+    | Ven, Espíritu | 381 | 29 (23) | 8 |
+    | Veni Creator | 819 | 67 (39) | 17 |
+    | Secuencia | 822 | 61 (31) | 16 |
+    | Salmo 23 | 529 | 42 (23) | 11 |
+    | Salmo 27 | 1,472 | 113 (66) | 29 |
+    | Salmo 51 | 1,466 | 110 (69) | 28 |
+    | Magníficat | 733 | 53 (43) | 14 |
+    | Ángelus | 667 | 51 (28) | 13 |
+    | Alma de Cristo | 396 | 30 (17) | 8 |
+    | San Francisco | 588 | 46 (30) | 12 |
+    | Nada te turbe | 143 | 10 (1) | 3 |
+    | Abandono | 407 | 30 (14) | 8 |
+    | San Miguel | 384 | 28 (22) | 7 |
 
-  - **Reading view memory, in the test suite:** a view holds 1,336 to 6,224 bytes (Psalm 27) of a 12,288-byte budget, and leaves 0 bytes once closed.
-  - **Pending:** the glance memory, with no prayer read and after one, and the widget peak with Psalm 27, measured with instrumented copies. The simulator stopped answering every run, tests included, after the last test run at 15:49; it was not restarted.
-  - **Open for the user:** the texts' "\n" are printed lines, not paragraphs, so the blank lines add a third to the psalms' pages (Psalm 27: 39 pages, or 28 without them). Dropping the blank lines would make a wrapped line look like a new one in the centered text. To decide on the watch.
+  - **Final checks at 76ff5db:**
+    - `scripts/test-all.sh` with `TEXT_SOURCES`: Texts ALL VERBATIM: 13 texts; Translations OK; Glance texts OK; Tests PASSED (passed=32, failed=0, errors=0).
+    - Debug `-w` and release `-r -w`: 0 warnings. Release `.prg`: 26,556 bytes.
+  - **Memory.**
+    - In the test suite, a reading view holds 1,104 (Nada te turbe) to 5,064 bytes (Psalm 27) of a 12,288-byte budget, and leaves 0 bytes once closed.
+    - Measured with uncommitted instrumented copies, release builds, in the simulator:
+
+    | | Bytes |
+    |---|---|
+    | Glance, no prayer read (1faca9b) | 8,552 of 28,488 ("Oraciones" / "13 oraciones") |
+    | Glance after one, Psalm 27 saved (1faca9b and 76ff5db) | 8,616 ("Oraciones" / "Salmo 27") |
+    | Widget (as a watch-app), list of groups open | 18,632 |
+    | Plus the Salmos list | 19,472 |
+    | Plus Psalm 27's reading view laid out and drawn, its text still held by the probe | 26,128 (113 lines) |
+    | Same, the probe's copy of the text let go | 24,624 |
+    | After the view and the list close | 18,712 |
+
+    - Before the verse layout, the same widget probe read 27,088 with the text held, at 155 lines.
+    - The first probe laid out and drew all 13 views in one update and tripped the watchdog ("Code Executed Too Long"). One view per update ran clean, as the app does when it opens a prayer.
+    - The simulator stopped answering once during O3 and was relaunched by the user; nothing was committed while it was down.
 
 ## Next step
 
-Restart the simulator, then measure the glance (no prayer read, then one) and the widget peak with Psalm 27, and check O3 off. Then O4.
+O4: README, LICENSE (MIT), NOTICE.
