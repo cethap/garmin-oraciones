@@ -61,6 +61,7 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
 | O2 | `feat`: app scaffold from the Rosario. Manifest (UUID 10421347-cc46-4b32-9c0c-4faa7adf3579), jungle, the copied layout and i18n code, the group and prayer lists, the reading view, the dove ring, tests | delegated writer (2+ non-trivial files) | [x] b353e4d lists (+2435: 102 generated, about 590 copied scripts, 764 tests, this document) RED 10 passed, 8 failed -> GREEN 18/18; 8f5adc9 reading (+751/-3) RED 21 passed, 4 failed -> GREEN 25/25. Debug and release `-w`: 0 warnings, release 15,900 bytes |
 | O3 | `feat`: the 13 prayer texts from O1 and the glance with the last prayer read, plus fit tests over every text | delegated writer (2+ non-trivial files) | [x] 459a2e6 texts (+527/-23) RED 25 passed, 2 failed -> GREEN 28/28; 1faca9b glance (+255/-122) RED 28 passed, 2 failed -> GREEN 30/30; 76ff5db verse layout (+124/-62) RED 30 passed, 1 failed -> GREEN 32/32. `check-texts.py` ALL VERBATIM (13 texts, the Magníficat's 2 corrections). Debug and release `-w`: 0 warnings, release 26,556 bytes. Glance 8,552 bytes with no prayer read, 8,616 after one (of 28,488); widget 26,128 with Psalm 27 open |
 | O4 | `docs`: README, LICENSE (MIT), NOTICE with the text sources | delegated writer (3 new files) | [x] 64e12f9 (+399): README (English, Spanish summary), LICENSE (MIT, Cesar Tapasco, 2026), NOTICE (each text's source, publisher, notice and the Magníficat's corrections). Structural readback: every README anchor resolves, every table has even columns |
+| O5 | `feat`: remove the Veni Creator, at the user's request after testing on the watch ("quita el veni creator, solo deja dos"): the Espíritu Santo group keeps "Ven, Espíritu" and "Secuencia", 12 prayers in all | delegated writer (2+ non-trivial files) | [x] c055e4a (+112/-106) RED 26 passed, 6 failed -> GREEN 33/33. `check-texts.py` ALL VERBATIM: 12 texts. Debug and release `-w`: 0 warnings, release 26,028 bytes |
 
 ## Acceptance criteria
 
@@ -215,6 +216,20 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
     - R3-list-navigation-untested and R3-visiblearea-unused: the tests are in e4f0eab;
     - the glance-memory R3-001 in 0e53016..af35de3: measured afterwards, 8,616 of 28,488 bytes.
 
+- O5, route: delegated writer. The user tested the app on the watch and asked: "quita el veni creator, solo deja dos".
+  - **c055e4a `feat`: the Veni Creator removed.**
+    - Gone: its text table and short title in `i18n/spa.json` (and the generated files), its entries in `source/Prayers.mc`, its source in `scripts/check-texts.py`, and its entries in NOTICE and the README.
+    - The Espíritu Santo group holds "Ven, Espíritu" and "Secuencia"; the groups now start at prayers 0, 2, 5 and 7. `Prayers.COUNT` is 12, and the glance's count reads "12 oraciones". The glance table holds 14 texts, 544 bytes loaded.
+    - **Saved glance choice:** the last prayer read is now saved as a stable id, the research id (`Prayers.ids()`, for example "salmo_27"), instead of an index. Removing a prayer shifts the indices, so an index saved by the 13-prayer build would name the wrong prayer.
+    - Any stored value that is not a known id reads as none, so the glance shows "12 oraciones" until the next prayer is read. That covers an old build's index, the removed "veni_creator" id and values of other types.
+    - Migrating the old indices was left out: it would only help the one watch that ran the dev build, and that watch's value is replaced at the next read.
+    - The tests no longer use hard-coded prayer indices: they find Psalm 51 and the Magníficat by id.
+  - **Evidence:**
+    - RED, after the count, glance, pin and page tests were changed to expect 12 prayers: FAILED (passed=26, failed=6). The 6 were `glanceShowsTheLastPrayerRead`, `glanceSummaryNamesThePrayer`, `glanceNamesTheAppAndCountsThePrayers`, `groupsHoldTheirPrayersInOrder`, `everyTextKeepsItsOpeningItsCloseAndItsLength` and `everyPrayerReadsInItsPages`.
+    - GREEN: `scripts/test-all.sh` with `TEXT_SOURCES`: Texts ALL VERBATIM: 12 texts; Translations OK (14 tables, 31 texts); Glance texts OK (14 texts looked up); Tests PASSED (passed=33, failed=0, errors=0), the new id test included.
+    - Debug and release `-w`: 0 warnings. Release `.prg`: 26,028 bytes.
+  - **Pages per prayer** are unchanged for the 12 that remain: 8, 16, 11, 29, 28, 14, 13, 8, 12, 3, 8, 7.
+
 ## Next step
 
-The user checks the app on the watch, above all how Psalms 27 and 51 read at 29 and 28 pages. Then the user decides on the pull request and the GitHub repository; creating the repository is a remote operation that needs the user's go-ahead.
+The user checks the app on the watch again, above all how Psalms 27 and 51 read at 29 and 28 pages. Then the user decides on the pull request and the GitHub repository; creating the repository is a remote operation that needs the user's go-ahead.
