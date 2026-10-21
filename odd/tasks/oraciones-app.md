@@ -62,6 +62,7 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
 | O3 | `feat`: the 13 prayer texts from O1 and the glance with the last prayer read, plus fit tests over every text | delegated writer (2+ non-trivial files) | [x] 459a2e6 texts (+527/-23) RED 25 passed, 2 failed -> GREEN 28/28; 1faca9b glance (+255/-122) RED 28 passed, 2 failed -> GREEN 30/30; 76ff5db verse layout (+124/-62) RED 30 passed, 1 failed -> GREEN 32/32. `check-texts.py` ALL VERBATIM (13 texts, the Magníficat's 2 corrections). Debug and release `-w`: 0 warnings, release 26,556 bytes. Glance 8,552 bytes with no prayer read, 8,616 after one (of 28,488); widget 26,128 with Psalm 27 open |
 | O4 | `docs`: README, LICENSE (MIT), NOTICE with the text sources | delegated writer (3 new files) | [x] 64e12f9 (+399): README (English, Spanish summary), LICENSE (MIT, Cesar Tapasco, 2026), NOTICE (each text's source, publisher, notice and the Magníficat's corrections). Structural readback: every README anchor resolves, every table has even columns |
 | O5 | `feat`: remove the Veni Creator, at the user's request after testing on the watch ("quita el veni creator, solo deja dos"): the Espíritu Santo group keeps "Ven, Espíritu" and "Secuencia", 12 prayers in all | delegated writer (2+ non-trivial files) | [x] c055e4a (+112/-106) RED 26 passed, 6 failed -> GREEN 33/33. `check-texts.py` ALL VERBATIM: 12 texts. Debug and release `-w`: 0 warnings, release 26,028 bytes |
+| O6 | `feat`: the "Básicas" group, first in the list: Padre Nuestro, Pater Noster, Our Father, Ave María, Ave Maria, Hail Mary (the user's choice of six texts; 12 -> 18 prayers) | delegated writer (2+ non-trivial files) | [x] 888b28e (+250/-74) RED 28 passed, 5 failed -> GREEN 33/33. `check-texts.py` ALL VERBATIM: 18 texts. Debug and release `-w`: 0 warnings, release 28,604 bytes |
 
 ## Acceptance criteria
 
@@ -230,6 +231,28 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
     - Debug and release `-w`: 0 warnings. Release `.prg`: 26,028 bytes.
   - **Pages per prayer** are unchanged for the 12 that remain: 8, 16, 11, 29, 28, 14, 13, 8, 12, 3, 8, 7.
 
+- **O5 review:** approved (review-8d5270910f2b376e), with three advisory suggestions about the parallel id list in `Prayers.mc:15-19`, kept as follow-ups. The id list is a third array that must stay aligned with the title and text key arrays.
+- O6, route: delegated writer. The user's request: a "Básicas" group, first in the list, with six texts.
+  - **888b28e `feat`: the Básicas group.**
+    - The group holds the Padre Nuestro (Compendium, Spanish edition, with Vatican News), Ave María (same), Ave Maria in Latin (Compendium, English edition, with the Spanish edition) and Hail Mary (Compendium, English edition).
+    - **Parent decision:** all six end with "Amen" or "Amén". The English edition's Pater Noster and Our Father have none, so they were replaced by verbatim alternatives that do:
+      - the Spanish edition's appendix Pater Noster (unaccented, "quotidianum", ending "Amen");
+      - the USCCB's Our Father (https://www.usccb.org/prayers/our-father, ending "Amen.").
+    - Ids: `padre_nuestro`, `pater_noster`, `our_father`, `ave_maria_es`, `ave_maria_la`, `hail_mary`. The research notes and the decision are in each table's `//` note and in NOTICE.
+    - Groups, in order: Básicas, Espíritu Santo, Salmos, Marianas, Clásicas, starting at prayers 0, 6, 8, 11 and 13. The glance's count reads "18 oraciones".
+    - Every label fits FONT_LARGE as given. The widest new one, "Padre Nuestro", is 130px, 9px inside its bar.
+    - New glyph: "æ" (Latin "nostræ"), 13px in FONT_TINY.
+    - `scripts/check-texts.py` now rejoins the words a PDF hyphenates at a line end, reads ePubs chapter by chapter and ignores stanza numbers ("2. "), as the scratch checker does. Every earlier text still passes.
+    - Glance table: 20 texts, 768 bytes loaded (budget 1,024).
+    - The text-table budget now covers every table after the ui table, instead of counting from the first text's key.
+  - **Pages:** Padre Nuestro 7, Pater Noster 6, Our Father 6, Ave María 5, Ave Maria 4, Hail Mary 5.
+  - **Evidence:**
+    - RED, after the counts, groups, glance and pins were changed to expect 18 prayers: FAILED (passed=28, failed=5). The 5 were the three glance tests, `groupsHoldTheirPrayersInOrder` and `everyTextKeepsItsOpeningItsCloseAndItsLength`.
+    - GREEN: `scripts/test-all.sh` with `TEXT_SOURCES`: Texts ALL VERBATIM: 18 texts; Translations OK (20 tables, 44 texts); Glance texts OK (20 texts looked up); Tests PASSED (passed=33, failed=0, errors=0).
+    - The page-count pins were updated from the measured pages.
+    - Debug and release `-w`: 0 warnings. Release `.prg`: 28,604 bytes.
+    - Memory: measured once all three tasks were in (O8).
+
 ## Next step
 
-The user checks the app on the watch again, above all how Psalms 27 and 51 read at 29 and 28 pages. Then the user decides on the pull request and the GitHub repository; creating the repository is a remote operation that needs the user's go-ahead.
+O7: seven prayers and the groups "Eucarísticas" and "Del día". Then O8. Then the user decides on the pull request and the GitHub repository; creating the repository is a remote operation that needs the user's go-ahead.
