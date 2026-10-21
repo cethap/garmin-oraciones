@@ -57,7 +57,7 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
 
 | ID | Task | Route | Status |
 |----|------|-------|--------|
-| O1 | Research: the verbatim Spanish text and source URL of each of the 13 prayers. Report the copyright status, length and any variant | delegated research worker (more than 5 lookups) | [ ] |
+| O1 | Research: the verbatim Spanish text and source URL of each of the 13 prayers. Report the copyright status, length and any variant | delegated research worker (more than 5 lookups) | [x] Research only, no commit. 13 texts found and checked verbatim by script against 23 downloaded pages; sources and decisions in Progress and NOTICE |
 | O2 | `feat`: app scaffold from the Rosario. Manifest (UUID 10421347-cc46-4b32-9c0c-4faa7adf3579), jungle, the copied layout and i18n code, the group and prayer lists, the reading view, the dove ring, tests | delegated writer (2+ non-trivial files) | [x] b353e4d lists (+2435: 102 generated, about 590 copied scripts, 764 tests, this document) RED 10 passed, 8 failed -> GREEN 18/18; 8f5adc9 reading (+751/-3) RED 21 passed, 4 failed -> GREEN 25/25. Debug and release `-w`: 0 warnings, release 15,900 bytes |
 | O3 | `feat`: the 13 prayer texts from O1 and the glance with the last prayer read, plus fit tests over every text | delegated writer (2+ non-trivial files) | [x] 459a2e6 texts (+527/-23) RED 25 passed, 2 failed -> GREEN 28/28; 1faca9b glance (+255/-122) RED 28 passed, 2 failed -> GREEN 30/30; 76ff5db verse layout (+124/-62) RED 30 passed, 1 failed -> GREEN 32/32. `check-texts.py` ALL VERBATIM (13 texts, the Magníficat's 2 corrections). Debug and release `-w`: 0 warnings, release 26,556 bytes. Glance 8,552 bytes with no prayer read, 8,616 after one (of 28,488); widget 26,128 with Psalm 27 open |
 | O4 | `docs`: README, LICENSE (MIT), NOTICE with the text sources | delegated writer (3 new files) | [x] 64e12f9 (+399): README (English, Spanish summary), LICENSE (MIT, Cesar Tapasco, 2026), NOTICE (each text's source, publisher, notice and the Magníficat's corrections). Structural readback: every README anchor resolves, every table has even columns |
@@ -185,6 +185,35 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
     - `LICENSE`: MIT, Cesar Tapasco, 2026, the Rosario's text.
     - `NOTICE`, in the Rosario's style: each text's source URL, publisher and copyright notice as researched, and the changes made to it (the psalms' superscriptions, the Magníficat's two corrections, the Sequence's missing "Amén"). Where a source states no terms, none is claimed.
   - **Checks:** structural readback (every anchor resolves, every table has even columns). Final `scripts/test-all.sh` with `TEXT_SOURCES`: Texts ALL VERBATIM: 13 texts; Translations OK; Glance texts OK; Tests PASSED (passed=32, failed=0, errors=0). Debug and release `-w`: 0 warnings, release 26,556 bytes.
+
+- **Review slices.** The scaffold commit (+2,435) was too large for one native review, so the parent rebuilt the branch as smaller commits with the same final tree (`git diff a3e5f44 HEAD` is empty):
+  - c69207a scripts;
+  - 73522b3 the app scaffold;
+  - e4f0eab the list tests;
+  - the later commits replayed as c52b6f5 through a65f664.
+
+  Both new intermediate commits build with 0 warnings (debug and test builds). The pre-split branch is kept locally as `feat/oraciones-mvp-presplit`. The parent's spot check of `scripts/test-all.sh` with `TEXT_SOURCES`: 13 texts ALL VERBATIM, 32 passed, 0 failed.
+- **Reviews.** Each slice ran in its own detached worktree; all were approved and acknowledged:
+
+  | Range | Tier | Lineage | Advisory findings |
+  |---|---|---|---|
+  | edeaea3..c69207a | high | review-fb4fb5de1502ccb1 | 7 |
+  | c69207a..73522b3 | medium | review-b933a71553842540 | 4 |
+  | 73522b3..0e53016 | medium | review-0744b0dbd2b753d6 | 1 |
+  | 0e53016..af35de3 | high | review-4fc23eb4518cff88 | 4 |
+  | af35de3..a65f664 | medium | review-a1d8c290459897b6 | 1 |
+- **Follow-ups**, non-blocking advisories for later:
+  - Scripts:
+    - `check-glance-strings.py` counts bare identifiers and checks calls by name only (R2-text-key-scope, R3-text-key-bare-identifier, R3-call-check-name-only);
+    - the checkers have no tests of their own (R3-checkers-untested);
+    - smaller items: R2-duplicated-model-constants, R3-gen-no-cross-table-id-check, R3-unterminated-literal-line-drift, R2-invisible-literal, R3-002.
+  - App:
+    - continuation lines are marked by a leading space, with no guard against a source line that starts with one (R3-001, ReadingView);
+    - the table-size test measures `usedMemory` deltas (R3-memory-delta-flaky);
+    - smaller items: R3-wrap-fallback-unbounded, R3-wrap-whitespace, R2-magnificat-magic-index.
+  - Slice artifacts, no action:
+    - R3-list-navigation-untested and R3-visiblearea-unused: the tests are in e4f0eab;
+    - the glance-memory R3-001 in 0e53016..af35de3: measured afterwards, 8,616 of 28,488 bytes.
 
 ## Next step
 
