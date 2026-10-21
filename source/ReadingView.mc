@@ -5,11 +5,12 @@ import Toybox.WatchUi;
 // Layout of the reading view, shared with the layout tests; the Rosario's mystery reading, for texts of any
 // length. No text ever goes under the subscreen lens or its ring: the header (the prayer's title) stays fixed
 // in the band left of the lens (HeaderLayout), and the body (the prayer's text) scrolls only inside a fixed
-// window below the lens. The view clips its drawing to that window, and the body is wrapped to the window's
-// width, the narrowest visible width over its rows. The body wraps at spaces only: Graphics.fitTextToArea
-// also breaks after apostrophes and around some punctuation. A paragraph break ("\n") in the text starts a
-// new paragraph after a blank line. Right of the window, on the lists' track (MenuLayout), a thumb shows
-// which part of the text is on screen.
+// window below the lens. The view clips its drawing to that window. The body is set as verse: each printed
+// line of the text ("\n") starts a new line at the window's left edge, and a printed line too long for the
+// window wraps onto continuation lines indented INDENT px (a hanging indent), so each verse's start shows.
+// The body wraps at spaces only: Graphics.fitTextToArea also breaks after apostrophes and around some
+// punctuation. Right of the window, on the lists' track (MenuLayout), a thumb shows which part of the text is
+// on screen.
 module ReadingLayout {
     // Body window [left, top, right, bottom]. The lens ring covers the right side of rows 0..72, so the
     // window starts 2px below it (row 75); 4 lines of the tiny font fit down to row 158. The window keeps
@@ -21,6 +22,11 @@ module ReadingLayout {
     const BODY_PITCH = 20;
     // Shortest page indicator, in px: a long text would otherwise get a thumb of a pixel or two.
     const MIN_THUMB = 4;
+    // The hanging indent of a wrapped printed line's continuation lines, in px.
+    const INDENT = 8;
+    // How the body lines mark a continuation line: with a leading space, which no other line has, since
+    // lines break at spaces and the space is dropped. bodyPlan draws the line without it, INDENT px in.
+    const CONTINUATION = " ";
 
     function windowWidth() as Number {
         return WINDOW_RIGHT - WINDOW_LEFT;
@@ -53,64 +59,72 @@ module ReadingLayout {
         return (offset - 1) / visibleLines() * visibleLines();
     }
 
-    // The text's lines: each paragraph wrapped to the window, and one blank line between two paragraphs.
-    // Empty paragraphs (a break at either end, or two in a row) add nothing.
+    // The text's body lines: each printed line wrapped to the window, its continuation lines marked
+    // (CONTINUATION). Empty printed lines (a break at either end, or two in a row) add nothing.
     function bodyLines(dc as Dc, text as String) as Array<String> {
         var lines = [] as Array<String>;
         var rest = text;
         while (rest.length() > 0) {
             var cut = rest.find("\n");
-            var paragraph = (cut == null ? rest : rest.substring(0, cut)) as String;
+            var printed = (cut == null ? rest : rest.substring(0, cut)) as String;
             rest = (cut == null ? "" : rest.substring(cut + 1, rest.length())) as String;
-            if (paragraph.length() == 0) {
-                continue;
+            if (printed.length() > 0) {
+                lines.addAll(wrapWords(dc, printed));
             }
-            if (lines.size() > 0) {
-                lines.add("");
-            }
-            lines.addAll(wrapWords(dc, paragraph));
         }
         return lines;
     }
 
-    // Greedy word wrap at spaces, each line as wide as the window allows in the tiny font. Joined back
-    // with spaces, the lines give the text again. (A single word wider than the window would overflow
-    // it; the layout tests measure every line of every text.)
+    // Greedy word wrap at spaces in the tiny font: the first line as wide as the window allows, the
+    // continuation lines INDENT px narrower, each marked with a leading CONTINUATION. Joined back, the lines
+    // give the text again. (A single word wider than a line would overflow it; the layout tests measure every
+    // line of every text.)
     function wrapWords(dc as Dc, text as String) as Array<String> {
         var lines = [] as Array<String>;
-        var width = windowWidth();
         var line = null as String?;
         var rest = text;
         while (rest.length() > 0) {
             var cut = rest.find(" ");
             var word = (cut == null ? rest : rest.substring(0, cut)) as String;
             rest = (cut == null ? "" : rest.substring(cut + 1, rest.length())) as String;
+            var width = lines.size() == 0 ? windowWidth() : windowWidth() - INDENT;
             if (line == null) {
                 line = word;
             } else if (dc.getTextWidthInPixels(line + " " + word, Graphics.FONT_TINY) <= width) {
                 line = line + " " + word;
             } else {
-                lines.add(line);
+                lines.add(lines.size() == 0 ? line : CONTINUATION + line);
                 line = word;
             }
         }
         if (line != null) {
-            lines.add(line);
+            lines.add(lines.size() == 0 ? line : CONTINUATION + line);
         }
         return lines;
     }
 
-    // The body lines shown from the given first line: each centered in the window, one pitch apart.
+    // Whether a body line continues the printed line above it.
+    function isContinuation(line as String) as Boolean {
+        return line.length() > 0 && line.substring(0, 1).equals(CONTINUATION);
+    }
+
+    // The body lines shown from the given first line, one pitch apart: each from the window's left edge, a
+    // continuation line INDENT px in and without its mark.
     function bodyPlan(lines as Array<String>, offset as Number) as Array<Layout.TextItem> {
         var items = [] as Array<Layout.TextItem>;
         var end = offset + visibleLines();
         if (end > lines.size()) {
             end = lines.size();
         }
-        var centerX = (WINDOW_LEFT + WINDOW_RIGHT) / 2;
         for (var i = offset; i < end; i++) {
-            items.add(new Layout.TextItem(lines[i], Graphics.FONT_TINY, centerX, WINDOW_TOP + (i - offset) * BODY_PITCH,
-                Graphics.TEXT_JUSTIFY_CENTER as Number));
+            var line = lines[i];
+            var x = WINDOW_LEFT;
+            if (isContinuation(line)) {
+                line = line.substring(1, line.length()) as String;
+                x += INDENT;
+            }
+            items.add(new Layout.TextItem(line, Graphics.FONT_TINY, x, WINDOW_TOP + (i - offset) * BODY_PITCH,
+                Graphics.TEXT_JUSTIFY_LEFT as Number));
         }
         return items;
     }

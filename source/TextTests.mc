@@ -65,3 +65,19 @@ function magnificatReadsTheCorrectedWords(logger as Logger) as Boolean {
     logger.debug("Magníficat corrected=" + ok);
     return ok;
 }
+
+// Every prayer reads in the pages it was measured in, at 4 lines a page, set as verse with the hanging indent
+// (Psalm 27 in 29 pages): a change to a text or to the reading layout that changes a prayer's length on the
+// watch fails here.
+(:test)
+function everyPrayerReadsInItsPages(logger as Logger) as Boolean {
+    TestLanguage.use(logger, I18n.SPA);
+    var dc = ScreenArea.measuringDc();
+    var expected = [8, 17, 16, 11, 29, 28, 14, 13, 8, 12, 3, 8, 7] as Array<Number>;
+    var pages = [] as Array<Number>;
+    for (var prayer = 0; prayer < Prayers.COUNT; prayer++) {
+        pages.add(ScrollCheck.expectedPages(ReadingCheck.open(prayer, null, dc).bodyLines().size()).size());
+    }
+    logger.debug("pages " + pages + " pinned " + expected + " at " + ReadingLayout.visibleLines() + " lines a page");
+    return ReadingLayout.visibleLines() == 4 && pages.toString().equals(expected.toString());
+}
