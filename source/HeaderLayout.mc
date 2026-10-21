@@ -23,11 +23,28 @@ module HeaderLayout {
         return wrap(text, TITLE_WIDTH, THREE_LINES_HEIGHT);
     }
 
+    // A one-line title wider than MIDDLE_WIDTH ("Consagración", 98px) does not fit the middle of the band,
+    // where the lens ring leaves about 78px around TITLE_X. It takes the place of a 3-line title's last line
+    // instead (rows 51..74), where the band is widest, centered on WIDE_X: about 100px fit there.
+    const MIDDLE_WIDTH = 78;
+    const WIDE_X = 52;
+    const WIDE_CENTER_Y = 62;
+
     // The wrapped title's lines centered beside the lens.
     function headerPlan(titleLines as Array<String>) as Array<Layout.TextItem> {
         var items = [] as Array<Layout.TextItem>;
-        addLines(items, titleLines, TITLE_X, HEADER_CENTER_Y, HEADER_PITCH);
+        if (isWideLine(titleLines)) {
+            addLines(items, titleLines, WIDE_X, WIDE_CENTER_Y, HEADER_PITCH);
+        } else {
+            addLines(items, titleLines, TITLE_X, HEADER_CENTER_Y, HEADER_PITCH);
+        }
         return items;
+    }
+
+    // Whether the title is one line wider than MIDDLE_WIDTH.
+    function isWideLine(titleLines as Array<String>) as Boolean {
+        return titleLines.size() == 1
+            && Graphics.fitTextToArea(titleLines[0], Graphics.FONT_TINY, MIDDLE_WIDTH, ONE_LINE_HEIGHT, false) == null;
     }
 
     // The text in the tiny font, wrapped to the width in the lines the height allows. fitTextToArea's own

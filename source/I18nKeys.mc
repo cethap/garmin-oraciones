@@ -33,11 +33,18 @@ module I18n {
         TitlePsalm51 = 12,
         TitleMagnificat = 13,
         TitleAngelus = 14,
-        TitleAnimaChristi = 15,
-        TitleSaintFrancis = 16,
-        TitleNadaTeTurbe = 17,
-        TitleAbandonment = 18,
-        TitleSaintMichael = 19
+        TitleBlessedPurity = 15,
+        TitleConsecration = 16,
+        TitleSpiritualCommunion = 17,
+        TitleAdoroTe = 18,
+        TitleDailyOffering = 19,
+        TitleContrition = 20,
+        TitleNightPrayer = 21,
+        TitleAnimaChristi = 22,
+        TitleSaintFrancis = 23,
+        TitleNadaTeTurbe = 24,
+        TitleAbandonment = 25,
+        TitleSaintMichael = 26
     }
 
     // The glance table of a language.
@@ -49,7 +56,7 @@ module I18n {
 
 // The other tables, which only the full-screen widget loads.
 module I18n {
-    const TABLE_COUNT = 20;
+    const TABLE_COUNT = 27;
 
     // Table 1: "ui" in i18n/<lang>.json.
     enum {
@@ -58,7 +65,9 @@ module I18n {
         GroupHolySpirit = 258,
         GroupPsalms = 259,
         GroupMarian = 260,
-        GroupClassic = 261
+        GroupEucharistic = 261,
+        GroupDaily = 262,
+        GroupClassic = 263
     }
 
     // Table 2: "textOurFatherSpa" in i18n/<lang>.json.
@@ -126,29 +135,64 @@ module I18n {
         TextAngelus = 3584
     }
 
-    // Table 15: "textAnimaChristi" in i18n/<lang>.json.
+    // Table 15: "textBlessedPurity" in i18n/<lang>.json.
     enum {
-        TextAnimaChristi = 3840
+        TextBlessedPurity = 3840
     }
 
-    // Table 16: "textSaintFrancis" in i18n/<lang>.json.
+    // Table 16: "textConsecration" in i18n/<lang>.json.
     enum {
-        TextSaintFrancis = 4096
+        TextConsecration = 4096
     }
 
-    // Table 17: "textNadaTeTurbe" in i18n/<lang>.json.
+    // Table 17: "textSpiritualCommunion" in i18n/<lang>.json.
     enum {
-        TextNadaTeTurbe = 4352
+        TextSpiritualCommunion = 4352
     }
 
-    // Table 18: "textAbandonment" in i18n/<lang>.json.
+    // Table 18: "textAdoroTe" in i18n/<lang>.json.
     enum {
-        TextAbandonment = 4608
+        TextAdoroTe = 4608
     }
 
-    // Table 19: "textSaintMichael" in i18n/<lang>.json.
+    // Table 19: "textDailyOffering" in i18n/<lang>.json.
     enum {
-        TextSaintMichael = 4864
+        TextDailyOffering = 4864
+    }
+
+    // Table 20: "textContrition" in i18n/<lang>.json.
+    enum {
+        TextContrition = 5120
+    }
+
+    // Table 21: "textNightPrayer" in i18n/<lang>.json.
+    enum {
+        TextNightPrayer = 5376
+    }
+
+    // Table 22: "textAnimaChristi" in i18n/<lang>.json.
+    enum {
+        TextAnimaChristi = 5632
+    }
+
+    // Table 23: "textSaintFrancis" in i18n/<lang>.json.
+    enum {
+        TextSaintFrancis = 5888
+    }
+
+    // Table 24: "textNadaTeTurbe" in i18n/<lang>.json.
+    enum {
+        TextNadaTeTurbe = 6144
+    }
+
+    // Table 25: "textAbandonment" in i18n/<lang>.json.
+    enum {
+        TextAbandonment = 6400
+    }
+
+    // Table 26: "textSaintMichael" in i18n/<lang>.json.
+    enum {
+        TextSaintMichael = 6656
     }
 
     // The resource of a table (0..TABLE_COUNT - 1) in a language: every language's tables in turn.
@@ -169,6 +213,13 @@ module I18n {
             Rez.JsonData.TextPsalm51Spa,
             Rez.JsonData.TextMagnificatSpa,
             Rez.JsonData.TextAngelusSpa,
+            Rez.JsonData.TextBlessedPuritySpa,
+            Rez.JsonData.TextConsecrationSpa,
+            Rez.JsonData.TextSpiritualCommunionSpa,
+            Rez.JsonData.TextAdoroTeSpa,
+            Rez.JsonData.TextDailyOfferingSpa,
+            Rez.JsonData.TextContritionSpa,
+            Rez.JsonData.TextNightPrayerSpa,
             Rez.JsonData.TextAnimaChristiSpa,
             Rez.JsonData.TextSaintFrancisSpa,
             Rez.JsonData.TextNadaTeTurbeSpa,

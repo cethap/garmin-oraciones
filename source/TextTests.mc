@@ -25,6 +25,13 @@ module TextPins {
             ["¡Ten piedad de mí, oh Dios,", "novillos en tu altar.", 1466],
             ["«Mi alma canta la grandeza del Señor,", "descendencia para siempre».", 733],
             ["El ángel del Señor anunció a María.", "Amén.\nGloria al Padre...", 667],
+            ["Bendita sea tu pureza", "no me dejes, Madre mía.", 238],
+            ["¡Oh Señora mía!, ¡Oh Madre mía!,", "posesión vuestra.\nAmén.", 300],
+            ["Creo, Jesús mío,\nque estáis", "me aparte de Ti. Amén.", 359],
+            ["Te adoro con devoción, Dios escondido,", "viendo tu gloria.\nAmén.", 1094],
+            ["Padre bueno, sé que estás conmigo.", "Obispo para este mes.\nAmén.", 584],
+            ["Señor mío Jesucristo, Dios y hombre verdadero,", "que me fuera impuesta. Amén", 392],
+            ["Visita, Señor, esta habitación:", "Por Jesucristo nuestro Señor.", 213],
             ["Alma de Cristo, santifícame.", "de los siglos. Amén", 396],
             ["Señor, hazme un instrumento de tu paz:", "a la vida. Amén.", 588],
             ["Nada te turbe,\nnada te espante;", "Sólo Dios basta.", 143],
@@ -79,7 +86,7 @@ function magnificatReadsTheCorrectedWords(logger as Logger) as Boolean {
 function everyPrayerReadsInItsPages(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var dc = ScreenArea.measuringDc();
-    var expected = [7, 6, 6, 5, 4, 5, 8, 16, 11, 29, 28, 14, 13, 8, 12, 3, 8, 7] as Array<Number>;
+    var expected = [7, 6, 6, 5, 4, 5, 8, 16, 11, 29, 28, 14, 13, 5, 6, 8, 21, 11, 8, 4, 8, 12, 3, 8, 7] as Array<Number>;
     var pages = [] as Array<Number>;
     for (var prayer = 0; prayer < Prayers.COUNT; prayer++) {
         pages.add(ScrollCheck.expectedPages(ReadingCheck.open(prayer, null, dc).bodyLines().size()).size());

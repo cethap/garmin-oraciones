@@ -77,6 +77,17 @@ SOURCES = {
         ],
     },
     "TextAngelus": {"source": COMPENDIUM},
+    "TextBlessedPurity": {
+        "source": "https://lapresentacion.es/wp-content/uploads/2020/11/Solemnidad-de-la-Virgen-de-la-Almudena.pdf",
+    },
+    "TextConsecration": {
+        "source": "https://www.gran-poder.es/wp-content/uploads/2019/01/devocionario-Gran-Poder-web.pdf",
+    },
+    "TextSpiritualCommunion": {"source": "https://www.vaticannews.va/es/oraciones/comunion-espiritual.html"},
+    "TextAdoroTe": {"source": "https://www.aciprensa.com/recurso/1505/himno-adoro-te-devote"},
+    "TextDailyOffering": {"source": "https://www.popesprayer.va/es/reza/"},
+    "TextContrition": {"source": COMPENDIUM},
+    "TextNightPrayer": {"source": "https://www.almudi.org/Portals/0/docs/LH/V_COMPLETAS.epub"},
     "TextAnimaChristi": {
         "source": COMPENDIUM,
         "also": ["https://www.vaticannews.va/es/oraciones/alma-de-cristo.html"],

@@ -16,6 +16,13 @@
         "Salmo 51",
         "Magníficat",
         "Ángelus",
+        "Bendita pureza",
+        "Consagración",
+        "Comunión",
+        "Adoro te",
+        "Ofrecimiento",
+        "Contrición",
+        "Oración noche",
         "Alma de Cristo",
         "San Francisco",
         "Nada te turbe",
@@ -28,6 +35,8 @@
         "Espíritu Santo",
         "Salmos",
         "Marianas",
+        "Eucarísticas",
+        "Del día",
         "Clásicas"
     ]</jsonData>
     <jsonData id="TextOurFatherSpaSpa">[
@@ -68,6 +77,27 @@
     ]</jsonData>
     <jsonData id="TextAngelusSpa">[
         "El ángel del Señor anunció a María.\nY concibió\npor obra y gracia del Espíritu Santo.\nDios te salve, María...\nHe aquí la esclava del Señor.\nHágase en mí según tu palabra.\nDios te salve, María...\nY el Verbo de Dios se hizo carne.\nY habitó entre nosotros.\nDios te salve, María...\nRuega por nosotros,\nSanta Madre de Dios,\npara que seamos dignos de alcanzar\nlas promesas de Jesucristo.\nOremos\nInfunde, Señor,\ntu gracia en nuestras almas,\npara que, los que hemos conocido,\npor el anuncio del Ángel,\nla Encarnación de tu Hijo Jesucristo,\nlleguemos por los Méritos de su Pasión y su Cruz, a la gloria de la Resurrección.\nPor Jesucristo Nuestro Señor. Amén.\nGloria al Padre..."
+    ]</jsonData>
+    <jsonData id="TextBlessedPuritySpa">[
+        "Bendita sea tu pureza\ny eternamente lo sea,\npues todo un Dios se recrea\nen tan graciosa belleza.\nA ti, celestial Princesa,\nVirgen sagrada María,\nyo te ofrezco en este día\nalma, vida y corazón;\nmírame con compasión,\nno me dejes, Madre mía."
+    ]</jsonData>
+    <jsonData id="TextConsecrationSpa">[
+        "¡Oh Señora mía!, ¡Oh Madre mía!, yo me ofrezco enteramente a Vos.\nY en prueba de mi filial afecto, os consagro en este día mis ojos, mis oídos, mi lengua y mi corazón; en una palabra, todo mi ser.\nYa que soy todo vuestro, Oh Madre de bondad, guardadme y defendedme como cosa y posesión vuestra.\nAmén."
+    ]</jsonData>
+    <jsonData id="TextSpiritualCommunionSpa">[
+        "Creo, Jesús mío,\nque estáis realmente presente en el Santísimo Sacramento del Altar.\nOs amo sobre todas las cosas\ny deseo recibiros en mi alma.\nPero como ahora no puedo recibiros sacramentado,\nvenid a lo menos espiritualmente a mi corazón.\nY como si ya os hubiese recibido,\nos abrazo y me uno del todo a Ti.\nSeñor, no permitas que jamás\nme aparte de Ti. Amén."
+    ]</jsonData>
+    <jsonData id="TextAdoroTeSpa">[
+        "Te adoro con devoción, Dios escondido,\noculto verdaderamente bajo estas apariencias.\nA Ti se somete mi corazón por completo,\ny se rinde totalmente al contemplarte.\nAl juzgar de Ti, se equivocan la vista, el tacto, el gusto;\npero basta el oído para creer con firmeza;\ncreo todo lo que ha dicho el Hijo de Dios:\nnada es más verdadero que esta Palabra de verdad.\nEn la Cruz se escondía sólo la Divinidad,\npero aquí se esconde también la Humanidad;\nsin embargo, creo y confieso ambas cosas,\ny pido lo que pidió aquel ladrón arrepentido.\nNo veo las llagas como las vio Tomás\npero confieso que eres mi Dios:\nhaz que yo crea más y más en Ti,\nque en Ti espere y que te ame.\n¡Memorial de la muerte del Señor!\nPan vivo que das vida al hombre:\nconcede a mi alma que de Ti viva\ny que siempre saboree tu dulzura.\nSeñor Jesús, Pelícano bueno,\nlímpiame a mí, inmundo, con tu Sangre,\nde la que una sola gota puede liberar\nde todos los crímenes al mundo entero.\nJesús, a quien ahora veo oculto, te ruego,\nque se cumpla lo que tanto ansío:\nque al mirar tu rostro cara a cara,\nsea yo feliz viendo tu gloria.\nAmén."
+    ]</jsonData>
+    <jsonData id="TextDailyOfferingSpa">[
+        "Padre bueno, sé que estás conmigo. Aquí estoy en este nuevo día. Pon una vez más mi corazón junto al Corazón de tu Hijo Jesús, que se entrega por mí y que viene a mí en la Eucaristía. Que tu Espíritu Santo me haga su amigo y su apóstol, disponible a su misión de compasión.\nPongo en tus manos mis alegrías y esperanzas, mis trabajos y sufrimientos, todo lo que soy y tengo, en comunión con mis hermanos y hermanas de esta Red Mundial de Oración.\nCon María, te ofrezco mi jornada por la misión de la Iglesia y por las intenciones de oración del Papa y de mi Obispo para este mes.\nAmén."
+    ]</jsonData>
+    <jsonData id="TextContritionSpa">[
+        "Señor mío Jesucristo, Dios y hombre verdadero, Creador, Padre y Redentor mío.\nPor ser tú quien eres, Bondad infinita,\ny porque te amo sobre todas las cosas,\nme pesa de todo corazón haberte ofendido. También me pesa que puedas castigarme\ncon las penas del infierno.\nAyudado de tu divina gracia propongo firmemente nunca más pecar, confesarme y cumplir la penitencia que me fuera impuesta. Amén"
+    ]</jsonData>
+    <jsonData id="TextNightPrayerSpa">[
+        "Visita, Señor, esta habitación: aleja de ella las insidias del enemigo; que tus santos ángeles habiten en ella y nos guarden en paz y que tu bendición permanezca siempre con nosotros. Por Jesucristo nuestro Señor."
     ]</jsonData>
     <jsonData id="TextAnimaChristiSpa">[
         "Alma de Cristo, santifícame.\nCuerpo de Cristo, sálvame.\nSangre de Cristo, embriágame.\nAgua del costado de Cristo, lávame.\nPasión de Cristo, confórtame.\n¡Oh, buen Jesús!, óyeme.\nDentro de tus llagas, escóndeme.\nNo permitas que me aparte de Ti.\nDel maligno enemigo, defiéndeme\nEn la hora de mi muerte, llámame.\nY mándame ir a Ti.\nPara que con tus santos te alabe.\nPor los siglos de los siglos. Amén"

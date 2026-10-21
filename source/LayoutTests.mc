@@ -217,6 +217,23 @@ function doveSitsInsideTheSubscreenRing(logger as Logger) as Boolean {
     return ringFits && doveFits && dove.getWidth() == 32 && dove.getHeight() == 32;
 }
 
+// A header's title sits centered beside the lens, but a one-line title too wide for the middle of the band
+// ("Consagración", "Ofrecimiento", "Eucarísticas") takes the bottom line's place, rows 51..74, centered on
+// HeaderLayout.WIDE_X, where the band is widest. The fit tests measure every header in its place.
+(:test)
+function wideOneLineTitlesTakeTheBottomLine(logger as Logger) as Boolean {
+    var dc = ScreenArea.measuringDc();
+    var wide = HeaderLayout.headerPlan(["Consagración"] as Array<String>);
+    var narrow = HeaderLayout.headerPlan(["Oraciones"] as Array<String>);
+    var two = HeaderLayout.headerPlan(["Adoro te", "devote"] as Array<String>);
+    var wideBox = ScreenArea.measure(dc, wide[0]);
+    logger.debug("wide " + ScreenArea.describeVisible(wide[0].text, wideBox) + " at x " + wide[0].x + "; narrow at x " + narrow[0].x
+        + " y " + narrow[0].y + "; two lines at x " + two[0].x);
+    return wide.size() == 1 && wide[0].x == HeaderLayout.WIDE_X && wide[0].y == 51 && wideBox[3] <= 75
+        && ScreenArea.visible(wideBox) && narrow[0].x == HeaderLayout.TITLE_X && narrow[0].y == 32
+        && two[0].x == HeaderLayout.TITLE_X && two[1].x == HeaderLayout.TITLE_X;
+}
+
 // The list of groups, the app's first screen: "Oraciones" beside the lens over the four groups in the large
 // font, two at a time, each centered on its own bar in the full-width rows below the lens. At every
 // selection, every text drawn, the selected item's bar and the scroll bar keep the 2px margin inside the
