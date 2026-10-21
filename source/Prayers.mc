@@ -63,11 +63,17 @@ module Prayers {
         return I18n.text(keys[prayer]);
     }
 
-    // A prayer's text, which the reading view loads when it opens. Paragraphs are separated by "\n". Until
-    // the texts are added, every prayer reads "Texto en preparación."; each text will then be a table of its
-    // own (i18n/<lang>.json), so opening a prayer loads only that prayer's text.
+    // A prayer's text, which the reading view loads when it opens, its lines separated by "\n". Each text is
+    // a table of its own (i18n/<lang>.json, where its note names its source), so opening a prayer loads only
+    // that prayer's text.
     function text(prayer as Number) as String {
-        return I18n.text(I18n.TextPending);
+        var keys = [
+            I18n.TextComeHolySpirit, I18n.TextVeniCreator, I18n.TextSequence,
+            I18n.TextPsalm23, I18n.TextPsalm27, I18n.TextPsalm51,
+            I18n.TextMagnificat, I18n.TextAngelus,
+            I18n.TextAnimaChristi, I18n.TextSaintFrancis, I18n.TextNadaTeTurbe, I18n.TextAbandonment, I18n.TextSaintMichael
+        ] as Array<Number>;
+        return I18n.text(keys[prayer]);
     }
 
     // The titles of a group's prayers, in order: its list's items.

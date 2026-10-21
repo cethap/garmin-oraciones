@@ -30,6 +30,16 @@ module TableCheck {
     const BUDGET = 1536;
     // The glance's table, which the glance loads inside its 32KB.
     const GLANCE_BUDGET = 512;
+    // A prayer's text, each a table of its own, which the reading view loads when it opens.
+    const TEXT_BUDGET = 2560;
+
+    // The budget of a table.
+    function budget(table as Number) as Number {
+        if (table == 0) {
+            return GLANCE_BUDGET;
+        }
+        return table >= I18n.TextComeHolySpirit / I18n.TABLE_KEYS ? TEXT_BUDGET : BUDGET;
+    }
 
     // Memory a table holds once loaded, and whether it is whole: texts, none empty. Returns [bytes held,
     // texts in the table, whole].
@@ -77,7 +87,7 @@ function everyTableIsWholeAndSmall(logger as Logger) as Boolean {
     TableCheck.load(0, I18n.SPA);
     var ok = true;
     for (var table = 0; table < I18n.TABLE_COUNT; table++) {
-        var budget = table == 0 ? TableCheck.GLANCE_BUDGET : TableCheck.BUDGET;
+        var budget = TableCheck.budget(table);
         var sizes = [] as Array<Number>;
         var held = [] as Array<Number>;
         for (var language = 0; language < I18n.LANGUAGE_COUNT; language++) {

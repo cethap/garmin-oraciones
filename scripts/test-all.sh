@@ -11,6 +11,8 @@
 #                  holds the monkeyc on the PATH)
 #   TEST_OUT       folder for the build and its logs (default: bin/test)
 #   TEST_TIMEOUT   seconds a run may take before it counts as hung (default: 300)
+#   TEXT_SOURCES   folder of the prayers' downloaded source pages (optional): when set, the prayers' texts are
+#                  checked against them first (scripts/check-texts.py); the pages are not in the repository
 #
 # Needs a running simulator (connectiq &), Java 17 or later on the PATH, perl and python3.
 #
@@ -49,6 +51,10 @@ fi
 
 mkdir -p "$OUT"
 
+if [ -n "${TEXT_SOURCES:-}" ]; then
+    python3 -I scripts/check-texts.py "$TEXT_SOURCES" > "$OUT/check-texts.log" 2>&1 || { cat "$OUT/check-texts.log"; exit 1; }
+    echo "Texts $(tail -n 1 "$OUT/check-texts.log")"
+fi
 python3 scripts/gen-i18n.py --check || exit 1
 python3 scripts/check-glance-strings.py || exit 1
 

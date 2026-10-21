@@ -3,10 +3,9 @@ import Toybox.Lang;
 import Toybox.System;
 import Toybox.Test;
 
-// Tests of the reading view (PrayerView, ReadingLayout and ReadingDelegate). The prayers' texts arrive in a
-// later task, so these tests read placeholder texts made here (Placeholder) of 1, 300 and 2,500 characters,
-// the longest about Psalm 51's length, with paragraph breaks and every Spanish letter and mark a prayer
-// may use; and the text every prayer shows until then.
+// Tests of the reading view (PrayerView, ReadingLayout and ReadingDelegate). They read every prayer's text
+// and placeholder texts made here (Placeholder) of 1, 300 and 2,500 characters, longer than any prayer, with
+// line breaks and every Spanish letter and mark a prayer may use.
 
 (:test)
 module Placeholder {
@@ -77,10 +76,12 @@ module ReadingCheck {
         return view;
     }
 
-    // [bytes an open view holds once laid out and drawn, bytes left once it is let go].
-    function memoryHeld(dc as Dc, text as String) as Array<Number> {
+    // [bytes an open view holds once laid out and drawn, bytes left once it is let go], for a view of the
+    // placeholder prayer laid out with the given text, or of the given prayer with its own text (text null),
+    // which the view loads from its table as it does on opening.
+    function memoryHeld(dc as Dc, text as String?, prayer as Number) as Array<Number> {
         var before = System.getSystemStats().usedMemory;
-        var view = open(PLACEHOLDER_PRAYER, text, dc) as PrayerView?;
+        var view = open(prayer, text, dc) as PrayerView?;
         (view as PrayerView).onUpdate(dc);
         var held = System.getSystemStats().usedMemory - before;
         view = null;
@@ -395,7 +396,7 @@ function readingViewStaysSmallAndLetsGo(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var lengths = Placeholder.lengths();
     // Warm-up: the first view measured also pays a one-time cost, so it is measured and left out.
-    var warmUp = ReadingCheck.memoryHeld(dc, Placeholder.text(lengths[1]));
+    var warmUp = ReadingCheck.memoryHeld(dc, Placeholder.text(lengths[1]), ReadingCheck.PLACEHOLDER_PRAYER);
     var held = [] as Array<Number>;
     var left = [] as Array<Number>;
     var drawn = 0;
@@ -404,7 +405,7 @@ function readingViewStaysSmallAndLetsGo(logger as Logger) as Boolean {
         TestLanguage.use(logger, language);
         for (var i = 0; i < lengths.size(); i++) {
             var text = Placeholder.text(lengths[i]);
-            var bytes = ReadingCheck.memoryHeld(dc, text);
+            var bytes = ReadingCheck.memoryHeld(dc, text, ReadingCheck.PLACEHOLDER_PRAYER);
             held.add(bytes[0]);
             left.add(bytes[1]);
             ok = ok && bytes[0] > 0 && bytes[0] < ReadingCheck.MEMORY_BUDGET && bytes[1] <= ReadingCheck.RELEASE_SLACK;
@@ -422,4 +423,37 @@ function readingViewStaysSmallAndLetsGo(logger as Logger) as Boolean {
         + " (budget " + ReadingCheck.MEMORY_BUDGET + "), left after closing " + left + "; test app used " + stats.usedMemory
         + " of " + stats.totalMemory);
     return ok && drawn > 30;
+}
+
+// Every prayer opens with its own text, loaded from its table as the view does on opening, and stays small:
+// each open view, measured on its own after one warm-up view, holds less than ReadingCheck.MEMORY_BUDGET
+// bytes, and leaves nothing behind once let go, so the view keeps only the wrapped lines, not the text. Logs
+// each prayer's lines and pages (4 lines a page).
+(:test)
+function readingViewStaysSmallWithEveryPrayer(logger as Logger) as Boolean {
+    var dc = ScreenArea.measuringDc();
+    TestLanguage.use(logger, I18n.SPA);
+    ReadingCheck.memoryHeld(dc, null, 0);
+    var ok = true;
+    var largest = 0;
+    var pages = "";
+    for (var language = 0; language < I18n.LANGUAGE_COUNT; language++) {
+        TestLanguage.use(logger, language);
+        for (var prayer = 0; prayer < Prayers.COUNT; prayer++) {
+            var bytes = ReadingCheck.memoryHeld(dc, null, prayer);
+            largest = bytes[0] > largest ? bytes[0] : largest;
+            ok = ok && bytes[0] > 0 && bytes[0] < ReadingCheck.MEMORY_BUDGET && bytes[1] <= ReadingCheck.RELEASE_SLACK;
+            var lines = ReadingCheck.open(prayer, null, dc).bodyLines();
+            var blanks = 0;
+            for (var i = 0; i < lines.size(); i++) {
+                blanks += lines[i].length() == 0 ? 1 : 0;
+            }
+            pages += " '" + Prayers.title(prayer) + "' " + Prayers.text(prayer).length() + " chars " + lines.size() + " lines ("
+                + blanks + " blank) " + ScrollCheck.expectedPages(lines.size()).size() + " pages, "
+                + ScrollCheck.expectedPages(lines.size() - blanks).size() + " without the blank lines, " + bytes[0] + " bytes held,"
+                + " " + bytes[1] + " left;";
+        }
+    }
+    logger.debug("prayers:" + pages + " largest view " + largest + " bytes (budget " + ReadingCheck.MEMORY_BUDGET + ")");
+    return ok;
 }

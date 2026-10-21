@@ -31,7 +31,7 @@ module I18n {
 
 // The other tables, which only the full-screen widget loads.
 module I18n {
-    const TABLE_COUNT = 3;
+    const TABLE_COUNT = 16;
 
     // Table 1: "ui" in i18n/<lang>.json.
     enum {
@@ -39,8 +39,7 @@ module I18n {
         GroupHolySpirit = 257,
         GroupPsalms = 258,
         GroupMarian = 259,
-        GroupClassic = 260,
-        TextPending = 261
+        GroupClassic = 260
     }
 
     // Table 2: "titles" in i18n/<lang>.json.
@@ -60,12 +59,90 @@ module I18n {
         TitleSaintMichael = 524
     }
 
+    // Table 3: "textComeHolySpirit" in i18n/<lang>.json.
+    enum {
+        TextComeHolySpirit = 768
+    }
+
+    // Table 4: "textVeniCreator" in i18n/<lang>.json.
+    enum {
+        TextVeniCreator = 1024
+    }
+
+    // Table 5: "textSequence" in i18n/<lang>.json.
+    enum {
+        TextSequence = 1280
+    }
+
+    // Table 6: "textPsalm23" in i18n/<lang>.json.
+    enum {
+        TextPsalm23 = 1536
+    }
+
+    // Table 7: "textPsalm27" in i18n/<lang>.json.
+    enum {
+        TextPsalm27 = 1792
+    }
+
+    // Table 8: "textPsalm51" in i18n/<lang>.json.
+    enum {
+        TextPsalm51 = 2048
+    }
+
+    // Table 9: "textMagnificat" in i18n/<lang>.json.
+    enum {
+        TextMagnificat = 2304
+    }
+
+    // Table 10: "textAngelus" in i18n/<lang>.json.
+    enum {
+        TextAngelus = 2560
+    }
+
+    // Table 11: "textAnimaChristi" in i18n/<lang>.json.
+    enum {
+        TextAnimaChristi = 2816
+    }
+
+    // Table 12: "textSaintFrancis" in i18n/<lang>.json.
+    enum {
+        TextSaintFrancis = 3072
+    }
+
+    // Table 13: "textNadaTeTurbe" in i18n/<lang>.json.
+    enum {
+        TextNadaTeTurbe = 3328
+    }
+
+    // Table 14: "textAbandonment" in i18n/<lang>.json.
+    enum {
+        TextAbandonment = 3584
+    }
+
+    // Table 15: "textSaintMichael" in i18n/<lang>.json.
+    enum {
+        TextSaintMichael = 3840
+    }
+
     // The resource of a table (0..TABLE_COUNT - 1) in a language: every language's tables in turn.
     function tableId(table as Number, language as Language) as ResourceId {
         var ids = [
             Rez.JsonData.GlanceSpa,
             Rez.JsonData.UiSpa,
-            Rez.JsonData.TitlesSpa
+            Rez.JsonData.TitlesSpa,
+            Rez.JsonData.TextComeHolySpiritSpa,
+            Rez.JsonData.TextVeniCreatorSpa,
+            Rez.JsonData.TextSequenceSpa,
+            Rez.JsonData.TextPsalm23Spa,
+            Rez.JsonData.TextPsalm27Spa,
+            Rez.JsonData.TextPsalm51Spa,
+            Rez.JsonData.TextMagnificatSpa,
+            Rez.JsonData.TextAngelusSpa,
+            Rez.JsonData.TextAnimaChristiSpa,
+            Rez.JsonData.TextSaintFrancisSpa,
+            Rez.JsonData.TextNadaTeTurbeSpa,
+            Rez.JsonData.TextAbandonmentSpa,
+            Rez.JsonData.TextSaintMichaelSpa
         ] as Array<ResourceId>;
         return ids[(language as Number) * TABLE_COUNT + table];
     }
