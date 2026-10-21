@@ -13,7 +13,6 @@ module TextPins {
     function pins() as Array<Array> {
         return [
             ["Ven, Espíritu Santo,\nllena", "nuestro Señor. Amén.", 381],
-            ["Ven, Espíritu Creador,\nvisita", "de los siglos. Amén.", 819],
             ["Ven, Espíritu divino,\nmanda", "y danos tu gozo eterno.", 822],
             ["El Señor es mi pastor,", "por muy largo tiempo.", 529],
             ["El Señor es mi luz y mi salvación,", "ten valor y espera en el Señor.", 1472],
@@ -59,8 +58,9 @@ function everyTextKeepsItsOpeningItsCloseAndItsLength(logger as Logger) as Boole
 (:test)
 function magnificatReadsTheCorrectedWords(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
-    var text = Prayers.text(6);
-    var ok = Prayers.title(6).equals("Magníficat") && text.find("porque él miró") != null
+    var magnificat = Prayers.indexOf("magnificat") as Number;
+    var text = Prayers.text(magnificat);
+    var ok = Prayers.title(magnificat).equals("Magníficat") && text.find("porque él miró") != null
         && text.find("el Todopoderoso ha hecho") != null && text.find("el miró") == null && text.find("he hecho") == null;
     logger.debug("Magníficat corrected=" + ok);
     return ok;
@@ -73,7 +73,7 @@ function magnificatReadsTheCorrectedWords(logger as Logger) as Boolean {
 function everyPrayerReadsInItsPages(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var dc = ScreenArea.measuringDc();
-    var expected = [8, 17, 16, 11, 29, 28, 14, 13, 8, 12, 3, 8, 7] as Array<Number>;
+    var expected = [8, 16, 11, 29, 28, 14, 13, 8, 12, 3, 8, 7] as Array<Number>;
     var pages = [] as Array<Number>;
     for (var prayer = 0; prayer < Prayers.COUNT; prayer++) {
         pages.add(ScrollCheck.expectedPages(ReadingCheck.open(prayer, null, dc).bodyLines().size()).size());

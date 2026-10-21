@@ -28,7 +28,7 @@ module TableCheck {
     // Most memory one loaded table may hold, in bytes. A lookup loads its whole table, so this bounds what a
     // lookup adds to the widget's peak. The Rosario's tables measured 784 to 1200 under the same budget.
     const BUDGET = 1536;
-    // The glance's table, which the glance loads inside its 32KB: the app's name, the count and the 13 short
+    // The glance's table, which the glance loads inside its 32KB: the app's name, the count and the 12 short
     // titles.
     const GLANCE_BUDGET = 1024;
     // A prayer's text, each a table of its own, which the reading view loads when it opens. Measured: 200
@@ -103,24 +103,24 @@ function everyTableIsWholeAndSmall(logger as Logger) as Boolean {
     return ok;
 }
 
-// Before any prayer has been read, the glance reads "Oraciones" over the number of prayers, "13 oraciones".
+// Before any prayer has been read, the glance reads "Oraciones" over the number of prayers, "12 oraciones".
 (:test)
 function glanceNamesTheAppAndCountsThePrayers(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var title = Prayers.glanceTitle();
     var summary = Prayers.glanceSummaryFor(null);
     logger.debug("glance '" + title + "' / '" + summary + "'");
-    return Prayers.COUNT == 13 && title.equals("Oraciones") && summary.equals("13 oraciones");
+    return Prayers.COUNT == 12 && title.equals("Oraciones") && summary.equals("12 oraciones");
 }
 
-// The four groups, in order, and each group's prayers by their short titles: 13 prayers in all, each in one
+// The four groups, in order, and each group's prayers by their short titles: 12 prayers in all, each in one
 // group, the groups one after another.
 (:test)
 function groupsHoldTheirPrayersInOrder(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var groups = ["Espíritu Santo", "Salmos", "Marianas", "Clásicas"];
     var titles = [
-        ["Ven, Espíritu", "Veni Creator", "Secuencia"],
+        ["Ven, Espíritu", "Secuencia"],
         ["Salmo 23", "Salmo 27", "Salmo 51"],
         ["Magníficat", "Ángelus"],
         ["Alma de Cristo", "San Francisco", "Nada te turbe", "Abandono", "San Miguel"]

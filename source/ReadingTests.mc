@@ -64,8 +64,10 @@ module ReadingCheck {
     const MEMORY_BUDGET = 12288;
     // What a closed view may leave behind, in bytes: nothing it allocated outlives it (0 measured).
     const RELEASE_SLACK = 0;
-    // The prayer whose title the placeholders read under: Psalm 51, the longest prayer.
-    const PLACEHOLDER_PRAYER = 5;
+    // The prayer whose title the placeholders read under: Psalm 51, one of the two longest prayers.
+    function placeholderPrayer() as Number {
+        return Prayers.indexOf("salmo_51") as Number;
+    }
 
     // A reading view of the prayer laid out with the given text, as the view lays out its own on opening.
     function open(prayer as Number, text as String?, dc as Dc) as PrayerView {
@@ -301,7 +303,7 @@ function readingTextStaysClearOfTheLens(logger as Logger) as Boolean {
         var placeholders = Placeholder.lengths().size();
         var texts = ReadingCheck.texts();
         for (var t = 0; t < texts.size(); t++) {
-            var prayer = t < placeholders ? ReadingCheck.PLACEHOLDER_PRAYER : t - placeholders;
+            var prayer = t < placeholders ? ReadingCheck.placeholderPrayer() : t - placeholders;
             var view = ReadingCheck.open(prayer, t < placeholders ? texts[t] : null, dc);
             ok = LayoutCheck.wrapsWhole(Prayers.title(prayer), view.titleLines(), 3, logger) && ok;
             var header = HeaderLayout.headerPlan(view.titleLines());
@@ -363,7 +365,7 @@ function readingScrollsPageByPageAndBackCloses(logger as Logger) as Boolean {
         var lengths = Placeholder.lengths();
         for (var i = 0; i < lengths.size(); i++) {
             var navigator = new NavigationFake.Recorder();
-            var view = ReadingCheck.open(ReadingCheck.PLACEHOLDER_PRAYER, Placeholder.text(lengths[i]), dc);
+            var view = ReadingCheck.open(ReadingCheck.placeholderPrayer(), Placeholder.text(lengths[i]), dc);
             var delegate = new ReadingDelegate(view, navigator);
             var count = view.bodyLines().size();
             var handled = delegate.onPreviousPage();
@@ -406,7 +408,7 @@ function readingViewStaysSmallAndLetsGo(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var lengths = Placeholder.lengths();
     // Warm-up: the first view measured also pays a one-time cost, so it is measured and left out.
-    var warmUp = ReadingCheck.memoryHeld(dc, Placeholder.text(lengths[1]), ReadingCheck.PLACEHOLDER_PRAYER);
+    var warmUp = ReadingCheck.memoryHeld(dc, Placeholder.text(lengths[1]), ReadingCheck.placeholderPrayer());
     var held = [] as Array<Number>;
     var left = [] as Array<Number>;
     var drawn = 0;
@@ -415,11 +417,11 @@ function readingViewStaysSmallAndLetsGo(logger as Logger) as Boolean {
         TestLanguage.use(logger, language);
         for (var i = 0; i < lengths.size(); i++) {
             var text = Placeholder.text(lengths[i]);
-            var bytes = ReadingCheck.memoryHeld(dc, text, ReadingCheck.PLACEHOLDER_PRAYER);
+            var bytes = ReadingCheck.memoryHeld(dc, text, ReadingCheck.placeholderPrayer());
             held.add(bytes[0]);
             left.add(bytes[1]);
             ok = ok && bytes[0] > 0 && bytes[0] < ReadingCheck.MEMORY_BUDGET && bytes[1] <= ReadingCheck.RELEASE_SLACK;
-            var view = ReadingCheck.open(ReadingCheck.PLACEHOLDER_PRAYER, text, dc);
+            var view = ReadingCheck.open(ReadingCheck.placeholderPrayer(), text, dc);
             var last = ReadingLayout.maxOffset(view.bodyLines().size());
             for (var offset = 0; offset <= last; offset++) {
                 view.offset = offset;

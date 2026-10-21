@@ -43,10 +43,6 @@ SOURCES = {
     "TextComeHolySpirit": {
         "source": "https://www.architoledo.org/wp-content/uploads/2026/05/Cadena-de-oracion.pdf",
     },
-    "TextVeniCreator": {
-        "source": COMPENDIUM,
-        "also": ["https://www.vaticannews.va/es/oraciones/veni-creator.html"],
-    },
     "TextSequence": {
         "source": COMPENDIUM,
         "also": ["https://www.vaticannews.va/es/oraciones/ven-santo-espiritu.html",
