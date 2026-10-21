@@ -65,6 +65,7 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
 | O6 | `feat`: the "Básicas" group, first in the list: Padre Nuestro, Pater Noster, Our Father, Ave María, Ave Maria, Hail Mary (the user's choice of six texts; 12 -> 18 prayers) | delegated writer (2+ non-trivial files) | [x] 888b28e (+250/-74) RED 28 passed, 5 failed -> GREEN 33/33. `check-texts.py` ALL VERBATIM: 18 texts. Debug and release `-w`: 0 warnings, release 28,604 bytes |
 | O7 | `feat`: seven prayers and the groups "Eucarísticas" and "Del día" (the user's choice; 18 -> 25 prayers, seven groups) | delegated writer (2+ non-trivial files) | [x] a93bca1 (+301/-50) RED 28 passed, 5 failed -> GREEN 34/34. `check-texts.py` ALL VERBATIM: 25 texts. Debug and release `-w`: 0 warnings, release 33,180 bytes |
 | O8 | `feat`: Psalms 16, 84 and 136, and the "Biblia" group with the Beatitudes, 1 Cor 13 and the Prologue of John (the user's choice; 25 -> 31 prayers, eight groups) | delegated writer (2+ non-trivial files) | [x] 532f447 (+333/-122) RED 29 passed, 6 failed -> GREEN 35/35. `check-texts.py` ALL VERBATIM: 31 texts (1 Cor 13's 2 corrections). Debug and release `-w`: 0 warnings, release 42,140 bytes. Glance 9,752 / 9,816 bytes; widget 28,264 with Psalm 136 open |
+| O9 | `fix(reading)`: the user's report from the watch, "a veces una parte de arriba cuando hace scroll está abajo, y hay unas indentaciones raras": fixed pages that never repeat a line, and centered lines instead of the hanging indent | delegated writer (2+ non-trivial files) | [x] 760633a (+218/-189) RED 35 passed, 2 failed -> GREEN 37/37. `check-texts.py` ALL VERBATIM: 31 texts. Debug and release `-w`: 0 warnings, release 41,596 bytes. Widget 27,584 with Psalm 136 open |
 
 ## Acceptance criteria
 
@@ -320,6 +321,42 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
     | Plus Psalm 136's reading view, the longest text, laid out and drawn | 28,264 (125 lines) |
     | After the view and the list close | 21,656 |
 
+- O9, route: delegated writer. The user tested the 13-prayer build on the watch and reported: "a veces una parte de arriba cuando hace scroll está abajo, y hay unas indentaciones raras". The parent checked the photos (the Veni Creator's last two pages, and the first page of Ven, Espíritu) and found two defects.
+  - **Pages overlapped.** The second-to-last page of the Veni Creator ended with "Consolador," and the last page started with it again.
+    - Cause: the last page was clamped to the final 4 lines (`maxOffset = count - 4`), so it repeated lines of the page before whenever the count was not a multiple of 4.
+    - Fix: fixed pages. Page k shows lines 4k..4k+3, and the last one holds the lines left, leaving the rest of the window empty.
+    - DOWN and UP move one page and stop at the ends. The page indicator follows the page, from the track's top on the first page to its bottom on the last.
+  - **The hanging indent looked random.**
+    - Cause: the window holds about 13 to 17 characters, so almost every printed line wraps, and the left edges alternated between x 22 and x 30 ("Ven, Espíritu" / " Santo," / "llena los" / " corazones de tus").
+    - **Parent decision:** drop the hanging indent and center the lines again, as in the Rosario's reading view, which the user likes.
+    - Each "\n" still starts a new line, with no blank line.
+    - The special left-edge rule for "imperfectamente;" is removed. `readingFitsTheWidestWord` keeps it covered, at 130px centered inside the 132px window in 1 Cor 13, 12.
+  - **760633a `fix(reading)`.**
+    - Tests written first:
+      - `readingPagesNeverRepeatALine`: every line on exactly one page for all 31 prayers and the 3 placeholders; ceil(lines / 4) pages at 0, 4, 8, …; partial last pages (26 of the 34 texts have one); UP retraces the pages.
+      - `readingCentersEveryLine`: every line centered at x 88, and no line starts or ends with a space.
+    - RED on 4908b46: FAILED (passed=35, failed=2), exactly those two. For example, Ven, Espíritu's pages were at 0, 4, …, 24, 25, so the last page showed 4 lines instead of 1.
+    - The fit tests now check every text on every page, centered, and the wrap check makes every printed line start a body line of its own. The 10-line scroll pin reads 0, 4, 8, and the page-count pins were remeasured.
+    - GREEN: `scripts/test-all.sh` with `TEXT_SOURCES`: Texts ALL VERBATIM: 31 texts; Translations OK; Glance texts OK; Tests PASSED (passed=37, failed=0, errors=0).
+    - Debug and release `-w`: 0 warnings. Release `.prg`: 41,596 bytes.
+  - **Pages per prayer,** fixed pages of 4 centered lines:
+
+    | Group | Pages |
+    |---|---|
+    | Básicas | Padre Nuestro 7, Pater Noster 6, Our Father 6, Ave María 5, Ave Maria 4, Hail Mary 4 |
+    | Espíritu Santo | Ven, Espíritu 7, Secuencia 15 |
+    | Salmos | Salmo 16 17, Salmo 23 11, Salmo 27 28, Salmo 51 28, Salmo 84 20, Salmo 136 31 |
+    | Biblia | Felices (Mt 5) 15, Himno al amor 25, Prólogo de Juan 28 |
+    | Marianas | Magníficat 13, Ángelus 13, Bendita pureza 5, Consagración 6 |
+    | Eucarísticas | Comunión 7, Adoro te 20 |
+    | Del día | Ofrecimiento 11, Contrición 8, Oración noche 4 |
+    | Clásicas | Alma de Cristo 7, San Francisco 11, Nada te turbe 3, Abandono 8, San Miguel 7 |
+
+  - **Memory, Psalm 136's reading view:**
+    - In the test suite: 5,552 bytes held, 123 lines (5,688 before, with the indent), and 0 left once closed.
+    - Uncommitted instrumented copy (release build, as a watch-app, at 760633a): list of groups 21,032; plus the Salmos list 21,984; plus Psalm 136's view laid out and drawn 27,584; after both close 21,112.
+  - **Runs:** each simulator run waited until no other MonkeyDoDeux client was active (one wait, for another agent's run), as the parent asked.
+
 ## Next step
 
-The user checks the 31 prayers on the watch, above all the long ones: Psalm 136 (32 pages), Psalm 27 (29), the Prologue of John (29), Psalm 51 (28) and 1 Cor 13 (27). Then the user decides on the pull request and the GitHub repository; creating the repository is a remote operation that needs the user's go-ahead.
+The user checks the fixed pages and the centered lines on the watch.
