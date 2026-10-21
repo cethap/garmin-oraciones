@@ -64,6 +64,7 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
 | O5 | `feat`: remove the Veni Creator, at the user's request after testing on the watch ("quita el veni creator, solo deja dos"): the Espíritu Santo group keeps "Ven, Espíritu" and "Secuencia", 12 prayers in all | delegated writer (2+ non-trivial files) | [x] c055e4a (+112/-106) RED 26 passed, 6 failed -> GREEN 33/33. `check-texts.py` ALL VERBATIM: 12 texts. Debug and release `-w`: 0 warnings, release 26,028 bytes |
 | O6 | `feat`: the "Básicas" group, first in the list: Padre Nuestro, Pater Noster, Our Father, Ave María, Ave Maria, Hail Mary (the user's choice of six texts; 12 -> 18 prayers) | delegated writer (2+ non-trivial files) | [x] 888b28e (+250/-74) RED 28 passed, 5 failed -> GREEN 33/33. `check-texts.py` ALL VERBATIM: 18 texts. Debug and release `-w`: 0 warnings, release 28,604 bytes |
 | O7 | `feat`: seven prayers and the groups "Eucarísticas" and "Del día" (the user's choice; 18 -> 25 prayers, seven groups) | delegated writer (2+ non-trivial files) | [x] a93bca1 (+301/-50) RED 28 passed, 5 failed -> GREEN 34/34. `check-texts.py` ALL VERBATIM: 25 texts. Debug and release `-w`: 0 warnings, release 33,180 bytes |
+| O8 | `feat`: Psalms 16, 84 and 136, and the "Biblia" group with the Beatitudes, 1 Cor 13 and the Prologue of John (the user's choice; 25 -> 31 prayers, eight groups) | delegated writer (2+ non-trivial files) | [x] 532f447 (+333/-122) RED 29 passed, 6 failed -> GREEN 35/35. `check-texts.py` ALL VERBATIM: 31 texts (1 Cor 13's 2 corrections). Debug and release `-w`: 0 warnings, release 42,140 bytes. Glance 9,752 / 9,816 bytes; widget 28,264 with Psalm 136 open |
 
 ## Acceptance criteria
 
@@ -281,6 +282,44 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
     - Debug and release `-w`: 0 warnings. Release `.prg`: 33,180 bytes.
     - Memory: measured once O8 was in.
 
+- O8, route: delegated writer. The user's request: six more texts, all from *El Libro del Pueblo de Dios* on vatican.va ("Copyright © Libreria Editrice Vaticana").
+  - **532f447 `feat`:**
+    - **Salmos**, in psalm-number order: 16, 23, 27, 51, 84, 136 (`salmo_16`, `salmo_84`, `salmo_136`).
+    - **Biblia**, a new group after Salmos: `bienaventuranzas` (Mt 5, 3-12), `himno_amor` (1 Cor 13, 1-13) and `prologo_juan` (Jn 1, 1-18).
+    - Group order: Básicas, Espíritu Santo, Salmos, Biblia, Marianas, Eucarísticas, Del día, Clásicas, starting at prayers 0, 6, 8, 14, 17, 21, 23 and 26. The glance's count reads "31 oraciones".
+  - **Parent decisions:**
+    - 1 Cor 13 corrects two transcription typos of https://www.vatican.va/archive/ESL0506/__PYC.HTM, with the Magníficat's mechanism. They are recorded in the `//` note, in `check-texts.py`, in NOTICE and here:
+      - v. 5: "no tienen en cuenta el mal recibido" -> "no tiene en cuenta el mal recibido";
+      - v. 13: "la más grande todas es el amor" -> "la más grande de todas es el amor".
+    - A pin test holds both corrections.
+    - Kept exactly as printed: "Señor del Universo" (Ps 84, 2), "Dios de los Dioses" (Ps 136, 2), "El no era luz" (Jn 1, 8), "la Muerte" (Ps 16) and "¡Aleluya!" at the start of Ps 136.
+  - **Short titles, measured:**
+    - "Bienaventuranzas" is 164px in FONT_LARGE, over the 148px bar by 8px on each side. In the header's tiny font it is 129px, over the widest header line (about 100px).
+    - The first fallback, **"Felices (Mt 5)"**, fits: 131px on its bar, and in the header as "Felices" / "(Mt 5)".
+    - "Prólogo de Juan" is 148px, exactly its bar's width with 0px to spare, and fits; the header reads "Prólogo de" / "Juan". It stays.
+    - "Himno al amor" is 131px; "Salmo 136" 101px.
+  - **Reading layout fix:**
+    - 1 Cor 13, 12 puts "imperfectamente;" (130px) alone on a continuation line, wider than the 124px an indented line holds. Its right edge reached x 160, past the window's 154.
+    - A continuation line of one word too wide for the indent is now marked `ReadingLayout.FLUSH` (a second leading space) and starts at the window's left edge, where it fits (x 22..152).
+    - The TDD order: a new assertion in `readingIndentsWrappedLines`, RED at x 30, then GREEN.
+  - **Pages:** Salmo 16 18, Salmo 84 20, Salmo 136 32 (now the longest), Felices (Mt 5) 16, Himno al amor 27, Prólogo de Juan 29.
+  - **Evidence:**
+    - RED, after the counts, groups, glance and pins were changed to expect 31 prayers: FAILED (passed=29, failed=6). The 6 were the three glance tests, the groups, the text pins and the new 1 Cor 13 correction test.
+    - GREEN: `scripts/test-all.sh` with `TEXT_SOURCES`: Texts ALL VERBATIM: 31 texts; Translations OK (33 tables, 73 texts); Glance texts OK (33 texts looked up); Tests PASSED (passed=35, failed=0, errors=0).
+    - Debug and release `-w`: 0 warnings. Release `.prg`: 42,140 bytes.
+    - The glance table holds 33 texts, 1,264 bytes loaded (budget 1,536). The largest reading view in the suite is Psalm 136, 5,688 bytes of the 12,288-byte budget.
+    - The simulator stopped answering once during O8; it was relaunched by the user, and nothing was committed while it was down.
+  - **Memory for O6, O7 and O8 together, at 532f447**, with uncommitted instrumented copies (release builds, in the simulator):
+
+    | | Bytes |
+    |---|---|
+    | Glance, nothing read | 9,752 of 28,488 ("Oraciones" / "31 oraciones") |
+    | Glance after one prayer read (Salmo 136 saved by id) | 9,816 ("Oraciones" / "Salmo 136") |
+    | Widget (as a watch-app), list of groups open | 21,576 |
+    | Plus the Salmos list | 22,528 |
+    | Plus Psalm 136's reading view, the longest text, laid out and drawn | 28,264 (125 lines) |
+    | After the view and the list close | 21,656 |
+
 ## Next step
 
-O8: three psalms and the "Biblia" group. Then the user decides on the pull request and the GitHub repository; creating the repository is a remote operation that needs the user's go-ahead.
+The user checks the 31 prayers on the watch, above all the long ones: Psalm 136 (32 pages), Psalm 27 (29), the Prologue of John (29), Psalm 51 (28) and 1 Cor 13 (27). Then the user decides on the pull request and the GitHub repository; creating the repository is a remote operation that needs the user's go-ahead.
