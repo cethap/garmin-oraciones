@@ -1,0 +1,108 @@
+Oraciones for Garmin Instinct 2
+Copyright (c) 2026 Cesar Tapasco
+
+The code of this project is licensed under the MIT license (see LICENSE).
+
+The prayer texts are not covered by the MIT license. They keep the terms of
+their sources, listed below. The texts are in i18n/spa.json, under the tables
+whose names start with "text", and in the file generated from it,
+resources/i18n/spa.xml. Each text is copied word for word from its source;
+scripts/check-texts.py checks them against the downloaded pages. Where a
+source states no terms, none is claimed here.
+
+Ven, Espíritu Santo
+  Archidiócesis de Toledo (Spain), "Cadena de oración por la asamblea del
+  Sínodo", 2026, section "Invocación al Espíritu Santo".
+  Copied from https://www.architoledo.org/wp-content/uploads/2026/05/Cadena-de-oracion.pdf
+  The PDF carries no copyright notice. Traditional prayer (the Latin "Veni,
+  Sancte Spiritus, reple tuorum corda fidelium" with the Pentecost collect);
+  the Spanish wording is the archdiocese's.
+
+Ven, Espíritu Creador (Veni Creator)
+  Holy See, "Compendio del Catecismo de la Iglesia Católica" (2005),
+  Apéndice A, "Oraciones comunes".
+  Copied from https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html
+  The same text is on https://www.vaticannews.va/es/oraciones/veni-creator.html
+  © Copyright 2005 - Libreria Editrice Vaticana
+  The Latin hymn (9th century) is in the public domain.
+
+Secuencia de Pentecostés
+  Holy See, "Compendio del Catecismo de la Iglesia Católica" (2005),
+  Apéndice A, "Ven Santo Espíritu"; the same text as the Spanish Lectionary
+  (Conferencia Episcopal Española, Leccionario I (C), Domingo de Pentecostés).
+  Copied from https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html
+  The same text is on https://www.vaticannews.va/es/oraciones/ven-santo-espiritu.html
+  and https://www.conferenciaepiscopal.es/liturgia/cpentecostes.pdf
+  © Copyright 2005 - Libreria Editrice Vaticana
+  The Lectionary PDF carries no notice. The Latin sequence (about 1200) is in
+  the public domain.
+  Ends at "y danos tu gozo eterno." with no "Amén", as in the Lectionary.
+
+Salmo 23, Salmo 27 and Salmo 51
+  "La Biblia. El Libro del Pueblo de Dios" (traducción argentina), as the
+  Holy See's site publishes it:
+    Salmo 23  https://www.vatican.va/archive/ESL0506/__PGS.HTM
+    Salmo 27  https://www.vatican.va/archive/ESL0506/__PGW.HTM
+    Salmo 51  https://www.vatican.va/archive/ESL0506/__PHK.HTM
+  Copyright © Libreria Editrice Vaticana
+  Used with attribution; all rights remain with the publisher.
+  The psalms follow the source's Hebrew numbering. Their superscriptions and
+  the verse numbers are left out.
+
+Magníficat (Lucas 1, 46-55)
+  "La Biblia. El Libro del Pueblo de Dios" (traducción argentina), as the
+  Holy See's site publishes it.
+  Copied from https://www.vatican.va/archive/ESL0506/__PVJ.HTM
+  Copyright © Libreria Editrice Vaticana
+  Used with attribution; all rights remain with the publisher.
+  The text starts at «Mi alma canta» (the narrative "María dijo entonces:" is
+  left out) and the verse numbers are left out. Two transcription typos of
+  the page are corrected, as the Bible reads:
+    Lc 1, 48  "porque el miró" is given as "porque él miró"
+    Lc 1, 49  "el Todopoderoso he hecho" is given as "el Todopoderoso ha hecho"
+
+Ángelus
+  Holy See, "Compendio del Catecismo de la Iglesia Católica" (2005),
+  Apéndice A, "Ángelus".
+  Copied from https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html
+  © Copyright 2005 - Libreria Editrice Vaticana
+  The Latin prayer and its collect are in the public domain.
+
+Alma de Cristo
+  Holy See, "Compendio del Catecismo de la Iglesia Católica" (2005),
+  Apéndice A, "Alma de Cristo".
+  Copied from https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html
+  The same text is on https://www.vaticannews.va/es/oraciones/alma-de-cristo.html
+  © Copyright 2005 - Libreria Editrice Vaticana
+  The Latin original (14th century) is in the public domain.
+
+Oración de San Francisco
+  ACI Prensa (EWTN News), "Oración por la Paz".
+  Copied from https://www.aciprensa.com/recurso/1707/oracion-por-la-paz
+  An anonymous prayer, traditionally attributed to St Francis and usually
+  dated to the early 20th century; the Spanish translation is anonymous.
+  The site's notice reads
+  "© 2026 EWTN Inc. Todos los derechos reservados."
+
+Nada te turbe
+  St Teresa of Jesus (died 1582), as Pope Francis quotes it in his video
+  message to the congress "Mujer excepcional", 15 April 2021.
+  Copied from https://www.vatican.va/content/francesco/es/messages/pont-messages/2021/documents/papa-francesco_20210415_videomessaggio-mujer-excepcional.html
+  In the public domain by age. The page's notice reads
+  "Copyright © Dicasterio para la Comunicación".
+
+Oración de abandono
+  ACI Prensa (EWTN News), "Oración de entrega a Dios", by Charles de
+  Foucauld.
+  Copied from https://www.aciprensa.com/Oracion/entrega.htm
+  The French original (Charles de Foucauld, died 1916) is in the public
+  domain; the Spanish translation is anonymous. The site's notice reads
+  "© 2026 ACI Prensa | All rights reserved."
+
+San Miguel Arcángel
+  Vatican News (Dicasterio para la Comunicación, Holy See), "Oraciones: San
+  Miguel Arcángel".
+  Copied from https://www.vaticannews.va/es/oraciones/san-miguel-arcangel.html
+  Copyright © 2017-2026 Dicasterium pro Communicatione - Todos los derechos
+  son reservados.
+  The Latin original (Leo XIII, 1886) is in the public domain.
