@@ -1,0 +1,4 @@
+project.manifest = manifest.xml
+
+# One build holds the app and, with -t, its tests (scripts/test-all.sh builds and runs them). Release builds
+# carry no tests.
