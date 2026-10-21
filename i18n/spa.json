@@ -1,21 +1,11 @@
 {
     "//": "Spanish, the model language: its tables, their ids and their order are the ones every language defines (scripts/gen-i18n.py). The first table is the glance's, the only one the glance can load.",
     "glance": {
+        "//": "The glance's table, the only one the glance can load: the app's name over the last prayer read, or over the number of prayers before any has been read. The prayers' short titles are here so the glance can name the last one; the lists and the reading view read them here too.",
         "GlanceTitle": "Oraciones",
         "//GlanceCount": "$1$ is the number of prayers the app holds.",
-        "GlanceCount": "$1$ oraciones"
-    },
-    "ui": {
-        "//GroupsTitle": "The header of the list of groups, beside the lens.",
-        "GroupsTitle": "Oraciones",
-        "//GroupHolySpirit": "The groups label the bars of the first list in the large font (148px), and head their prayer list.",
-        "GroupHolySpirit": "Espíritu Santo",
-        "GroupPsalms": "Salmos",
-        "GroupMarian": "Marianas",
-        "GroupClassic": "Clásicas"
-    },
-    "titles": {
-        "//": "The prayers' short titles: they label the bars of a group's list in the large font, and head the reading view.",
+        "GlanceCount": "$1$ oraciones",
+        "//TitleComeHolySpirit": "The prayers' short titles: they label the bars of a group's list in the large font (148px), head the reading view, and name the last prayer read in the glance's medium font.",
         "TitleComeHolySpirit": "Ven, Espíritu",
         "TitleVeniCreator": "Veni Creator",
         "TitleSequence": "Secuencia",
@@ -29,6 +19,15 @@
         "TitleNadaTeTurbe": "Nada te turbe",
         "TitleAbandonment": "Abandono",
         "TitleSaintMichael": "San Miguel"
+    },
+    "ui": {
+        "//GroupsTitle": "The header of the list of groups, beside the lens.",
+        "GroupsTitle": "Oraciones",
+        "//GroupHolySpirit": "The groups label the bars of the first list in the large font (148px), and head their prayer list.",
+        "GroupHolySpirit": "Espíritu Santo",
+        "GroupPsalms": "Salmos",
+        "GroupMarian": "Marianas",
+        "GroupClassic": "Clásicas"
     },
     "textComeHolySpirit": {
         "//": "Ven, Espíritu Santo. Source: https://www.architoledo.org/wp-content/uploads/2026/05/Cadena-de-oracion.pdf (Archidiócesis de Toledo (Spain), \"Cadena de oración por la asamblea del Sínodo\", 2026, section \"Invocación al Espíritu Santo\"). Invocation, versicle, response and collect as printed; the PDF's line breaks inside the collect joined.",

@@ -138,7 +138,7 @@ module ReadingLayout {
 // Reading view of one prayer: its title fixed beside the lens, the dove in the subscreen, its text scrolling
 // a window at a time below the lens, and the page indicator beside it (ReadingDelegate: UP/DOWN scroll, BACK
 // returns to the group's list). The view loads its prayer's text when it opens and keeps only the wrapped
-// lines, which go with the view when it closes.
+// lines, which go with the view when it closes. Once on screen, its prayer is saved as the last one read.
 class PrayerView extends WatchUi.View {
 
     // First body line shown (0..ReadingLayout.maxOffset).
@@ -165,6 +165,11 @@ class PrayerView extends WatchUi.View {
         if (_bodyLines.size() == 0) {
             load(dc, Prayers.text(_prayer));
         }
+    }
+
+    // The view is on screen: its prayer becomes the last one read, which the glance names.
+    function onShow() as Void {
+        Prayers.saveLastRead(_prayer);
     }
 
     // Lays out the given text from its first line. The text itself is let go: the view keeps its lines.

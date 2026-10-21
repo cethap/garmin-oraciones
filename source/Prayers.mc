@@ -1,23 +1,62 @@
+import Toybox.Application;
 import Toybox.Lang;
 
-// The prayers the app holds, in four groups, and the glance's texts. A prayer is known by its index,
-// 0..COUNT - 1, the groups' prayers one group after another.
+// The prayers the app holds, in four groups, the last one read and the glance's texts. A prayer is known by
+// its index, 0..COUNT - 1, the groups' prayers one group after another.
 (:glance)
 module Prayers {
     // Prayers in all the groups.
     const COUNT = 13;
+    // Application.Storage key of the last prayer read, which the reading view saves when it opens and the
+    // glance shows.
+    const LAST_READ_KEY = "lastPrayer";
 
-    // The glance: "Oraciones" over the number of prayers ("13 oraciones").
+    // A prayer's short title: its item in its group's list, the reading view's header and the glance's
+    // second line once it is the last prayer read. The titles are in the glance table, so the glance can
+    // name any of them.
+    function title(prayer as Number) as String {
+        var keys = [
+            I18n.TitleComeHolySpirit, I18n.TitleVeniCreator, I18n.TitleSequence,
+            I18n.TitlePsalm23, I18n.TitlePsalm27, I18n.TitlePsalm51,
+            I18n.TitleMagnificat, I18n.TitleAngelus,
+            I18n.TitleAnimaChristi, I18n.TitleSaintFrancis, I18n.TitleNadaTeTurbe, I18n.TitleAbandonment, I18n.TitleSaintMichael
+        ] as Array<Number>;
+        return I18n.glanceText(keys[prayer]);
+    }
+
+    // The last prayer read, or null before any has been read.
+    function lastRead() as Number? {
+        return decodeLastRead(Storage.getValue(LAST_READ_KEY));
+    }
+
+    // A stored value as a prayer: null when it is missing or is not one.
+    function decodeLastRead(stored) as Number? {
+        if (stored instanceof Number && stored >= 0 && stored < COUNT) {
+            return stored as Number;
+        }
+        return null;
+    }
+
+    // The glance: "Oraciones" over the last prayer read, or over the number of prayers ("13 oraciones")
+    // before any has been read.
     function glanceTitle() as String {
         return I18n.glanceText(I18n.GlanceTitle);
     }
 
     function glanceSummary() as String {
-        return Lang.format(I18n.glanceText(I18n.GlanceCount), [COUNT]);
+        return glanceSummaryFor(lastRead());
+    }
+
+    // The glance's second line once the given prayer was read last (null: none yet).
+    function glanceSummaryFor(last as Number?) as String {
+        if (last == null) {
+            return Lang.format(I18n.glanceText(I18n.GlanceCount), [COUNT]);
+        }
+        return title(last);
     }
 }
 
-// The groups and the titles, which only the full-screen widget shows.
+// The groups and the texts, which only the full-screen widget shows, and the saving of the last prayer read.
 module Prayers {
     // The groups, in the order the first list shows them.
     enum Group {
@@ -52,17 +91,6 @@ module Prayers {
         return titles;
     }
 
-    // A prayer's short title: its item in its group's list, and the reading view's header.
-    function title(prayer as Number) as String {
-        var keys = [
-            I18n.TitleComeHolySpirit, I18n.TitleVeniCreator, I18n.TitleSequence,
-            I18n.TitlePsalm23, I18n.TitlePsalm27, I18n.TitlePsalm51,
-            I18n.TitleMagnificat, I18n.TitleAngelus,
-            I18n.TitleAnimaChristi, I18n.TitleSaintFrancis, I18n.TitleNadaTeTurbe, I18n.TitleAbandonment, I18n.TitleSaintMichael
-        ] as Array<Number>;
-        return I18n.text(keys[prayer]);
-    }
-
     // A prayer's text, which the reading view loads when it opens, its lines separated by "\n". Each text is
     // a table of its own (i18n/<lang>.json, where its note names its source), so opening a prayer loads only
     // that prayer's text.
@@ -83,5 +111,10 @@ module Prayers {
             titles.add(title(prayer));
         }
         return titles;
+    }
+
+    // Saves the prayer as the last one read: the glance names it from its next refresh.
+    function saveLastRead(prayer as Number) as Void {
+        Storage.setValue(LAST_READ_KEY, prayer);
     }
 }

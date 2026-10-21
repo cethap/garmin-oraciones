@@ -28,9 +28,11 @@ module TableCheck {
     // Most memory one loaded table may hold, in bytes. A lookup loads its whole table, so this bounds what a
     // lookup adds to the widget's peak. The Rosario's tables measured 784 to 1200 under the same budget.
     const BUDGET = 1536;
-    // The glance's table, which the glance loads inside its 32KB.
-    const GLANCE_BUDGET = 512;
-    // A prayer's text, each a table of its own, which the reading view loads when it opens.
+    // The glance's table, which the glance loads inside its 32KB: the app's name, the count and the 13 short
+    // titles.
+    const GLANCE_BUDGET = 1024;
+    // A prayer's text, each a table of its own, which the reading view loads when it opens. Measured: 200
+    // (Nada te turbe) to 1576 bytes (Psalms 27 and 51); 2560 leaves about 1.6x the largest.
     const TEXT_BUDGET = 2560;
 
     // The budget of a table.
@@ -101,12 +103,12 @@ function everyTableIsWholeAndSmall(logger as Logger) as Boolean {
     return ok;
 }
 
-// The glance reads "Oraciones" over the number of prayers, "13 oraciones".
+// Before any prayer has been read, the glance reads "Oraciones" over the number of prayers, "13 oraciones".
 (:test)
 function glanceNamesTheAppAndCountsThePrayers(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var title = Prayers.glanceTitle();
-    var summary = Prayers.glanceSummary();
+    var summary = Prayers.glanceSummaryFor(null);
     logger.debug("glance '" + title + "' / '" + summary + "'");
     return Prayers.COUNT == 13 && title.equals("Oraciones") && summary.equals("13 oraciones");
 }

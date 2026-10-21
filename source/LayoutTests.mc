@@ -116,26 +116,35 @@ function geometryChecksCornersAndClosestPoints(logger as Logger) as Boolean {
 }
 
 // The glance's two lines lie inside its 164x62 content area and, in the selected slot measured on the watch
-// (ScreenArea.GLANCE_Y), inside the visible area with the 2px margin. Both use the medium font.
+// (ScreenArea.GLANCE_Y), inside the visible area with the 2px margin, whichever prayer was read last (or
+// none). Both use the medium font.
 (:test)
 function glanceTextStaysInsideTheVisibleArea(logger as Logger) as Boolean {
     var dc = ScreenArea.measuringDc();
+    var seen = {} as Dictionary<String, Boolean>;
+    var lasts = GlanceCheck.lasts();
     var ok = true;
     for (var language = 0; language < I18n.LANGUAGE_COUNT; language++) {
         TestLanguage.use(logger, language);
-        var items = Layout.glancePlan(Prayers.glanceTitle(), Prayers.glanceSummary(), Layout.GLANCE_HEIGHT);
-        ok = ok && items.size() == 2;
-        for (var i = 0; i < items.size(); i++) {
-            var item = items[i];
-            var box = ScreenArea.measure(dc, item);
-            var screen = ScreenArea.offset(box, ScreenArea.GLANCE_X, ScreenArea.GLANCE_Y);
-            var fits = item.font == Graphics.FONT_MEDIUM
-                && ScreenArea.boxInRect(box, 0, 0, ScreenArea.GLANCE_WIDTH, Layout.GLANCE_HEIGHT)
-                && ScreenArea.visible(screen);
-            logger.debug((fits ? "fits " : "OUT ") + Graphics.getFontHeight(item.font) + "px "
-                + ScreenArea.describeVisible(item.text, screen) + ", " + (ScreenArea.GLANCE_WIDTH - box[2]).format("%.0f")
-                + "px to the content's right edge");
-            ok = ok && fits;
+        for (var last = 0; last < lasts.size(); last++) {
+            var items = Layout.glancePlan(Prayers.glanceTitle(), Prayers.glanceSummaryFor(lasts[last]), Layout.GLANCE_HEIGHT);
+            ok = ok && items.size() == 2;
+            for (var i = 0; i < items.size(); i++) {
+                var item = items[i];
+                if (seen.hasKey(item.text + "@" + item.y)) {
+                    continue;
+                }
+                seen[item.text + "@" + item.y] = true;
+                var box = ScreenArea.measure(dc, item);
+                var screen = ScreenArea.offset(box, ScreenArea.GLANCE_X, ScreenArea.GLANCE_Y);
+                var fits = item.font == Graphics.FONT_MEDIUM
+                    && ScreenArea.boxInRect(box, 0, 0, ScreenArea.GLANCE_WIDTH, Layout.GLANCE_HEIGHT)
+                    && ScreenArea.visible(screen);
+                logger.debug((fits ? "fits " : "OUT ") + Graphics.getFontHeight(item.font) + "px "
+                    + ScreenArea.describeVisible(item.text, screen) + ", " + (ScreenArea.GLANCE_WIDTH - box[2]).format("%.0f")
+                    + "px to the content's right edge");
+                ok = ok && fits;
+            }
         }
     }
     return ok;
@@ -143,29 +152,33 @@ function glanceTextStaysInsideTheVisibleArea(logger as Logger) as Boolean {
 
 // The two glance lines read as one block, vertically centered in the 62px slot: the title over the summary,
 // both in the medium font at x 9, the summary's box starting where the title's ends (touching, never
-// overlapping), with the same room above the block as below it (1px apart at most): rows 4..31 and 31..58.
+// overlapping), with the same room above the block as below it (1px apart at most): rows 4..31 and 31..58,
+// whichever prayer was read last (or none).
 (:test)
 function glanceLinesReadAsOneBlock(logger as Logger) as Boolean {
     var dc = ScreenArea.measuringDc();
     var font = Graphics.FONT_MEDIUM;
     var line = Graphics.getFontHeight(font);
+    var lasts = GlanceCheck.lasts();
     var ok = true;
     for (var language = 0; language < I18n.LANGUAGE_COUNT; language++) {
         TestLanguage.use(logger, language);
-        var items = Layout.glancePlan(Prayers.glanceTitle(), Prayers.glanceSummary(), Layout.GLANCE_HEIGHT);
-        var title = ScreenArea.measure(dc, items[0]);
-        var summary = ScreenArea.measure(dc, items[1]);
-        var gap = summary[1] - title[3];
-        var above = title[1];
-        var below = Layout.GLANCE_HEIGHT - summary[3];
-        var spread = above - below;
-        var block = items.size() == 2 && items[0].font == font && items[1].font == font
-            && items[0].x == Layout.GLANCE_LEFT && items[1].x == Layout.GLANCE_LEFT && Layout.GLANCE_LEFT == 9
-            && items[1].y - items[0].y == line && gap == 0 && above >= 0 && below >= 0 && spread >= -1 && spread <= 1;
-        logger.debug((block ? "block " : "APART ") + ScreenArea.describe(items[0].text, title) + " over "
-            + ScreenArea.describe(items[1].text, summary) + " gap " + gap.format("%.0f") + ", " + above.format("%.0f")
-            + "px above, " + below.format("%.0f") + "px below; medium " + line + "px");
-        ok = ok && block;
+        for (var last = 0; last < lasts.size(); last++) {
+            var items = Layout.glancePlan(Prayers.glanceTitle(), Prayers.glanceSummaryFor(lasts[last]), Layout.GLANCE_HEIGHT);
+            var title = ScreenArea.measure(dc, items[0]);
+            var summary = ScreenArea.measure(dc, items[1]);
+            var gap = summary[1] - title[3];
+            var above = title[1];
+            var below = Layout.GLANCE_HEIGHT - summary[3];
+            var spread = above - below;
+            var block = items.size() == 2 && items[0].font == font && items[1].font == font
+                && items[0].x == Layout.GLANCE_LEFT && items[1].x == Layout.GLANCE_LEFT && Layout.GLANCE_LEFT == 9
+                && items[1].y - items[0].y == line && gap == 0 && above >= 0 && below >= 0 && spread >= -1 && spread <= 1;
+            logger.debug((block ? "block " : "APART ") + ScreenArea.describe(items[0].text, title) + " over "
+                + ScreenArea.describe(items[1].text, summary) + " gap " + gap.format("%.0f") + ", " + above.format("%.0f")
+                + "px above, " + below.format("%.0f") + "px below; medium " + line + "px");
+            ok = ok && block;
+        }
     }
     return ok;
 }
@@ -284,8 +297,11 @@ function listFontsHaveEveryGlyph(logger as Logger) as Boolean {
         TestLanguage.use(logger, language);
         texts.add(Prayers.glanceTitle());
         fonts.add(Graphics.FONT_MEDIUM);
-        texts.add(Prayers.glanceSummary());
-        fonts.add(Graphics.FONT_MEDIUM);
+        var lasts = GlanceCheck.lasts();
+        for (var last = 0; last < lasts.size(); last++) {
+            texts.add(Prayers.glanceSummaryFor(lasts[last]));
+            fonts.add(Graphics.FONT_MEDIUM);
+        }
         texts.add(I18n.text(I18n.GroupsTitle));
         fonts.add(Graphics.FONT_TINY);
         for (var group = 0; group < Prayers.GROUP_COUNT; group++) {
