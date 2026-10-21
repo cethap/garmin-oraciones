@@ -17,8 +17,8 @@ Oraciones is a Connect IQ widget that holds 31 well-known Catholic prayers and B
   - The selected item is a white bar with black text.
   - The title of what the screen lists ("Oraciones", or the group's name) sits beside the subscreen. A one-word title too wide for the top of that band ("Eucarísticas") takes its lowest line, where the band is widest.
 - **Reading view**:
-  - The prayer's short title stays beside the subscreen, and its text scrolls four lines at a time in a window below it.
-  - The text is set as verse: each printed line of the source starts a new line at the left edge. A line too long for the window wraps at a space onto indented continuation lines, so the start of each verse shows. A continuation line of one word too wide for the indent ("imperfectamente;" in 1 Cor 13) starts at the left edge.
+  - The prayer's short title stays beside the subscreen, and its text reads in pages of four lines in a window below it. Each page holds the next four lines, so no line shows twice; the last page may hold fewer.
+  - The lines are centered, as in the Rosario. Each printed line of the source starts a new line, and a line too long for the window wraps at a space onto the next.
   - A thumb on the right shows which part of the text is on screen.
 - **Subscreen**: a dove inside a thin ring, the counterpart of the Rosario's Hail Mary ring.
 - **Glance**: "Oraciones" over the last prayer read ("Salmo 27"), or over "31 oraciones" before any prayer has been read.
@@ -33,29 +33,29 @@ Oraciones is a Connect IQ widget that holds 31 well-known Catholic prayers and B
 | Básicas | Our Father | The Our Father in English | 6 |
 | Básicas | Ave María | Dios te salve, María | 5 |
 | Básicas | Ave Maria | The Hail Mary in Latin | 4 |
-| Básicas | Hail Mary | The Hail Mary in English | 5 |
-| Espíritu Santo | Ven, Espíritu | Ven, Espíritu Santo | 8 |
-| Espíritu Santo | Secuencia | Secuencia de Pentecostés | 16 |
-| Salmos | Salmo 16 | Protégeme, Dios mío | 18 |
+| Básicas | Hail Mary | The Hail Mary in English | 4 |
+| Espíritu Santo | Ven, Espíritu | Ven, Espíritu Santo | 7 |
+| Espíritu Santo | Secuencia | Secuencia de Pentecostés | 15 |
+| Salmos | Salmo 16 | Protégeme, Dios mío | 17 |
 | Salmos | Salmo 23 | El Señor es mi pastor | 11 |
-| Salmos | Salmo 27 | El Señor es mi luz | 29 |
+| Salmos | Salmo 27 | El Señor es mi luz | 28 |
 | Salmos | Salmo 51 | Miserere | 28 |
 | Salmos | Salmo 84 | ¡Qué amable es tu Morada! | 20 |
-| Salmos | Salmo 136 | Porque es eterno su amor | 32 |
-| Biblia | Felices (Mt 5) | Las Bienaventuranzas, Mt 5, 3-12 | 16 |
-| Biblia | Himno al amor | 1 Cor 13, 1-13 | 27 |
-| Biblia | Prólogo de Juan | Jn 1, 1-18 | 29 |
-| Marianas | Magníficat | Lc 1, 46-55 | 14 |
+| Salmos | Salmo 136 | Porque es eterno su amor | 31 |
+| Biblia | Felices (Mt 5) | Las Bienaventuranzas, Mt 5, 3-12 | 15 |
+| Biblia | Himno al amor | 1 Cor 13, 1-13 | 25 |
+| Biblia | Prólogo de Juan | Jn 1, 1-18 | 28 |
+| Marianas | Magníficat | Lc 1, 46-55 | 13 |
 | Marianas | Ángelus | Ángelus | 13 |
 | Marianas | Bendita pureza | Bendita sea tu pureza | 5 |
 | Marianas | Consagración | Consagración a la Virgen | 6 |
-| Eucarísticas | Comunión | Comunión espiritual | 8 |
-| Eucarísticas | Adoro te | Adoro te devote, Santo Tomás de Aquino | 21 |
+| Eucarísticas | Comunión | Comunión espiritual | 7 |
+| Eucarísticas | Adoro te | Adoro te devote, Santo Tomás de Aquino | 20 |
 | Del día | Ofrecimiento | Ofrecimiento del día | 11 |
 | Del día | Contrición | Acto de contrición | 8 |
 | Del día | Oración noche | Oración de la noche (Completas) | 4 |
-| Clásicas | Alma de Cristo | Alma de Cristo | 8 |
-| Clásicas | San Francisco | Oración de San Francisco | 12 |
+| Clásicas | Alma de Cristo | Alma de Cristo | 7 |
+| Clásicas | San Francisco | Oración de San Francisco | 11 |
 | Clásicas | Nada te turbe | Santa Teresa de Jesús | 3 |
 | Clásicas | Abandono | Oración de abandono, Charles de Foucauld | 8 |
 | Clásicas | San Miguel | San Miguel Arcángel | 7 |
@@ -211,7 +211,7 @@ App code:
 | `source/BarListView.mc` | Layout of the lists and the list view both lists share |
 | `source/GroupList.mc` | The list of groups and its buttons |
 | `source/PrayerList.mc` | A group's list of prayers and its buttons |
-| `source/ReadingView.mc` | The reading view and its layout: verse lines, the hanging indent and the page indicator |
+| `source/ReadingView.mc` | The reading view and its layout: centered lines, fixed pages of four lines and the page indicator |
 | `source/ReadingDelegate.mc` | Buttons of the reading view: scroll and back |
 | `source/Navigator.mc` | Opens and closes the screens, so the tests can record it instead |
 
@@ -220,7 +220,7 @@ Tests:
 | Path | Purpose |
 |------|---------|
 | `source/LayoutTests.mc` | Layout tests for the glance, the subscreen and the lists, and the shared checks |
-| `source/ReadingTests.mc` | Reading view: fit at every offset, wrap, indent, scroll, memory, and the placeholder texts |
+| `source/ReadingTests.mc` | Reading view: fit on every page, wrap, centering, pages that never overlap, scroll, memory, and the placeholder texts |
 | `source/NavigationTests.mc` | Buttons of the lists, with a recording navigator |
 | `source/GlanceTests.mc` | The glance's last prayer read |
 | `source/TextTests.mc` | Pins of each text and of each prayer's page count |
@@ -301,6 +301,6 @@ Oraciones es un widget de Connect IQ para el Garmin Instinct 2 con 31 oraciones 
 - **Del día**: Ofrecimiento del día; Acto de contrición; Oración de la noche.
 - **Clásicas**: Alma de Cristo; Oración de San Francisco; Nada te turbe; Oración de abandono; San Miguel Arcángel.
 
-Al abrirla se ven los ocho grupos. START abre un grupo y luego una oración, UP y DOWN mueven la selección o pasan de página, y BACK vuelve un nivel. En la lista de grupos, BACK cierra la aplicación. El texto se lee en una ventana bajo el lente, cuatro líneas por pantalla, con cada verso en su propia línea. Desde la esfera del reloj, la vista resumida muestra "Oraciones" y la última oración leída, o "31 oraciones" si aún no se ha leído ninguna.
+Al abrirla se ven los ocho grupos. START abre un grupo y luego una oración, UP y DOWN mueven la selección o pasan de página, y BACK vuelve un nivel. En la lista de grupos, BACK cierra la aplicación. El texto se lee en una ventana bajo el lente, en páginas de cuatro líneas centradas que nunca se repiten, con cada verso en su propia línea. Desde la esfera del reloj, la vista resumida muestra "Oraciones" y la última oración leída, o "31 oraciones" si aún no se ha leído ninguna.
 
 Los salmos, los pasajes bíblicos y el Magníficat provienen de "El Libro del Pueblo de Dios", publicado en el sitio de la Santa Sede (Copyright © Libreria Editrice Vaticana). Se corrigieron dos erratas de esas páginas en el Magníficat (Lc 1, 48-49: "él miró" y "ha hecho") y dos en el himno al amor (1 Cor 13, 5 y 13: "no tiene en cuenta" y "la más grande de todas"). Las fuentes y los derechos de cada texto están en [NOTICE](NOTICE).

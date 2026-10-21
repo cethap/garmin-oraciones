@@ -103,14 +103,14 @@ function hymnOfLoveReadsTheCorrectedWords(logger as Logger) as Boolean {
     return ok;
 }
 
-// Every prayer reads in the pages it was measured in, at 4 lines a page, set as verse with the hanging indent
-// (Psalm 136, the longest, in 32 pages): a change to a text or to the reading layout that changes a prayer's
+// Every prayer reads in the pages it was measured in, ceil(lines / 4) fixed pages of centered lines (Psalm
+// 136, the longest, in 31 pages): a change to a text or to the reading layout that changes a prayer's
 // length on the watch fails here.
 (:test)
 function everyPrayerReadsInItsPages(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var dc = ScreenArea.measuringDc();
-    var expected = [7, 6, 6, 5, 4, 5, 8, 16, 18, 11, 29, 28, 20, 32, 16, 27, 29, 14, 13, 5, 6, 8, 21, 11, 8, 4, 8, 12, 3, 8, 7]
+    var expected = [7, 6, 6, 5, 4, 4, 7, 15, 17, 11, 28, 28, 20, 31, 15, 25, 28, 13, 13, 5, 6, 7, 20, 11, 8, 4, 7, 11, 3, 8, 7]
         as Array<Number>;
     var pages = [] as Array<Number>;
     for (var prayer = 0; prayer < Prayers.COUNT; prayer++) {

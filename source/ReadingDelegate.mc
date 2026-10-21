@@ -1,7 +1,7 @@
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-// Buttons of the reading view: DOWN and UP scroll the text a window at a time and do nothing past either
+// Buttons of the reading view: DOWN and UP turn the text a page of 4 lines at a time and do nothing past either
 // end; BACK closes the view, back to the group's list on the same prayer. Holding UP does nothing.
 class ReadingDelegate extends WatchUi.BehaviorDelegate {
 
