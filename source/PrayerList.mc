@@ -2,7 +2,8 @@ import Toybox.Lang;
 import Toybox.WatchUi;
 
 // A group's prayers: the group's title beside the lens over its prayers' short titles, the first one
-// selected (PrayerListDelegate: UP/DOWN move the selection, BACK returns to the list of groups).
+// selected (PrayerListDelegate: UP/DOWN move the selection, START opens the prayer, BACK returns to the list
+// of groups).
 class PrayerListView extends BarListView {
 
     private var _group as Number;
@@ -22,8 +23,9 @@ class PrayerListView extends BarListView {
     }
 }
 
-// Buttons of a group's list of prayers: DOWN and UP move the selection and stop at either end. BACK closes
-// the list, back to the list of groups on the same group. Holding UP does nothing.
+// Buttons of a group's list of prayers: DOWN and UP move the selection and stop at either end. START opens
+// the selected prayer's reading view over this list, so BACK there returns here, on the same prayer. BACK
+// closes the list, back to the list of groups on the same group. Holding UP does nothing.
 class PrayerListDelegate extends WatchUi.BehaviorDelegate {
 
     private var _list as PrayerListView;
@@ -48,6 +50,13 @@ class PrayerListDelegate extends WatchUi.BehaviorDelegate {
         if (_list.moveUp()) {
             WatchUi.requestUpdate();
         }
+        return true;
+    }
+
+    // START: the selected prayer's reading view.
+    function onSelect() as Boolean {
+        var view = new PrayerView(_list.selectedPrayer());
+        _navigator.open(view, new ReadingDelegate(view, _navigator));
         return true;
     }
 

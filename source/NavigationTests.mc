@@ -125,6 +125,42 @@ function groupListOpensTheGroupAndBackLeaves(logger as Logger) as Boolean {
     return ok;
 }
 
+// START on a prayer opens its reading view over the group's list, with the prayer's title beside the lens
+// and its text laid out from the first line; the list stays on that prayer, so BACK there returns to it.
+(:test)
+function prayerListOpensTheSelectedPrayer(logger as Logger) as Boolean {
+    TestLanguage.use(logger, I18n.SPA);
+    var dc = ScreenArea.measuringDc();
+    var ok = true;
+    var read = [] as Array<Number>;
+    for (var group = 0; group < Prayers.GROUP_COUNT; group++) {
+        for (var item = 0; item < Prayers.groupSize(group); item++) {
+            var navigator = new NavigationFake.Recorder();
+            var list = new PrayerListView(group);
+            var delegate = new PrayerListDelegate(list, navigator);
+            for (var i = 0; i < item; i++) {
+                delegate.onNextPage();
+            }
+            var handled = delegate.onSelect();
+            var opened = navigator.views.size() == 1 ? navigator.views[0] : null;
+            var view = opened instanceof PrayerView ? opened as PrayerView : null;
+            var prayer = Prayers.groupStart(group) + item;
+            var openedOk = false;
+            if (view != null) {
+                view.onLayout(dc);
+                read.add(view.prayer());
+                openedOk = view.prayer() == prayer && view.offset == 0
+                    && view.titleLines().toString().equals(HeaderLayout.wrapTitle(Prayers.title(prayer)).toString())
+                    && view.bodyLines().toString().equals(ReadingLayout.bodyLines(dc, Prayers.text(prayer)).toString())
+                    && navigator.delegates[0] instanceof ReadingDelegate;
+            }
+            ok = ok && handled && openedOk && navigator.calls.toString().equals(["open"].toString()) && list.selected == item;
+        }
+    }
+    logger.debug("START opened prayers " + read);
+    return ok && read.size() == Prayers.COUNT;
+}
+
 // On a group's list of prayers DOWN and UP stop at either end, as on the list of groups, and hold UP does
 // nothing; BACK closes the list, which leaves the list of groups on the group it opened.
 (:test)
