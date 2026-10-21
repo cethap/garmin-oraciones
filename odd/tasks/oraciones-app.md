@@ -63,6 +63,7 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
 | O4 | `docs`: README, LICENSE (MIT), NOTICE with the text sources | delegated writer (3 new files) | [x] 64e12f9 (+399): README (English, Spanish summary), LICENSE (MIT, Cesar Tapasco, 2026), NOTICE (each text's source, publisher, notice and the Magníficat's corrections). Structural readback: every README anchor resolves, every table has even columns |
 | O5 | `feat`: remove the Veni Creator, at the user's request after testing on the watch ("quita el veni creator, solo deja dos"): the Espíritu Santo group keeps "Ven, Espíritu" and "Secuencia", 12 prayers in all | delegated writer (2+ non-trivial files) | [x] c055e4a (+112/-106) RED 26 passed, 6 failed -> GREEN 33/33. `check-texts.py` ALL VERBATIM: 12 texts. Debug and release `-w`: 0 warnings, release 26,028 bytes |
 | O6 | `feat`: the "Básicas" group, first in the list: Padre Nuestro, Pater Noster, Our Father, Ave María, Ave Maria, Hail Mary (the user's choice of six texts; 12 -> 18 prayers) | delegated writer (2+ non-trivial files) | [x] 888b28e (+250/-74) RED 28 passed, 5 failed -> GREEN 33/33. `check-texts.py` ALL VERBATIM: 18 texts. Debug and release `-w`: 0 warnings, release 28,604 bytes |
+| O7 | `feat`: seven prayers and the groups "Eucarísticas" and "Del día" (the user's choice; 18 -> 25 prayers, seven groups) | delegated writer (2+ non-trivial files) | [x] a93bca1 (+301/-50) RED 28 passed, 5 failed -> GREEN 34/34. `check-texts.py` ALL VERBATIM: 25 texts. Debug and release `-w`: 0 warnings, release 33,180 bytes |
 
 ## Acceptance criteria
 
@@ -253,6 +254,33 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
     - Debug and release `-w`: 0 warnings. Release `.prg`: 28,604 bytes.
     - Memory: measured once all three tasks were in (O8).
 
+- O7, route: delegated writer. The user's request: seven prayers, two of them in Marianas and five in two new groups.
+  - **a93bca1 `feat`:** every text from O1's `texts_o7.json`, unchanged, with its research notes in the `//` note and in NOTICE.
+    - **Marianas**, after Magníficat and Ángelus:
+      - `bendita_pureza`, "Bendita pureza";
+      - `consagracion_maria`, "Consagración", the Gran Poder vos form.
+    - **Eucarísticas:**
+      - `comunion_espiritual`, "Comunión", from Vatican News, vos and tú as printed;
+      - `adoro_te`, from ACI Prensa.
+    - **Del día:**
+      - `ofrecimiento`, the current official Red Mundial text "Padre bueno, sé que estás conmigo…" (the user's choice);
+      - `contricion`, "Contrición", from the Compendium;
+      - `noche`, "Oración noche", the Liturgy of the Hours form "Visita, Señor, esta habitación…", from Almudí's ePub. Its copyright is recorded as presumably the CEE's, not verified.
+    - Group order: Básicas, Espíritu Santo, Salmos, Marianas, Eucarísticas, Del día, Clásicas, starting at prayers 0, 6, 8, 11, 15, 17 and 20. The glance's count reads "25 oraciones".
+  - **Fit findings and decisions:**
+    - "Adoro te devote" is 150px in FONT_LARGE, 2px wider than its 148px bar (gaps -1 on each side). It is listed as **"Adoro te"** (80px), the hymn's incipit. To confirm with the user.
+    - Every other label fits FONT_LARGE. The tightest are "Bendita pureza" at 137px and "Oración noche" at 133px.
+    - The header beside the lens could not hold three one-word titles in the tiny font: "Eucarísticas" (88px), "Consagración" (98px) and "Ofrecimiento" (96px). The middle of the band fits only about 78px.
+    - New header rule (`HeaderLayout.isWideLine`): a one-line title wider than 78px takes a 3-line title's last line, rows 51..74, centered on x 52, where the band is widest (about 100px). They now fit with margins of 7, 3 and 4px.
+    - Every other header keeps its place. A test pins the rule.
+  - **Glance table:** 27 texts, 1,024 bytes loaded. The budget rose from 1,024 to 1,536, because the 25 titles live there for the glance.
+  - **Pages:** Bendita pureza 5, Consagración 6, Comunión 8, Adoro te 21, Ofrecimiento 11, Contrición 8, Oración noche 4.
+  - **Evidence:**
+    - RED, after the counts, groups, glance and pins were changed to expect 25 prayers: FAILED (passed=28, failed=5). The 5 were the three glance tests, the groups and the text pins.
+    - GREEN: `scripts/test-all.sh` with `TEXT_SOURCES`: Texts ALL VERBATIM: 25 texts; Translations OK (27 tables, 60 texts); Glance texts OK (27 texts looked up); Tests PASSED (passed=34, failed=0, errors=0).
+    - Debug and release `-w`: 0 warnings. Release `.prg`: 33,180 bytes.
+    - Memory: measured once O8 was in.
+
 ## Next step
 
-O7: seven prayers and the groups "Eucarísticas" and "Del día". Then O8. Then the user decides on the pull request and the GitHub repository; creating the repository is a remote operation that needs the user's go-ahead.
+O8: three psalms and the "Biblia" group. Then the user decides on the pull request and the GitHub repository; creating the repository is a remote operation that needs the user's go-ahead.
