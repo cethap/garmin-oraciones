@@ -1,12 +1,12 @@
 import Toybox.Application;
 import Toybox.Lang;
 
-// The prayers the app holds, in four groups, the last one read and the glance's texts. A prayer is known by
+// The prayers the app holds, in five groups, the last one read and the glance's texts. A prayer is known by
 // its index, 0..COUNT - 1, the groups' prayers one group after another, and, where it is saved, by its id.
 (:glance)
 module Prayers {
     // Prayers in all the groups.
-    const COUNT = 12;
+    const COUNT = 18;
     // Application.Storage key of the last prayer read, which the reading view saves when it opens and the
     // glance shows. The value is the prayer's id (ids), which stays the same when prayers are added, removed
     // or reordered; an index would then point at another prayer.
@@ -14,7 +14,8 @@ module Prayers {
 
     // Each prayer's id, by index: the id O1's research gave it.
     function ids() as Array<String> {
-        return ["ven_espiritu", "secuencia", "salmo_23", "salmo_27", "salmo_51", "magnificat", "angelus",
+        return ["padre_nuestro", "pater_noster", "our_father", "ave_maria_es", "ave_maria_la", "hail_mary",
+            "ven_espiritu", "secuencia", "salmo_23", "salmo_27", "salmo_51", "magnificat", "angelus",
             "alma_de_cristo", "san_francisco", "nada_te_turbe", "abandono", "san_miguel"] as Array<String>;
     }
 
@@ -34,6 +35,8 @@ module Prayers {
     // name any of them.
     function title(prayer as Number) as String {
         var keys = [
+            I18n.TitleOurFatherSpa, I18n.TitleOurFatherLat, I18n.TitleOurFatherEng,
+            I18n.TitleHailMarySpa, I18n.TitleHailMaryLat, I18n.TitleHailMaryEng,
             I18n.TitleComeHolySpirit, I18n.TitleSequence,
             I18n.TitlePsalm23, I18n.TitlePsalm27, I18n.TitlePsalm51,
             I18n.TitleMagnificat, I18n.TitleAngelus,
@@ -56,7 +59,7 @@ module Prayers {
         return null;
     }
 
-    // The glance: "Oraciones" over the last prayer read, or over the number of prayers ("12 oraciones")
+    // The glance: "Oraciones" over the last prayer read, or over the number of prayers ("18 oraciones")
     // before any has been read.
     function glanceTitle() as String {
         return I18n.glanceText(I18n.GlanceTitle);
@@ -79,17 +82,18 @@ module Prayers {
 module Prayers {
     // The groups, in the order the first list shows them.
     enum Group {
+        BASIC,
         HOLY_SPIRIT,
         PSALMS,
         MARIAN,
         CLASSIC
     }
 
-    const GROUP_COUNT = 4;
+    const GROUP_COUNT = 5;
 
     // Index of a group's first prayer; one past the last group's last prayer for GROUP_COUNT.
     function groupStart(group as Number) as Number {
-        return [0, 2, 5, 7, COUNT][group];
+        return [0, 6, 8, 11, 13, COUNT][group];
     }
 
     function groupSize(group as Number) as Number {
@@ -97,7 +101,7 @@ module Prayers {
     }
 
     function groupTitle(group as Number) as String {
-        var keys = [I18n.GroupHolySpirit, I18n.GroupPsalms, I18n.GroupMarian, I18n.GroupClassic] as Array<Number>;
+        var keys = [I18n.GroupBasic, I18n.GroupHolySpirit, I18n.GroupPsalms, I18n.GroupMarian, I18n.GroupClassic] as Array<Number>;
         return I18n.text(keys[group]);
     }
 
@@ -115,6 +119,8 @@ module Prayers {
     // that prayer's text.
     function text(prayer as Number) as String {
         var keys = [
+            I18n.TextOurFatherSpa, I18n.TextOurFatherLat, I18n.TextOurFatherEng,
+            I18n.TextHailMarySpa, I18n.TextHailMaryLat, I18n.TextHailMaryEng,
             I18n.TextComeHolySpirit, I18n.TextSequence,
             I18n.TextPsalm23, I18n.TextPsalm27, I18n.TextPsalm51,
             I18n.TextMagnificat, I18n.TextAngelus,

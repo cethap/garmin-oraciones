@@ -12,6 +12,12 @@ module TextPins {
     // For each prayer, in order: [its opening words, its closing words, its length in characters].
     function pins() as Array<Array> {
         return [
+            ["Padre nuestro que estás en el cielo,", "y líbranos del mal. Amén.", 318],
+            ["Pater noster qui es in caelis:", "sed libera nos a Malo. Amen", 306],
+            ["Our Father, who art in heaven,", "deliver us from evil.\nAmen.", 291],
+            ["Dios te salve, María,", "la hora de nuestra muerte. Amén", 251],
+            ["Ave, María, grátia plena,", "in hora mortis nostræ.\nAmen.", 200],
+            ["Hail, Mary, full of grace,", "at the hour of our death.\nAmen.", 210],
             ["Ven, Espíritu Santo,\nllena", "nuestro Señor. Amén.", 381],
             ["Ven, Espíritu divino,\nmanda", "y danos tu gozo eterno.", 822],
             ["El Señor es mi pastor,", "por muy largo tiempo.", 529],
@@ -73,7 +79,7 @@ function magnificatReadsTheCorrectedWords(logger as Logger) as Boolean {
 function everyPrayerReadsInItsPages(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var dc = ScreenArea.measuringDc();
-    var expected = [8, 16, 11, 29, 28, 14, 13, 8, 12, 3, 8, 7] as Array<Number>;
+    var expected = [7, 6, 6, 5, 4, 5, 8, 16, 11, 29, 28, 14, 13, 8, 12, 3, 8, 7] as Array<Number>;
     var pages = [] as Array<Number>;
     for (var prayer = 0; prayer < Prayers.COUNT; prayer++) {
         pages.add(ScrollCheck.expectedPages(ReadingCheck.open(prayer, null, dc).bodyLines().size()).size());

@@ -3,6 +3,12 @@
     <jsonData id="GlanceSpa" scope="glance">[
         "Oraciones",
         "$1$ oraciones",
+        "Padre Nuestro",
+        "Pater Noster",
+        "Our Father",
+        "Ave María",
+        "Ave Maria",
+        "Hail Mary",
         "Ven, Espíritu",
         "Secuencia",
         "Salmo 23",
@@ -18,10 +24,29 @@
     ]</jsonData>
     <jsonData id="UiSpa">[
         "Oraciones",
+        "Básicas",
         "Espíritu Santo",
         "Salmos",
         "Marianas",
         "Clásicas"
+    ]</jsonData>
+    <jsonData id="TextOurFatherSpaSpa">[
+        "Padre nuestro que estás en el cielo,\nsantificado sea tu Nombre;\nvenga a nosotros tu Reino;\nhágase tu voluntad\nen la tierra como en el cielo.\nDanos hoy\nnuestro pan de cada día;\nperdona nuestras ofensas,\ncomo también nosotros perdonamos\na los que nos ofenden;\nno nos dejes caer en la tentación,\ny líbranos del mal. Amén."
+    ]</jsonData>
+    <jsonData id="TextOurFatherLatSpa">[
+        "Pater noster qui es in caelis:\nsanctificetur Nomen Tuum;\nadveniat Regnum Tuum;\nfiat voluntas Tua,\nsicut in caelo et in terra.\nPanem nostrum\nquotidianum da nobis hodie;\net dimitte nobis debita nostra,\nsicut et nos\ndimittimus debitoribus nostris;\net ne nos inducas in tentationem;\nsed libera nos a Malo. Amen"
+    ]</jsonData>
+    <jsonData id="TextOurFatherEngSpa">[
+        "Our Father, who art in heaven,\nhallowed be thy name;\nthy kingdom come,\nthy will be done\non earth as it is in heaven.\nGive us this day our daily bread,\nand forgive us our trespasses,\nas we forgive those who trespass against us;\nand lead us not into temptation,\nbut deliver us from evil.\nAmen."
+    ]</jsonData>
+    <jsonData id="TextHailMarySpaSpa">[
+        "Dios te salve, María,\nllena eres de gracia;\nel Señor es contigo.\nBendita Tú eres\nentre todas las mujeres,\ny bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios,\nruega por nosotros, pecadores,\nahora y en la hora de nuestra muerte. Amén"
+    ]</jsonData>
+    <jsonData id="TextHailMaryLatSpa">[
+        "Ave, María, grátia plena,\nDóminus tecum.\nBenedícta tu in muliéribus,\net benedíctus fructus ventris tui, Iesus.\nSancta María, Mater Dei,\nora pro nobis peccatóribus,\nnunc et in hora mortis nostræ.\nAmen."
+    ]</jsonData>
+    <jsonData id="TextHailMaryEngSpa">[
+        "Hail, Mary, full of grace,\nthe Lord is with thee.\nBlessed art thou among women\nand blessed is the fruit of thy womb, Jesus.\nHoly Mary, Mother of God,\npray for us sinners,\nnow and at the hour of our death.\nAmen."
     ]</jsonData>
     <jsonData id="TextComeHolySpiritSpa">[
         "Ven, Espíritu Santo,\nllena los corazones de tus fieles\ny enciende en ellos el fuego de tu amor.\nV/. Envía, Señor, tu Espíritu.\nR/. Y renueva la faz de la tierra.\nOh Dios, que llenaste los corazones de tus fieles con la luz del Espíritu Santo; concédenos que, guiados por el mismo Espíritu, sintamos con rectitud y gocemos siempre de tu consuelo. Por Jesucristo nuestro Señor. Amén."

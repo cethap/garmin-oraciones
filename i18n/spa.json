@@ -6,6 +6,12 @@
         "//GlanceCount": "$1$ is the number of prayers the app holds.",
         "GlanceCount": "$1$ oraciones",
         "//TitleComeHolySpirit": "The prayers' short titles: they label the bars of a group's list in the large font (148px), head the reading view, and name the last prayer read in the glance's medium font.",
+        "TitleOurFatherSpa": "Padre Nuestro",
+        "TitleOurFatherLat": "Pater Noster",
+        "TitleOurFatherEng": "Our Father",
+        "TitleHailMarySpa": "Ave María",
+        "TitleHailMaryLat": "Ave Maria",
+        "TitleHailMaryEng": "Hail Mary",
         "TitleComeHolySpirit": "Ven, Espíritu",
         "TitleSequence": "Secuencia",
         "TitlePsalm23": "Salmo 23",
@@ -22,11 +28,36 @@
     "ui": {
         "//GroupsTitle": "The header of the list of groups, beside the lens.",
         "GroupsTitle": "Oraciones",
-        "//GroupHolySpirit": "The groups label the bars of the first list in the large font (148px), and head their prayer list.",
+        "//GroupBasic": "The groups label the bars of the first list in the large font (148px), and head their prayer list.",
+        "GroupBasic": "Básicas",
         "GroupHolySpirit": "Espíritu Santo",
         "GroupPsalms": "Salmos",
         "GroupMarian": "Marianas",
         "GroupClassic": "Clásicas"
+    },
+    "textOurFatherSpa": {
+        "//": "Padre Nuestro. Source: https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html (Holy See, Compendio del Catecismo de la Iglesia Católica (2005), Spanish edition, Apéndice A, \"Oraciones comunes\", \"Padre nuestro\"). Ends with \"Amén.\". No comma after \"Padre nuestro\" (as printed). Vatican News prints the same text. Wording: \"venga a nosotros tu Reino\" and \"no nos dejes caer en la tentación\". Same text on https://www.vaticannews.va/es/oraciones/padre-nuestro.html.",
+        "TextOurFatherSpa": "Padre nuestro que estás en el cielo,\nsantificado sea tu Nombre;\nvenga a nosotros tu Reino;\nhágase tu voluntad\nen la tierra como en el cielo.\nDanos hoy\nnuestro pan de cada día;\nperdona nuestras ofensas,\ncomo también nosotros perdonamos\na los que nos ofenden;\nno nos dejes caer en la tentación,\ny líbranos del mal. Amén."
+    },
+    "textOurFatherLat": {
+        "//": "Pater Noster. Source: https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html (Holy See, Compendio del Catecismo de la Iglesia Católica (2005), Spanish edition, Apéndice A, \"Oraciones comunes\", \"Pater Noster\"). Unaccented apart from \"indúcas\", \"quotidianum\", ends \"Amen\" without a full stop; semicolons where the English edition has colons. Parent decision: the six Básicas all end with Amen/Amén, so the Compendium's English-edition texts, which have none, were replaced by verbatim alternatives that have it. Replaces the English edition's accented Pater Noster (\"cotidiánum\"), which ends without \"Amen\".",
+        "TextOurFatherLat": "Pater noster qui es in caelis:\nsanctificetur Nomen Tuum;\nadveniat Regnum Tuum;\nfiat voluntas Tua,\nsicut in caelo et in terra.\nPanem nostrum\nquotidianum da nobis hodie;\net dimitte nobis debita nostra,\nsicut et nos\ndimittimus debitoribus nostris;\net ne nos inducas in tentationem;\nsed libera nos a Malo. Amen"
+    },
+    "textOurFatherEng": {
+        "//": "Our Father. Source: https://www.usccb.org/prayers/our-father (United States Conference of Catholic Bishops, \"Our Father\"). Common US wording with \"Amen.\". Parent decision: the six Básicas all end with Amen/Amén, so the Compendium's English-edition texts, which have none, were replaced by verbatim alternatives that have it. Replaces the Compendium's English text (\"Our Father who art in heaven\"), which ends without \"Amen\".",
+        "TextOurFatherEng": "Our Father, who art in heaven,\nhallowed be thy name;\nthy kingdom come,\nthy will be done\non earth as it is in heaven.\nGive us this day our daily bread,\nand forgive us our trespasses,\nas we forgive those who trespass against us;\nand lead us not into temptation,\nbut deliver us from evil.\nAmen."
+    },
+    "textHailMarySpa": {
+        "//": "Ave María. Source: https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html (Holy See, Compendio del Catecismo de la Iglesia Católica (2005), Spanish edition, Apéndice A, \"Oraciones comunes\", \"Ave María\"). Verbatim quirks: capital \"Bendita Tú eres\"; no full stop after the final \"Amén\". Vatican News prints the same text. The Ángelus on the same page uses the cue \"Dios te salve, María...\". Same text on https://www.vaticannews.va/es/oraciones/ave-maria.html.",
+        "TextHailMarySpa": "Dios te salve, María,\nllena eres de gracia;\nel Señor es contigo.\nBendita Tú eres\nentre todas las mujeres,\ny bendito es el fruto de tu vientre, Jesús.\nSanta María, Madre de Dios,\nruega por nosotros, pecadores,\nahora y en la hora de nuestra muerte. Amén"
+    },
+    "textHailMaryLat": {
+        "//": "Ave Maria. Source: https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html (Holy See, Compendium of the Catechism of the Catholic Church (2005), English edition, Appendix, Common Prayers, \"Ave, Maria\" (printed after the English \"The Hail Mary\")). Ends with \"Amen.\". The Spanish edition's appendix has the same words and punctuation with other line breaks (checked), under the misspelt heading \"Ave, Maríæ\". Same text on https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html.",
+        "TextHailMaryLat": "Ave, María, grátia plena,\nDóminus tecum.\nBenedícta tu in muliéribus,\net benedíctus fructus ventris tui, Iesus.\nSancta María, Mater Dei,\nora pro nobis peccatóribus,\nnunc et in hora mortis nostræ.\nAmen."
+    },
+    "textHailMaryEng": {
+        "//": "Hail Mary. Source: https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html (Holy See, Compendium of the Catechism of the Catholic Church (2005), English edition, Appendix, Common Prayers, \"The Hail Mary\"). Traditional wording: \"the Lord is with thee\", \"Blessed art thou among women\", \"the fruit of thy womb, Jesus\"; ends with \"Amen.\". Punctuation: \"Hail, Mary,\" with a comma after \"Hail\" (the usual US form is \"Hail Mary, full of grace\"; that claim is not verified here, because usccb.org/prayers/hail-mary returned a bot check); no comma after \"among women\". The Angelus on the same page writes \"Blessed art thou among women,\" with a comma.",
+        "TextHailMaryEng": "Hail, Mary, full of grace,\nthe Lord is with thee.\nBlessed art thou among women\nand blessed is the fruit of thy womb, Jesus.\nHoly Mary, Mother of God,\npray for us sinners,\nnow and at the hour of our death.\nAmen."
     },
     "textComeHolySpirit": {
         "//": "Ven, Espíritu Santo. Source: https://www.architoledo.org/wp-content/uploads/2026/05/Cadena-de-oracion.pdf (Archidiócesis de Toledo (Spain), \"Cadena de oración por la asamblea del Sínodo\", 2026, section \"Invocación al Espíritu Santo\"). Invocation, versicle, response and collect as printed; the PDF's line breaks inside the collect joined.",

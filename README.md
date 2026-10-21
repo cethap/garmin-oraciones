@@ -1,6 +1,6 @@
 # Oraciones for Garmin Instinct 2
 
-Oraciones is a Connect IQ widget that holds 12 well-known Catholic prayers to read on the Garmin Instinct 2: prayers to the Holy Spirit, psalms, Marian prayers and classic prayers. Each text comes word for word from a named source, with the few changes listed in [Text sources](#text-sources). The widget shares the look of the Rosario widget: large-type lists, a reading window that never runs under the subscreen lens, and a dove in the subscreen. It reads in Spanish.
+Oraciones is a Connect IQ widget that holds 18 well-known Catholic prayers to read on the Garmin Instinct 2: the basic prayers in Spanish, Latin and English, prayers to the Holy Spirit, psalms, Marian prayers and classic prayers. Each text comes word for word from a named source, with the few changes listed in [Text sources](#text-sources). The widget shares the look of the Rosario widget: large-type lists, a reading window that never runs under the subscreen lens, and a dove in the subscreen. It reads in Spanish.
 
 [Resumen en español](#resumen-en-español)
 
@@ -12,7 +12,7 @@ Oraciones is a Connect IQ widget that holds 12 well-known Catholic prayers to re
 
 ## Features
 
-- **Groups**: the app opens on its four groups, "Espíritu Santo", "Salmos", "Marianas" and "Clásicas".
+- **Groups**: the app opens on its five groups, "Básicas", "Espíritu Santo", "Salmos", "Marianas" and "Clásicas".
   - The lists use the large font, two items at a time, with a thin scroll bar on the right.
   - The selected item is a white bar with black text.
   - The title of what the screen lists ("Oraciones", or the group's name) sits beside the subscreen.
@@ -21,13 +21,19 @@ Oraciones is a Connect IQ widget that holds 12 well-known Catholic prayers to re
   - The text is set as verse: each printed line of the source starts a new line at the left edge. A line too long for the window wraps at a space onto indented continuation lines, so the start of each verse shows.
   - A thumb on the right shows which part of the text is on screen.
 - **Subscreen**: a dove inside a thin ring, the counterpart of the Rosario's Hail Mary ring.
-- **Glance**: "Oraciones" over the last prayer read ("Salmo 27"), or over "12 oraciones" before any prayer has been read.
+- **Glance**: "Oraciones" over the last prayer read ("Salmo 27"), or over "18 oraciones" before any prayer has been read.
 - **Memory**: the app loads one prayer's text when its reading view opens, and lets it go when the view closes.
 
 ## The prayers
 
 | Group | Prayer (short title) | Text | Pages |
 |-------|----------------------|------|-------|
+| Básicas | Padre Nuestro | Padre nuestro | 7 |
+| Básicas | Pater Noster | The Our Father in Latin | 6 |
+| Básicas | Our Father | The Our Father in English | 6 |
+| Básicas | Ave María | Dios te salve, María | 5 |
+| Básicas | Ave Maria | The Hail Mary in Latin | 4 |
+| Básicas | Hail Mary | The Hail Mary in English | 5 |
 | Espíritu Santo | Ven, Espíritu | Ven, Espíritu Santo | 8 |
 | Espíritu Santo | Secuencia | Secuencia de Pentecostés | 16 |
 | Salmos | Salmo 23 | El Señor es mi pastor | 11 |
@@ -157,7 +163,7 @@ The script lists each text's pages in `SOURCES`, together with the two correctio
 
 1. Make a folder for the pages.
 2. Download each URL of `SOURCES` into it, under the file name `python3 -I scripts/check-texts.py --name <url>` prints.
-3. Run `python3 -I scripts/check-texts.py <folder>`. It prints `ALL VERBATIM: 12 texts` when every text matches.
+3. Run `python3 -I scripts/check-texts.py <folder>`. It prints `ALL VERBATIM: 18 texts` when every text matches.
 
 ### Run in the simulator
 
@@ -212,7 +218,7 @@ Texts, resources and scripts:
 
 | Path | Purpose |
 |------|---------|
-| `i18n/spa.json` | Every text: the glance, the groups, the short titles and the 12 prayers, each with its source in a note |
+| `i18n/spa.json` | Every text: the glance, the groups, the short titles and the 18 prayers, each with its source in a note |
 | `resources/i18n/` | Generated: the tables as JSON data, the glance's marked `scope="glance"` |
 | `resources/strings/strings.xml` | The app's name |
 | `resources/drawables/` | The launcher icon and the subscreen dove, the same dove drawn at 62 and 32 px |
@@ -233,7 +239,9 @@ Every text is copied word for word from the source below, with the changes liste
 | Prayer | Source | Terms |
 |--------|--------|-------|
 | Ven, Espíritu Santo | Archidiócesis de Toledo, "Cadena de oración por la asamblea del Sínodo", 2026: https://www.architoledo.org/wp-content/uploads/2026/05/Cadena-de-oracion.pdf | No notice in the PDF; traditional prayer |
-| Secuencia de Pentecostés; Ángelus; Alma de Cristo | *Compendio del Catecismo de la Iglesia Católica* (2005), Apéndice A: https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html | © Copyright 2005 - Libreria Editrice Vaticana |
+| Padre Nuestro; Pater Noster; Ave María; Secuencia de Pentecostés; Ángelus; Alma de Cristo | *Compendio del Catecismo de la Iglesia Católica* (2005), Apéndice A: https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html | © Copyright 2005 - Libreria Editrice Vaticana |
+| Ave Maria (Latin); Hail Mary | *Compendium of the Catechism of the Catholic Church* (2005), Appendix: https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html | © Copyright 2005 - Libreria Editrice Vaticana |
+| Our Father (English) | United States Conference of Catholic Bishops, "Our Father": https://www.usccb.org/prayers/our-father | Traditional wording; site notice ©2026 USCCB |
 | Salmos 23, 27 y 51; Magníficat | *La Biblia. El Libro del Pueblo de Dios* (traducción argentina) on vatican.va, one page per psalm and Lucas 1: `__PGS.HTM`, `__PGW.HTM`, `__PHK.HTM` and `__PVJ.HTM` under https://www.vatican.va/archive/ESL0506/ | Copyright © Libreria Editrice Vaticana |
 | Oración de San Francisco | ACI Prensa, "Oración por la Paz": https://www.aciprensa.com/recurso/1707/oracion-por-la-paz | Anonymous prayer; site notice © 2026 EWTN Inc. |
 | Nada te turbe | St Teresa of Jesus, as Pope Francis quotes it (video message, 15 April 2021): https://www.vatican.va/content/francesco/es/messages/pont-messages/2021/documents/papa-francesco_20210415_videomessaggio-mujer-excepcional.html | Public domain by age |
@@ -246,6 +254,7 @@ Changes to the sources:
 - **Magníficat**: it starts at «Mi alma canta», without the narrative "María dijo entonces:", and keeps the source's guillemets. Two transcription typos of the vatican.va page are corrected, as the Bible reads:
   - Lc 1, 48: "porque el miró" becomes "porque él miró";
   - Lc 1, 49: "el Todopoderoso he hecho" becomes "el Todopoderoso ha hecho".
+- **Básicas**: all six end with "Amen" or "Amén". The Compendium's English edition prints the Pater Noster and the Our Father without one, so the app takes the Pater Noster of the Spanish edition's appendix (unaccented, "quotidianum") and the USCCB's Our Father instead.
 - **Secuencia**: it ends at "y danos tu gozo eterno." with no "Amén", as in the Spanish Lectionary.
 - **Every other text**: as printed, its quirks included (for example "El me hace" in Psalm 23, and the missing full stops in Alma de Cristo).
 
@@ -257,13 +266,14 @@ The code is under the MIT license ([LICENSE](LICENSE)). The prayer texts keep th
 
 ## Resumen en español
 
-Oraciones es un widget de Connect IQ para el Garmin Instinct 2 con 12 oraciones católicas conocidas, copiadas palabra por palabra de fuentes identificadas, en cuatro grupos:
+Oraciones es un widget de Connect IQ para el Garmin Instinct 2 con 18 oraciones católicas conocidas, copiadas palabra por palabra de fuentes identificadas, en cinco grupos:
 
+- **Básicas**: Padre Nuestro, Ave María, y ambas en latín (Pater Noster, Ave Maria) y en inglés (Our Father, Hail Mary).
 - **Espíritu Santo**: Ven, Espíritu Santo; Secuencia de Pentecostés.
 - **Salmos**: 23, 27 y 51.
 - **Marianas**: Magníficat; Ángelus.
 - **Clásicas**: Alma de Cristo; Oración de San Francisco; Nada te turbe; Oración de abandono; San Miguel Arcángel.
 
-Al abrirla se ven los cuatro grupos. START abre un grupo y luego una oración, UP y DOWN mueven la selección o pasan de página, y BACK vuelve un nivel. En la lista de grupos, BACK cierra la aplicación. El texto se lee en una ventana bajo el lente, cuatro líneas por pantalla, con cada verso en su propia línea. Desde la esfera del reloj, la vista resumida muestra "Oraciones" y la última oración leída, o "12 oraciones" si aún no se ha leído ninguna.
+Al abrirla se ven los cinco grupos. START abre un grupo y luego una oración, UP y DOWN mueven la selección o pasan de página, y BACK vuelve un nivel. En la lista de grupos, BACK cierra la aplicación. El texto se lee en una ventana bajo el lente, cuatro líneas por pantalla, con cada verso en su propia línea. Desde la esfera del reloj, la vista resumida muestra "Oraciones" y la última oración leída, o "18 oraciones" si aún no se ha leído ninguna.
 
 Los salmos y el Magníficat provienen de "El Libro del Pueblo de Dios", publicado en el sitio de la Santa Sede (Copyright © Libreria Editrice Vaticana). En el Magníficat se corrigieron dos erratas de esa página (Lc 1, 48-49: "él miró" y "ha hecho"). Las fuentes y los derechos de cada texto están en [NOTICE](NOTICE).

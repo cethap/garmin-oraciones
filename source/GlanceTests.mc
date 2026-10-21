@@ -27,7 +27,7 @@ module GlanceCheck {
     }
 }
 
-// Before any prayer has been read, the glance reads "Oraciones" over "12 oraciones", the first run included
+// Before any prayer has been read, the glance reads "Oraciones" over "18 oraciones", the first run included
 // (nothing saved). Once a prayer's reading view opens, it saves the prayer's id and the glance reads
 // "Oraciones" over that prayer's short title, for each prayer in turn, the latest one winning. A saved value
 // that is not a prayer's id reads as none: the index an earlier build saved (0..12), the removed Veni
@@ -41,7 +41,7 @@ function glanceShowsTheLastPrayerRead(logger as Logger) as Boolean {
     try {
         Application.Storage.deleteValue(Prayers.LAST_READ_KEY);
         var firstRun = Prayers.glanceTitle() + " / " + Prayers.glanceSummary();
-        ok = firstRun.equals("Oraciones / 12 oraciones") && Prayers.lastRead() == null;
+        ok = firstRun.equals("Oraciones / 18 oraciones") && Prayers.lastRead() == null;
         var shown = [] as Array<String>;
         // Every prayer, then the first one again: the latest read wins.
         for (var i = 0; i <= Prayers.COUNT; i++) {
@@ -60,7 +60,7 @@ function glanceShowsTheLastPrayerRead(logger as Logger) as Boolean {
             Application.Storage.setValue(Prayers.LAST_READ_KEY, stored[i]);
             var summary = Prayers.glanceSummary();
             invalid += " " + stored[i] + "->" + summary;
-            ok = ok && Prayers.lastRead() == null && summary.equals("12 oraciones");
+            ok = ok && Prayers.lastRead() == null && summary.equals("18 oraciones");
         }
         logger.debug("first run '" + firstRun + "'; after each prayer " + shown + "; invalid:" + invalid);
     } finally {
@@ -80,7 +80,7 @@ function glanceSummaryNamesThePrayer(logger as Logger) as Boolean {
     for (var i = 0; i < lasts.size(); i++) {
         var summary = Prayers.glanceSummaryFor(lasts[i]);
         summaries.add(summary);
-        ok = ok && summary.equals(lasts[i] == null ? "12 oraciones" : Prayers.title(lasts[i] as Number));
+        ok = ok && summary.equals(lasts[i] == null ? "18 oraciones" : Prayers.title(lasts[i] as Number));
     }
     logger.debug("summaries " + summaries);
     return ok;

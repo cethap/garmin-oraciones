@@ -89,7 +89,7 @@ function groupListStopsAtBothEnds(logger as Logger) as Boolean {
     logger.debug("opened on " + start + " trail=" + walked[0] + " expected=" + expected + " handled=" + walked[1]
         + " calls=" + navigator.calls);
     return start == 0 && (walked[1] as Boolean) && walked[0].toString().equals(expected.toString())
-        && expected.toString().equals(["0/0", "1/0", "2/1", "3/2", "3/2", "2/2", "1/1", "0/0", "0/0"].toString())
+        && NavigationFake.expectedTrail(4).toString().equals(["0/0", "1/0", "2/1", "3/2", "3/2", "2/2", "1/1", "0/0", "0/0"].toString())
         && navigator.calls.size() == 0;
 }
 

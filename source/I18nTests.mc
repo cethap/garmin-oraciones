@@ -28,7 +28,7 @@ module TableCheck {
     // Most memory one loaded table may hold, in bytes. A lookup loads its whole table, so this bounds what a
     // lookup adds to the widget's peak. The Rosario's tables measured 784 to 1200 under the same budget.
     const BUDGET = 1536;
-    // The glance's table, which the glance loads inside its 32KB: the app's name, the count and the 12 short
+    // The glance's table, which the glance loads inside its 32KB: the app's name, the count and the 18 short
     // titles.
     const GLANCE_BUDGET = 1024;
     // A prayer's text, each a table of its own, which the reading view loads when it opens. Measured: 200
@@ -40,7 +40,8 @@ module TableCheck {
         if (table == 0) {
             return GLANCE_BUDGET;
         }
-        return table >= I18n.TextComeHolySpirit / I18n.TABLE_KEYS ? TEXT_BUDGET : BUDGET;
+        // The prayers' texts are every table after the ui table.
+        return table > I18n.GroupsTitle / I18n.TABLE_KEYS ? TEXT_BUDGET : BUDGET;
     }
 
     // Memory a table holds once loaded, and whether it is whole: texts, none empty. Returns [bytes held,
@@ -103,29 +104,30 @@ function everyTableIsWholeAndSmall(logger as Logger) as Boolean {
     return ok;
 }
 
-// Before any prayer has been read, the glance reads "Oraciones" over the number of prayers, "12 oraciones".
+// Before any prayer has been read, the glance reads "Oraciones" over the number of prayers, "18 oraciones".
 (:test)
 function glanceNamesTheAppAndCountsThePrayers(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var title = Prayers.glanceTitle();
     var summary = Prayers.glanceSummaryFor(null);
     logger.debug("glance '" + title + "' / '" + summary + "'");
-    return Prayers.COUNT == 12 && title.equals("Oraciones") && summary.equals("12 oraciones");
+    return Prayers.COUNT == 18 && title.equals("Oraciones") && summary.equals("18 oraciones");
 }
 
-// The four groups, in order, and each group's prayers by their short titles: 12 prayers in all, each in one
+// The four groups, in order, and each group's prayers by their short titles: 18 prayers in all, each in one
 // group, the groups one after another.
 (:test)
 function groupsHoldTheirPrayersInOrder(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
-    var groups = ["Espíritu Santo", "Salmos", "Marianas", "Clásicas"];
+    var groups = ["Básicas", "Espíritu Santo", "Salmos", "Marianas", "Clásicas"];
     var titles = [
+        ["Padre Nuestro", "Pater Noster", "Our Father", "Ave María", "Ave Maria", "Hail Mary"],
         ["Ven, Espíritu", "Secuencia"],
         ["Salmo 23", "Salmo 27", "Salmo 51"],
         ["Magníficat", "Ángelus"],
         ["Alma de Cristo", "San Francisco", "Nada te turbe", "Abandono", "San Miguel"]
     ];
-    var ok = Prayers.GROUP_COUNT == 4 && Prayers.groupTitles().toString().equals(groups.toString());
+    var ok = Prayers.GROUP_COUNT == 5 && Prayers.groupTitles().toString().equals(groups.toString());
     var next = 0;
     for (var group = 0; group < Prayers.GROUP_COUNT; group++) {
         var listed = Prayers.titles(group);

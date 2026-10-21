@@ -10,6 +10,33 @@ resources/i18n/spa.xml. Each text is copied word for word from its source;
 scripts/check-texts.py checks them against the downloaded pages. Where a
 source states no terms, none is claimed here.
 
+Padre Nuestro, Pater Noster and Ave María
+  Holy See, "Compendio del Catecismo de la Iglesia Católica" (2005), Spanish
+  edition, Apéndice A, "Oraciones comunes".
+  Copied from https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html
+  The same Padre Nuestro is on https://www.vaticannews.va/es/oraciones/padre-nuestro.html
+  and the same Ave María on https://www.vaticannews.va/es/oraciones/ave-maria.html
+  © Copyright 2005 - Libreria Editrice Vaticana
+  Traditional prayers; the Latin Pater Noster is in the public domain.
+  The Pater Noster is the Spanish edition's (unaccented, "quotidianum", ending
+  "Amen"), not the English edition's accented one, which ends without "Amen".
+
+Ave Maria (Latin) and Hail Mary
+  Holy See, "Compendium of the Catechism of the Catholic Church" (2005),
+  English edition, Appendix, "Common Prayers".
+  Copied from https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html
+  The Spanish edition prints the same Ave Maria.
+  © Copyright 2005 - Libreria Editrice Vaticana
+  The Latin prayer and the traditional English wording are in the public
+  domain by age.
+
+Our Father (English)
+  United States Conference of Catholic Bishops, "Our Father".
+  Copied from https://www.usccb.org/prayers/our-father
+  The site's notice reads "©2026 United States Conference of Catholic
+  Bishops". Traditional wording, in the public domain by age.
+  Taken instead of the Compendium's English text, which ends without "Amen".
+
 Ven, Espíritu Santo
   Archidiócesis de Toledo (Spain), "Cadena de oración por la asamblea del
   Sínodo", 2026, section "Invocación al Espíritu Santo".

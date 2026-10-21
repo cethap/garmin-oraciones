@@ -8,9 +8,10 @@ the corrections made to the source's typos. The pages themselves are not in the 
 URL into one folder, under the name url_to_filename(url) gives it (--name prints it).
 
 A page is reduced to its visible text (HTML tags, scripts and styles removed, entities decoded; PDFs through
-pdftotext, which must be on the PATH), its running headers removed and its corrections applied. The page and
-the text are then compared after NFC normalization with all whitespace and digits removed, so line breaks
-and verse numbers are ignored while every letter and punctuation mark must match exactly. A correction
+pdftotext, which must be on the PATH, with the words a line end hyphenates rejoined; ePubs chapter by
+chapter), its running headers removed and its corrections applied. The page and the text are then compared
+after NFC normalization with all whitespace, all digits and stanza numbers ("2. ") removed, so line breaks
+and verse and stanza numbers are ignored while every letter and punctuation mark must match exactly. A correction
 counts only when the page prints its wrong words exactly once and the text holds the right ones.
 
 The check also fails when a text table has no entry in SOURCES or the reverse, or when a table's note does
@@ -29,17 +30,31 @@ import shutil
 import subprocess
 import sys
 import unicodedata
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TEXTS = ROOT / "i18n" / "spa.json"
 COMPENDIUM = "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html"
+COMPENDIUM_EN = "https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html"
 INVISIBLE = {"​", "‌", "‍", "⁠", "﻿", "­"}
 
 # For each text: "source", the page it is copied from (named in its table's note); "also", other pages that
 # print the same words; "furniture", running headers a PDF prints inside the text; "corrections", the
 # source's typos as (wrong words as printed, right words, why), applied to the page before comparing.
 SOURCES = {
+    "TextOurFatherSpa": {
+        "source": COMPENDIUM,
+        "also": ["https://www.vaticannews.va/es/oraciones/padre-nuestro.html"],
+    },
+    "TextOurFatherLat": {"source": COMPENDIUM},
+    "TextOurFatherEng": {"source": "https://www.usccb.org/prayers/our-father"},
+    "TextHailMarySpa": {
+        "source": COMPENDIUM,
+        "also": ["https://www.vaticannews.va/es/oraciones/ave-maria.html"],
+    },
+    "TextHailMaryLat": {"source": COMPENDIUM_EN, "also": [COMPENDIUM]},
+    "TextHailMaryEng": {"source": COMPENDIUM_EN},
     "TextComeHolySpirit": {
         "source": "https://www.architoledo.org/wp-content/uploads/2026/05/Cadena-de-oracion.pdf",
     },
@@ -106,18 +121,29 @@ def pdf_text(path):
     if tool is None:
         raise RuntimeError("pdftotext not found on PATH")
     out = subprocess.run([tool, "-enc", "UTF-8", str(path), "-"], check=True, capture_output=True)
-    return out.stdout.decode("utf-8")
+    # Rejoins the words the PDF hyphenates at a line end ("afec-\nto").
+    return re.sub(r"(\w)-\n(\w)", r"\1\2", out.stdout.decode("utf-8"))
+
+
+def epub_text(path):
+    """The visible text of every XHTML chapter of an ePub, in archive order."""
+    with zipfile.ZipFile(path) as book:
+        names = [name for name in book.namelist() if name.lower().endswith((".xhtml", ".html", ".htm"))]
+        return " ".join(html_text(book.read(name).decode("utf-8", "replace")) for name in names)
 
 
 def page_text(path):
     raw = path.read_bytes()
     if raw[:5] == b"%PDF-":
         return pdf_text(path)
+    if raw[:2] == b"PK" and b"application/epub+zip" in raw[:100]:
+        return epub_text(path)
     return html_text(decode(raw))
 
 
 def normalize(text):
     text = unicodedata.normalize("NFC", text)
+    text = re.sub(r"(?<!\w)\d+\.(?=\s)", "", text)  # stanza numbers such as "2. "
     return "".join(ch for ch in text if not ch.isspace() and not ch.isdigit() and ch not in INVISIBLE)
 
 
