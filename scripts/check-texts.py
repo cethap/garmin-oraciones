@@ -64,9 +64,23 @@ SOURCES = {
                  "https://www.conferenciaepiscopal.es/liturgia/cpentecostes.pdf"],
         "furniture": ["LECCIONARIO I (C)", "DOMINGO DE PENTECOSTÉS – MISA DEL DÍA [63]"],
     },
+    "TextPsalm16": {"source": "https://www.vatican.va/archive/ESL0506/__PGL.HTM"},
     "TextPsalm23": {"source": "https://www.vatican.va/archive/ESL0506/__PGS.HTM"},
     "TextPsalm27": {"source": "https://www.vatican.va/archive/ESL0506/__PGW.HTM"},
     "TextPsalm51": {"source": "https://www.vatican.va/archive/ESL0506/__PHK.HTM"},
+    "TextPsalm84": {"source": "https://www.vatican.va/archive/ESL0506/__PIH.HTM"},
+    "TextPsalm136": {"source": "https://www.vatican.va/archive/ESL0506/__PJX.HTM"},
+    "TextBeatitudes": {"source": "https://www.vatican.va/archive/ESL0506/__PUF.HTM"},
+    "TextHymnOfLove": {
+        "source": "https://www.vatican.va/archive/ESL0506/__PYC.HTM",
+        "corrections": [
+            ("no tienen en cuenta el mal recibido", "no tiene en cuenta el mal recibido",
+             "1 Cor 13, 5: love \"no tiene\" (does not keep), singular as its subject, not the plural \"tienen\""),
+            ("la más grande todas es el amor", "la más grande de todas es el amor",
+             "1 Cor 13, 13: the missing \"de\" of \"la más grande de todas\""),
+        ],
+    },
+    "TextJohnPrologue": {"source": "https://www.vatican.va/archive/ESL0506/__PW7.HTM"},
     "TextMagnificat": {
         "source": "https://www.vatican.va/archive/ESL0506/__PVJ.HTM",
         "corrections": [

@@ -28,7 +28,7 @@ module TableCheck {
     // Most memory one loaded table may hold, in bytes. A lookup loads its whole table, so this bounds what a
     // lookup adds to the widget's peak. The Rosario's tables measured 784 to 1200 under the same budget.
     const BUDGET = 1536;
-    // The glance's table, which the glance loads inside its 32KB: the app's name, the count and the 25 short
+    // The glance's table, which the glance loads inside its 32KB: the app's name, the count and the 31 short
     // titles. Measured: 1032 bytes; 1536 leaves room for a few more titles, about 5% of the glance's memory.
     const GLANCE_BUDGET = 1536;
     // A prayer's text, each a table of its own, which the reading view loads when it opens. Measured: 200
@@ -104,32 +104,33 @@ function everyTableIsWholeAndSmall(logger as Logger) as Boolean {
     return ok;
 }
 
-// Before any prayer has been read, the glance reads "Oraciones" over the number of prayers, "25 oraciones".
+// Before any prayer has been read, the glance reads "Oraciones" over the number of prayers, "31 oraciones".
 (:test)
 function glanceNamesTheAppAndCountsThePrayers(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var title = Prayers.glanceTitle();
     var summary = Prayers.glanceSummaryFor(null);
     logger.debug("glance '" + title + "' / '" + summary + "'");
-    return Prayers.COUNT == 25 && title.equals("Oraciones") && summary.equals("25 oraciones");
+    return Prayers.COUNT == 31 && title.equals("Oraciones") && summary.equals("31 oraciones");
 }
 
-// The four groups, in order, and each group's prayers by their short titles: 25 prayers in all, each in one
+// The four groups, in order, and each group's prayers by their short titles: 31 prayers in all, each in one
 // group, the groups one after another.
 (:test)
 function groupsHoldTheirPrayersInOrder(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
-    var groups = ["Básicas", "Espíritu Santo", "Salmos", "Marianas", "Eucarísticas", "Del día", "Clásicas"];
+    var groups = ["Básicas", "Espíritu Santo", "Salmos", "Biblia", "Marianas", "Eucarísticas", "Del día", "Clásicas"];
     var titles = [
         ["Padre Nuestro", "Pater Noster", "Our Father", "Ave María", "Ave Maria", "Hail Mary"],
         ["Ven, Espíritu", "Secuencia"],
-        ["Salmo 23", "Salmo 27", "Salmo 51"],
+        ["Salmo 16", "Salmo 23", "Salmo 27", "Salmo 51", "Salmo 84", "Salmo 136"],
+        ["Felices (Mt 5)", "Himno al amor", "Prólogo de Juan"],
         ["Magníficat", "Ángelus", "Bendita pureza", "Consagración"],
         ["Comunión", "Adoro te"],
         ["Ofrecimiento", "Contrición", "Oración noche"],
         ["Alma de Cristo", "San Francisco", "Nada te turbe", "Abandono", "San Miguel"]
     ];
-    var ok = Prayers.GROUP_COUNT == 7 && Prayers.groupTitles().toString().equals(groups.toString());
+    var ok = Prayers.GROUP_COUNT == 8 && Prayers.groupTitles().toString().equals(groups.toString());
     var next = 0;
     for (var group = 0; group < Prayers.GROUP_COUNT; group++) {
         var listed = Prayers.titles(group);

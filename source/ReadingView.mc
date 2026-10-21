@@ -25,8 +25,11 @@ module ReadingLayout {
     // The hanging indent of a wrapped printed line's continuation lines, in px.
     const INDENT = 8;
     // How the body lines mark a continuation line: with a leading space, which no other line has, since
-    // lines break at spaces and the space is dropped. bodyPlan draws the line without it, INDENT px in.
+    // lines break at spaces and the space is dropped. bodyPlan draws the line without it, INDENT px in. A
+    // continuation line of one word too wide for the indent ("imperfectamente;", 130px) is marked with a
+    // second space and starts at the window's left edge instead, where it fits.
     const CONTINUATION = " ";
+    const FLUSH = "  ";
 
     function windowWidth() as Number {
         return WINDOW_RIGHT - WINDOW_LEFT;
@@ -93,14 +96,23 @@ module ReadingLayout {
             } else if (dc.getTextWidthInPixels(line + " " + word, Graphics.FONT_TINY) <= width) {
                 line = line + " " + word;
             } else {
-                lines.add(lines.size() == 0 ? line : CONTINUATION + line);
+                lines.add(marked(dc, line, lines.size() > 0));
                 line = word;
             }
         }
         if (line != null) {
-            lines.add(lines.size() == 0 ? line : CONTINUATION + line);
+            lines.add(marked(dc, line, lines.size() > 0));
         }
         return lines;
+    }
+
+    // The line as the body keeps it: a continuation line with its mark, FLUSH when it is too wide for the
+    // indent.
+    function marked(dc as Dc, line as String, continued as Boolean) as String {
+        if (!continued) {
+            return line;
+        }
+        return (dc.getTextWidthInPixels(line, Graphics.FONT_TINY) > windowWidth() - INDENT ? FLUSH : CONTINUATION) + line;
     }
 
     // Whether a body line continues the printed line above it.
@@ -108,8 +120,26 @@ module ReadingLayout {
         return line.length() > 0 && line.substring(0, 1).equals(CONTINUATION);
     }
 
-    // The body lines shown from the given first line, one pitch apart: each from the window's left edge, a
-    // continuation line INDENT px in and without its mark.
+    // Whether a continuation line starts at the window's left edge, being too wide for the indent.
+    function isFlush(line as String) as Boolean {
+        return line.length() > 1 && line.substring(0, 2).equals(FLUSH);
+    }
+
+    // The text a body line shows, without its mark.
+    function shownText(line as String) as String {
+        if (isFlush(line)) {
+            return line.substring(2, line.length()) as String;
+        }
+        return (isContinuation(line) ? line.substring(1, line.length()) : line) as String;
+    }
+
+    // Where a body line starts: the window's left edge, or INDENT px in for an indented continuation line.
+    function lineX(line as String) as Number {
+        return WINDOW_LEFT + (isContinuation(line) && !isFlush(line) ? INDENT : 0);
+    }
+
+    // The body lines shown from the given first line, one pitch apart, without their marks: each from the
+    // window's left edge, an indented continuation line INDENT px in.
     function bodyPlan(lines as Array<String>, offset as Number) as Array<Layout.TextItem> {
         var items = [] as Array<Layout.TextItem>;
         var end = offset + visibleLines();
@@ -117,14 +147,8 @@ module ReadingLayout {
             end = lines.size();
         }
         for (var i = offset; i < end; i++) {
-            var line = lines[i];
-            var x = WINDOW_LEFT;
-            if (isContinuation(line)) {
-                line = line.substring(1, line.length()) as String;
-                x += INDENT;
-            }
-            items.add(new Layout.TextItem(line, Graphics.FONT_TINY, x, WINDOW_TOP + (i - offset) * BODY_PITCH,
-                Graphics.TEXT_JUSTIFY_LEFT as Number));
+            items.add(new Layout.TextItem(shownText(lines[i]), Graphics.FONT_TINY, lineX(lines[i]),
+                WINDOW_TOP + (i - offset) * BODY_PITCH, Graphics.TEXT_JUSTIFY_LEFT as Number));
         }
         return items;
     }

@@ -1,12 +1,12 @@
 import Toybox.Application;
 import Toybox.Lang;
 
-// The prayers the app holds, in seven groups, the last one read and the glance's texts. A prayer is known by
+// The prayers the app holds, in eight groups, the last one read and the glance's texts. A prayer is known by
 // its index, 0..COUNT - 1, the groups' prayers one group after another, and, where it is saved, by its id.
 (:glance)
 module Prayers {
     // Prayers in all the groups.
-    const COUNT = 25;
+    const COUNT = 31;
     // Application.Storage key of the last prayer read, which the reading view saves when it opens and the
     // glance shows. The value is the prayer's id (ids), which stays the same when prayers are added, removed
     // or reordered; an index would then point at another prayer.
@@ -15,7 +15,8 @@ module Prayers {
     // Each prayer's id, by index: the id O1's research gave it.
     function ids() as Array<String> {
         return ["padre_nuestro", "pater_noster", "our_father", "ave_maria_es", "ave_maria_la", "hail_mary",
-            "ven_espiritu", "secuencia", "salmo_23", "salmo_27", "salmo_51", "magnificat", "angelus",
+            "ven_espiritu", "secuencia", "salmo_16", "salmo_23", "salmo_27", "salmo_51", "salmo_84", "salmo_136",
+            "bienaventuranzas", "himno_amor", "prologo_juan", "magnificat", "angelus",
             "bendita_pureza", "consagracion_maria", "comunion_espiritual", "adoro_te", "ofrecimiento", "contricion", "noche",
             "alma_de_cristo", "san_francisco", "nada_te_turbe", "abandono", "san_miguel"] as Array<String>;
     }
@@ -39,7 +40,8 @@ module Prayers {
             I18n.TitleOurFatherSpa, I18n.TitleOurFatherLat, I18n.TitleOurFatherEng,
             I18n.TitleHailMarySpa, I18n.TitleHailMaryLat, I18n.TitleHailMaryEng,
             I18n.TitleComeHolySpirit, I18n.TitleSequence,
-            I18n.TitlePsalm23, I18n.TitlePsalm27, I18n.TitlePsalm51,
+            I18n.TitlePsalm16, I18n.TitlePsalm23, I18n.TitlePsalm27, I18n.TitlePsalm51, I18n.TitlePsalm84, I18n.TitlePsalm136,
+            I18n.TitleBeatitudes, I18n.TitleHymnOfLove, I18n.TitleJohnPrologue,
             I18n.TitleMagnificat, I18n.TitleAngelus, I18n.TitleBlessedPurity, I18n.TitleConsecration,
             I18n.TitleSpiritualCommunion, I18n.TitleAdoroTe,
             I18n.TitleDailyOffering, I18n.TitleContrition, I18n.TitleNightPrayer,
@@ -62,7 +64,7 @@ module Prayers {
         return null;
     }
 
-    // The glance: "Oraciones" over the last prayer read, or over the number of prayers ("25 oraciones")
+    // The glance: "Oraciones" over the last prayer read, or over the number of prayers ("31 oraciones")
     // before any has been read.
     function glanceTitle() as String {
         return I18n.glanceText(I18n.GlanceTitle);
@@ -88,17 +90,18 @@ module Prayers {
         BASIC,
         HOLY_SPIRIT,
         PSALMS,
+        BIBLE,
         MARIAN,
         EUCHARISTIC,
         DAILY,
         CLASSIC
     }
 
-    const GROUP_COUNT = 7;
+    const GROUP_COUNT = 8;
 
     // Index of a group's first prayer; one past the last group's last prayer for GROUP_COUNT.
     function groupStart(group as Number) as Number {
-        return [0, 6, 8, 11, 15, 17, 20, COUNT][group];
+        return [0, 6, 8, 14, 17, 21, 23, 26, COUNT][group];
     }
 
     function groupSize(group as Number) as Number {
@@ -106,7 +109,7 @@ module Prayers {
     }
 
     function groupTitle(group as Number) as String {
-        var keys = [I18n.GroupBasic, I18n.GroupHolySpirit, I18n.GroupPsalms, I18n.GroupMarian, I18n.GroupEucharistic,
+        var keys = [I18n.GroupBasic, I18n.GroupHolySpirit, I18n.GroupPsalms, I18n.GroupBible, I18n.GroupMarian, I18n.GroupEucharistic,
             I18n.GroupDaily, I18n.GroupClassic] as Array<Number>;
         return I18n.text(keys[group]);
     }
@@ -128,7 +131,8 @@ module Prayers {
             I18n.TextOurFatherSpa, I18n.TextOurFatherLat, I18n.TextOurFatherEng,
             I18n.TextHailMarySpa, I18n.TextHailMaryLat, I18n.TextHailMaryEng,
             I18n.TextComeHolySpirit, I18n.TextSequence,
-            I18n.TextPsalm23, I18n.TextPsalm27, I18n.TextPsalm51,
+            I18n.TextPsalm16, I18n.TextPsalm23, I18n.TextPsalm27, I18n.TextPsalm51, I18n.TextPsalm84, I18n.TextPsalm136,
+            I18n.TextBeatitudes, I18n.TextHymnOfLove, I18n.TextJohnPrologue,
             I18n.TextMagnificat, I18n.TextAngelus, I18n.TextBlessedPurity, I18n.TextConsecration,
             I18n.TextSpiritualCommunion, I18n.TextAdoroTe,
             I18n.TextDailyOffering, I18n.TextContrition, I18n.TextNightPrayer,

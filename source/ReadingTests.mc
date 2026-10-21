@@ -57,14 +57,14 @@ module ReadingCheck {
 
     // Most memory one open reading view may hold, in bytes, once laid out and drawn, measured on its own after
     // one warm-up view. A view holds its title and body lines and the dove; the text it wraps is let go.
-    // Measured: 688, 1576 and 8384 bytes for 1, 300 and 2,500 characters, and 1104 (Nada te turbe) to 5064
-    // bytes (Psalm 27, 113 lines) for the prayers; the first view a test measures pays about 140 bytes more,
+    // Measured: 688, 1576 and 8384 bytes for 1, 300 and 2,500 characters, and 1104 (Nada te turbe) to 5688
+    // bytes (Psalm 136, 125 lines) for the prayers; the first view a test measures pays about 140 bytes more,
     // once, so the test measures a warm-up view first. 12288 leaves about 1.5x the largest and is under 20% of
     // the widget's 64KB.
     const MEMORY_BUDGET = 12288;
     // What a closed view may leave behind, in bytes: nothing it allocated outlives it (0 measured).
     const RELEASE_SLACK = 0;
-    // The prayer whose title the placeholders read under: Psalm 51, one of the two longest prayers.
+    // The prayer whose title the placeholders read under: Psalm 51, one of the long prayers.
     function placeholderPrayer() as Number {
         return Prayers.indexOf("salmo_51") as Number;
     }
@@ -98,12 +98,16 @@ module ReadingCheck {
             ReadingLayout.WINDOW_RIGHT.toFloat(), ReadingLayout.WINDOW_BOTTOM.toFloat()] as Array<Float>;
     }
 
-    // The text the lines give back: a continuation line appended to the line above with its mark, the space
-    // it was wrapped at; any other line after a "\n".
+    // The text the lines give back: a continuation line appended to the line above after the space it was
+    // wrapped at; any other line after a "\n".
     function unwrap(lines as Array<String>) as String {
         var text = "";
         for (var i = 0; i < lines.size(); i++) {
-            text += (i > 0 && !ReadingLayout.isContinuation(lines[i]) ? "\n" : "") + lines[i];
+            if (ReadingLayout.isContinuation(lines[i])) {
+                text += " " + ReadingLayout.shownText(lines[i]);
+            } else {
+                text += (i > 0 ? "\n" : "") + lines[i];
+            }
         }
         return text;
     }
@@ -126,7 +130,7 @@ module ReadingCheck {
             && lines.size() - continued == Placeholder.breaks(text) + 1;
         for (var i = 0; i < lines.size(); i++) {
             var line = lines[i];
-            var shown = ReadingLayout.isContinuation(line) ? line.substring(1, line.length()) as String : line;
+            var shown = ReadingLayout.shownText(line);
             ok = ok && shown.length() > 0 && line.find("\n") == null && !shown.substring(0, 1).equals(" ")
                 && !line.substring(line.length() - 1, line.length()).equals(" ");
         }
@@ -146,7 +150,7 @@ module ReadingCheck {
     }
 
     // At this scroll position the window shows as many lines as it holds (fewer only at the end of a short
-    // text), each left-aligned at the window's left edge, a continuation line INDENT px in without its mark,
+    // text), each left-aligned at the window's left edge, an indented continuation line INDENT px in, without its mark,
     // and each whole inside the window and inside the visible area with the margin.
     function bodyInsideTheWindow(dc as Dc, lines as Array<String>, offset as Number, logger as Logger) as Boolean {
         var items = ReadingLayout.bodyPlan(lines, offset);
@@ -158,9 +162,8 @@ module ReadingCheck {
         for (var i = 0; i < items.size(); i++) {
             var box = ScreenArea.measure(dc, items[i]);
             var line = lines[offset + i];
-            var continued = ReadingLayout.isContinuation(line);
-            var text = continued ? line.substring(1, line.length()) as String : line;
-            var x = ReadingLayout.WINDOW_LEFT + (continued ? ReadingLayout.INDENT : 0);
+            var text = ReadingLayout.shownText(line);
+            var x = ReadingLayout.WINDOW_LEFT + (ReadingLayout.isContinuation(line) && !ReadingLayout.isFlush(line) ? ReadingLayout.INDENT : 0);
             var fits = items[i].text.equals(text) && items[i].font == Graphics.FONT_TINY && items[i].x == x
                 && items[i].justify == Graphics.TEXT_JUSTIFY_LEFT
                 && ScreenArea.boxInRect(box, ReadingLayout.WINDOW_LEFT, ReadingLayout.WINDOW_TOP,
@@ -489,5 +492,13 @@ function readingIndentsWrappedLines(logger as Logger) as Boolean {
     }
     ok = ok && lines.size() >= 5;
     logger.debug("wrapped verse: " + lines.size() + " lines " + lines + " at x " + xs);
-    return ok;
+    // A continuation line of one word too wide for the indent ("imperfectamente;", 130px, of 1 Cor 13, 12)
+    // starts at the window's left edge instead, where it fits, and stays a continuation line.
+    var wide = ReadingLayout.bodyLines(dc, "Yo imperfectamente;");
+    var widePlan = ReadingLayout.bodyPlan(wide, 0);
+    var wideBox = widePlan.size() == 2 ? ScreenArea.measure(dc, widePlan[1]) : [0.0, 0.0, 999.0, 0.0] as Array<Float>;
+    logger.debug("wide continuation: " + wide + " at x " + (widePlan.size() == 2 ? widePlan[1].x : -1) + " "
+        + ScreenArea.describe("imperfectamente;", wideBox));
+    return ok && wide.size() == 2 && ReadingLayout.isContinuation(wide[1]) && widePlan[1].text.equals("imperfectamente;")
+        && widePlan[1].x == left && wideBox[2] <= ReadingLayout.WINDOW_RIGHT && ReadingCheck.unwrap(wide).equals("Yo imperfectamente;");
 }

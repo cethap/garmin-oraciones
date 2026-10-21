@@ -1,6 +1,6 @@
 # Oraciones for Garmin Instinct 2
 
-Oraciones is a Connect IQ widget that holds 25 well-known Catholic prayers to read on the Garmin Instinct 2: the basic prayers in Spanish, Latin and English, prayers to the Holy Spirit, psalms, Marian and Eucharistic prayers, prayers for the day and classic prayers. Each text comes word for word from a named source, with the few changes listed in [Text sources](#text-sources). The widget shares the look of the Rosario widget: large-type lists, a reading window that never runs under the subscreen lens, and a dove in the subscreen. It reads in Spanish.
+Oraciones is a Connect IQ widget that holds 31 well-known Catholic prayers and Bible passages to read on the Garmin Instinct 2: the basic prayers in Spanish, Latin and English, prayers to the Holy Spirit, psalms, three Bible passages, Marian and Eucharistic prayers, prayers for the day and classic prayers. Each text comes word for word from a named source, with the few changes listed in [Text sources](#text-sources). The widget shares the look of the Rosario widget: large-type lists, a reading window that never runs under the subscreen lens, and a dove in the subscreen. It reads in Spanish.
 
 [Resumen en español](#resumen-en-español)
 
@@ -12,16 +12,16 @@ Oraciones is a Connect IQ widget that holds 25 well-known Catholic prayers to re
 
 ## Features
 
-- **Groups**: the app opens on its seven groups, "Básicas", "Espíritu Santo", "Salmos", "Marianas", "Eucarísticas", "Del día" and "Clásicas".
+- **Groups**: the app opens on its eight groups, "Básicas", "Espíritu Santo", "Salmos", "Biblia", "Marianas", "Eucarísticas", "Del día" and "Clásicas".
   - The lists use the large font, two items at a time, with a thin scroll bar on the right.
   - The selected item is a white bar with black text.
   - The title of what the screen lists ("Oraciones", or the group's name) sits beside the subscreen. A one-word title too wide for the top of that band ("Eucarísticas") takes its lowest line, where the band is widest.
 - **Reading view**:
   - The prayer's short title stays beside the subscreen, and its text scrolls four lines at a time in a window below it.
-  - The text is set as verse: each printed line of the source starts a new line at the left edge. A line too long for the window wraps at a space onto indented continuation lines, so the start of each verse shows.
+  - The text is set as verse: each printed line of the source starts a new line at the left edge. A line too long for the window wraps at a space onto indented continuation lines, so the start of each verse shows. A continuation line of one word too wide for the indent ("imperfectamente;" in 1 Cor 13) starts at the left edge.
   - A thumb on the right shows which part of the text is on screen.
 - **Subscreen**: a dove inside a thin ring, the counterpart of the Rosario's Hail Mary ring.
-- **Glance**: "Oraciones" over the last prayer read ("Salmo 27"), or over "25 oraciones" before any prayer has been read.
+- **Glance**: "Oraciones" over the last prayer read ("Salmo 27"), or over "31 oraciones" before any prayer has been read.
 - **Memory**: the app loads one prayer's text when its reading view opens, and lets it go when the view closes.
 
 ## The prayers
@@ -36,9 +36,15 @@ Oraciones is a Connect IQ widget that holds 25 well-known Catholic prayers to re
 | Básicas | Hail Mary | The Hail Mary in English | 5 |
 | Espíritu Santo | Ven, Espíritu | Ven, Espíritu Santo | 8 |
 | Espíritu Santo | Secuencia | Secuencia de Pentecostés | 16 |
+| Salmos | Salmo 16 | Protégeme, Dios mío | 18 |
 | Salmos | Salmo 23 | El Señor es mi pastor | 11 |
 | Salmos | Salmo 27 | El Señor es mi luz | 29 |
 | Salmos | Salmo 51 | Miserere | 28 |
+| Salmos | Salmo 84 | ¡Qué amable es tu Morada! | 20 |
+| Salmos | Salmo 136 | Porque es eterno su amor | 32 |
+| Biblia | Felices (Mt 5) | Las Bienaventuranzas, Mt 5, 3-12 | 16 |
+| Biblia | Himno al amor | 1 Cor 13, 1-13 | 27 |
+| Biblia | Prólogo de Juan | Jn 1, 1-18 | 29 |
 | Marianas | Magníficat | Lc 1, 46-55 | 14 |
 | Marianas | Ángelus | Ángelus | 13 |
 | Marianas | Bendita pureza | Bendita sea tu pureza | 5 |
@@ -166,11 +172,11 @@ The app reads only Spanish so far. Adding a language takes three changes and no 
 
 `scripts/check-texts.py` compares every prayer's text, word for word, with its source page. It ignores line breaks and verse numbers.
 
-The script lists each text's pages in `SOURCES`, together with the two corrections made to the Magníficat's source (see [Text sources](#text-sources)). The downloaded pages are not in the repository:
+The script lists each text's pages in `SOURCES`, together with the corrections made to the Magníficat's and 1 Cor 13's sources (see [Text sources](#text-sources)). The downloaded pages are not in the repository:
 
 1. Make a folder for the pages.
 2. Download each URL of `SOURCES` into it, under the file name `python3 -I scripts/check-texts.py --name <url>` prints.
-3. Run `python3 -I scripts/check-texts.py <folder>`. It prints `ALL VERBATIM: 25 texts` when every text matches.
+3. Run `python3 -I scripts/check-texts.py <folder>`. It prints `ALL VERBATIM: 31 texts` when every text matches.
 
 ### Run in the simulator
 
@@ -225,7 +231,7 @@ Texts, resources and scripts:
 
 | Path | Purpose |
 |------|---------|
-| `i18n/spa.json` | Every text: the glance, the groups, the short titles and the 25 prayers, each with its source in a note |
+| `i18n/spa.json` | Every text: the glance, the groups, the short titles and the 31 prayers, each with its source in a note |
 | `resources/i18n/` | Generated: the tables as JSON data, the glance's marked `scope="glance"` |
 | `resources/strings/strings.xml` | The app's name |
 | `resources/drawables/` | The launcher icon and the subscreen dove, the same dove drawn at 62 and 32 px |
@@ -249,7 +255,7 @@ Every text is copied word for word from the source below, with the changes liste
 | Padre Nuestro; Pater Noster; Ave María; Secuencia de Pentecostés; Ángelus; Acto de contrición; Alma de Cristo | *Compendio del Catecismo de la Iglesia Católica* (2005), Apéndice A: https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_sp.html | © Copyright 2005 - Libreria Editrice Vaticana |
 | Ave Maria (Latin); Hail Mary | *Compendium of the Catechism of the Catholic Church* (2005), Appendix: https://www.vatican.va/archive/compendium_ccc/documents/archive_2005_compendium-ccc_en.html | © Copyright 2005 - Libreria Editrice Vaticana |
 | Our Father (English) | United States Conference of Catholic Bishops, "Our Father": https://www.usccb.org/prayers/our-father | Traditional wording; site notice ©2026 USCCB |
-| Salmos 23, 27 y 51; Magníficat | *La Biblia. El Libro del Pueblo de Dios* (traducción argentina) on vatican.va, one page per psalm and Lucas 1: `__PGS.HTM`, `__PGW.HTM`, `__PHK.HTM` and `__PVJ.HTM` under https://www.vatican.va/archive/ESL0506/ | Copyright © Libreria Editrice Vaticana |
+| Salmos 16, 23, 27, 51, 84 y 136; Mateo 5; 1 Corintios 13; Juan 1; Magníficat | *La Biblia. El Libro del Pueblo de Dios* (traducción argentina) on vatican.va, one page per psalm and chapter: `__PGL.HTM`, `__PGS.HTM`, `__PGW.HTM`, `__PHK.HTM`, `__PIH.HTM`, `__PJX.HTM`, `__PUF.HTM`, `__PYC.HTM`, `__PW7.HTM` and `__PVJ.HTM` under https://www.vatican.va/archive/ESL0506/ | Copyright © Libreria Editrice Vaticana |
 | Bendita sea tu pureza | Parroquia de la Presentación (Madrid), songbook "Solemnidad Virgen de la Almudena", 2020: https://lapresentacion.es/wp-content/uploads/2020/11/Solemnidad-de-la-Virgen-de-la-Almudena.pdf | No notice in the PDF; 19th-century verse, public domain by age |
 | Consagración a la Virgen | Hermandad del Gran Poder (Sevilla), "Devocionario": https://www.gran-poder.es/wp-content/uploads/2019/01/devocionario-Gran-Poder-web.pdf | No notice found; traditional prayer, status unknown |
 | Comunión espiritual | Vatican News, "Oraciones: Comunión espiritual" (San Alfonso María de Ligorio): https://www.vaticannews.va/es/oraciones/comunion-espiritual.html | Copyright © 2017-2026 Dicasterium pro Communicatione |
@@ -263,7 +269,10 @@ Every text is copied word for word from the source below, with the changes liste
 
 Changes to the sources:
 
-- **Psalms**: the superscriptions and the verse numbers are left out. The psalms use the Hebrew numbering, as the source does.
+- **Psalms**: the superscriptions and the verse numbers are left out. The psalms use the Hebrew numbering, as the source does. A few spellings that may be typos are kept as printed: "la Muerte" (Ps 16), "Señor del Universo" (Ps 84, 2), "¡Aleluya!" at the start of Ps 136 and "Dios de los Dioses" (Ps 136, 2).
+- **Bible passages**: the verse numbers are left out. The Beatitudes drop the opening guillemet of Mt 5, 3, because the speech goes on past v. 12, and are listed as "Felices (Mt 5)": "Bienaventuranzas" is 164px in the large font, wider than its 148px bar, and 129px in the header, wider than the band beside the lens. The Prologue keeps "El no era luz" (Jn 1, 8) as printed. Two transcription typos of the 1 Corintios page are corrected, as the Bible reads:
+  - 1 Cor 13, 5: "no tienen en cuenta el mal recibido" becomes "no tiene en cuenta el mal recibido";
+  - 1 Cor 13, 13: "la más grande todas es el amor" becomes "la más grande de todas es el amor".
 - **Magníficat**: it starts at «Mi alma canta», without the narrative "María dijo entonces:", and keeps the source's guillemets. Two transcription typos of the vatican.va page are corrected, as the Bible reads:
   - Lc 1, 48: "porque el miró" becomes "porque él miró";
   - Lc 1, 49: "el Todopoderoso he hecho" becomes "el Todopoderoso ha hecho".
@@ -281,16 +290,17 @@ The code is under the MIT license ([LICENSE](LICENSE)). The prayer texts keep th
 
 ## Resumen en español
 
-Oraciones es un widget de Connect IQ para el Garmin Instinct 2 con 25 oraciones católicas conocidas, copiadas palabra por palabra de fuentes identificadas, en siete grupos:
+Oraciones es un widget de Connect IQ para el Garmin Instinct 2 con 31 oraciones y pasajes bíblicos conocidos, copiados palabra por palabra de fuentes identificadas, en ocho grupos:
 
 - **Básicas**: Padre Nuestro, Ave María, y ambas en latín (Pater Noster, Ave Maria) y en inglés (Our Father, Hail Mary).
 - **Espíritu Santo**: Ven, Espíritu Santo; Secuencia de Pentecostés.
-- **Salmos**: 23, 27 y 51.
+- **Salmos**: 16, 23, 27, 51, 84 y 136.
+- **Biblia**: las Bienaventuranzas (Mt 5, 3-12), el himno al amor (1 Cor 13) y el prólogo de san Juan (Jn 1, 1-18).
 - **Marianas**: Magníficat; Ángelus; Bendita sea tu pureza; Consagración a la Virgen.
 - **Eucarísticas**: Comunión espiritual; Adoro te devote.
 - **Del día**: Ofrecimiento del día; Acto de contrición; Oración de la noche.
 - **Clásicas**: Alma de Cristo; Oración de San Francisco; Nada te turbe; Oración de abandono; San Miguel Arcángel.
 
-Al abrirla se ven los siete grupos. START abre un grupo y luego una oración, UP y DOWN mueven la selección o pasan de página, y BACK vuelve un nivel. En la lista de grupos, BACK cierra la aplicación. El texto se lee en una ventana bajo el lente, cuatro líneas por pantalla, con cada verso en su propia línea. Desde la esfera del reloj, la vista resumida muestra "Oraciones" y la última oración leída, o "25 oraciones" si aún no se ha leído ninguna.
+Al abrirla se ven los ocho grupos. START abre un grupo y luego una oración, UP y DOWN mueven la selección o pasan de página, y BACK vuelve un nivel. En la lista de grupos, BACK cierra la aplicación. El texto se lee en una ventana bajo el lente, cuatro líneas por pantalla, con cada verso en su propia línea. Desde la esfera del reloj, la vista resumida muestra "Oraciones" y la última oración leída, o "31 oraciones" si aún no se ha leído ninguna.
 
-Los salmos y el Magníficat provienen de "El Libro del Pueblo de Dios", publicado en el sitio de la Santa Sede (Copyright © Libreria Editrice Vaticana). En el Magníficat se corrigieron dos erratas de esa página (Lc 1, 48-49: "él miró" y "ha hecho"). Las fuentes y los derechos de cada texto están en [NOTICE](NOTICE).
+Los salmos, los pasajes bíblicos y el Magníficat provienen de "El Libro del Pueblo de Dios", publicado en el sitio de la Santa Sede (Copyright © Libreria Editrice Vaticana). Se corrigieron dos erratas de esas páginas en el Magníficat (Lc 1, 48-49: "él miró" y "ha hecho") y dos en el himno al amor (1 Cor 13, 5 y 13: "no tiene en cuenta" y "la más grande de todas"). Las fuentes y los derechos de cada texto están en [NOTICE](NOTICE).

@@ -20,9 +20,15 @@ module TextPins {
             ["Hail, Mary, full of grace,", "at the hour of our death.\nAmen.", 210],
             ["Ven, Espíritu Santo,\nllena", "nuestro Señor. Amén.", 381],
             ["Ven, Espíritu divino,\nmanda", "y danos tu gozo eterno.", 822],
+            ["Protégeme, Dios mío,\nporque me refugio en ti.", "felicidad eterna a tu derecha.", 899],
             ["El Señor es mi pastor,", "por muy largo tiempo.", 529],
             ["El Señor es mi luz y mi salvación,", "ten valor y espera en el Señor.", 1472],
             ["¡Ten piedad de mí, oh Dios,", "novillos en tu altar.", 1466],
+            ["¡Qué amable es tu Morada,\nSeñor del Universo!", "el hombre que confía en ti!", 1059],
+            ["¡Aleluya! ¡Den gracias al Señor,", "porque es eterno su amor!", 1674],
+            ["Felices los que tienen alma de pobres,", "los profetas que los precedieron.", 848],
+            ["Aunque yo hablara todas las lenguas", "la más grande de todas es el amor.", 1452],
+            ["Al principio existía la Palabra,", "que está en el seno del Padre.", 1605],
             ["«Mi alma canta la grandeza del Señor,", "descendencia para siempre».", 733],
             ["El ángel del Señor anunció a María.", "Amén.\nGloria al Padre...", 667],
             ["Bendita sea tu pureza", "no me dejes, Madre mía.", 238],
@@ -79,14 +85,33 @@ function magnificatReadsTheCorrectedWords(logger as Logger) as Boolean {
     return ok;
 }
 
+// The Himno al amor reads the two words the source mistyped as the Bible has them (1 Cor 13, 5 and 13): "no
+// tiene en cuenta" and "la más grande de todas", never the page's "no tienen en cuenta" and "la más grande
+// todas" (scripts/check-texts.py records both corrections).
+(:test)
+function hymnOfLoveReadsTheCorrectedWords(logger as Logger) as Boolean {
+    TestLanguage.use(logger, I18n.SPA);
+    var hymn = Prayers.indexOf("himno_amor");
+    if (hymn == null) {
+        logger.debug("no himno_amor");
+        return false;
+    }
+    var text = Prayers.text(hymn as Number);
+    var ok = text.find("no tiene en cuenta el mal recibido") != null && text.find("la más grande de todas es el amor") != null
+        && text.find("no tienen en cuenta") == null && text.find("grande todas") == null;
+    logger.debug("Himno al amor corrected=" + ok);
+    return ok;
+}
+
 // Every prayer reads in the pages it was measured in, at 4 lines a page, set as verse with the hanging indent
-// (Psalm 27 in 29 pages): a change to a text or to the reading layout that changes a prayer's length on the
-// watch fails here.
+// (Psalm 136, the longest, in 32 pages): a change to a text or to the reading layout that changes a prayer's
+// length on the watch fails here.
 (:test)
 function everyPrayerReadsInItsPages(logger as Logger) as Boolean {
     TestLanguage.use(logger, I18n.SPA);
     var dc = ScreenArea.measuringDc();
-    var expected = [7, 6, 6, 5, 4, 5, 8, 16, 11, 29, 28, 14, 13, 5, 6, 8, 21, 11, 8, 4, 8, 12, 3, 8, 7] as Array<Number>;
+    var expected = [7, 6, 6, 5, 4, 5, 8, 16, 18, 11, 29, 28, 20, 32, 16, 27, 29, 14, 13, 5, 6, 8, 21, 11, 8, 4, 8, 12, 3, 8, 7]
+        as Array<Number>;
     var pages = [] as Array<Number>;
     for (var prayer = 0; prayer < Prayers.COUNT; prayer++) {
         pages.add(ScrollCheck.expectedPages(ReadingCheck.open(prayer, null, dc).bodyLines().size()).size());

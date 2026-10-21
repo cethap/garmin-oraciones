@@ -28,23 +28,29 @@ module I18n {
         TitleHailMaryEng = 7,
         TitleComeHolySpirit = 8,
         TitleSequence = 9,
-        TitlePsalm23 = 10,
-        TitlePsalm27 = 11,
-        TitlePsalm51 = 12,
-        TitleMagnificat = 13,
-        TitleAngelus = 14,
-        TitleBlessedPurity = 15,
-        TitleConsecration = 16,
-        TitleSpiritualCommunion = 17,
-        TitleAdoroTe = 18,
-        TitleDailyOffering = 19,
-        TitleContrition = 20,
-        TitleNightPrayer = 21,
-        TitleAnimaChristi = 22,
-        TitleSaintFrancis = 23,
-        TitleNadaTeTurbe = 24,
-        TitleAbandonment = 25,
-        TitleSaintMichael = 26
+        TitlePsalm16 = 10,
+        TitlePsalm23 = 11,
+        TitlePsalm27 = 12,
+        TitlePsalm51 = 13,
+        TitlePsalm84 = 14,
+        TitlePsalm136 = 15,
+        TitleBeatitudes = 16,
+        TitleHymnOfLove = 17,
+        TitleJohnPrologue = 18,
+        TitleMagnificat = 19,
+        TitleAngelus = 20,
+        TitleBlessedPurity = 21,
+        TitleConsecration = 22,
+        TitleSpiritualCommunion = 23,
+        TitleAdoroTe = 24,
+        TitleDailyOffering = 25,
+        TitleContrition = 26,
+        TitleNightPrayer = 27,
+        TitleAnimaChristi = 28,
+        TitleSaintFrancis = 29,
+        TitleNadaTeTurbe = 30,
+        TitleAbandonment = 31,
+        TitleSaintMichael = 32
     }
 
     // The glance table of a language.
@@ -56,7 +62,7 @@ module I18n {
 
 // The other tables, which only the full-screen widget loads.
 module I18n {
-    const TABLE_COUNT = 27;
+    const TABLE_COUNT = 33;
 
     // Table 1: "ui" in i18n/<lang>.json.
     enum {
@@ -64,10 +70,11 @@ module I18n {
         GroupBasic = 257,
         GroupHolySpirit = 258,
         GroupPsalms = 259,
-        GroupMarian = 260,
-        GroupEucharistic = 261,
-        GroupDaily = 262,
-        GroupClassic = 263
+        GroupBible = 260,
+        GroupMarian = 261,
+        GroupEucharistic = 262,
+        GroupDaily = 263,
+        GroupClassic = 264
     }
 
     // Table 2: "textOurFatherSpa" in i18n/<lang>.json.
@@ -110,89 +117,119 @@ module I18n {
         TextSequence = 2304
     }
 
-    // Table 10: "textPsalm23" in i18n/<lang>.json.
+    // Table 10: "textPsalm16" in i18n/<lang>.json.
     enum {
-        TextPsalm23 = 2560
+        TextPsalm16 = 2560
     }
 
-    // Table 11: "textPsalm27" in i18n/<lang>.json.
+    // Table 11: "textPsalm23" in i18n/<lang>.json.
     enum {
-        TextPsalm27 = 2816
+        TextPsalm23 = 2816
     }
 
-    // Table 12: "textPsalm51" in i18n/<lang>.json.
+    // Table 12: "textPsalm27" in i18n/<lang>.json.
     enum {
-        TextPsalm51 = 3072
+        TextPsalm27 = 3072
     }
 
-    // Table 13: "textMagnificat" in i18n/<lang>.json.
+    // Table 13: "textPsalm51" in i18n/<lang>.json.
     enum {
-        TextMagnificat = 3328
+        TextPsalm51 = 3328
     }
 
-    // Table 14: "textAngelus" in i18n/<lang>.json.
+    // Table 14: "textPsalm84" in i18n/<lang>.json.
     enum {
-        TextAngelus = 3584
+        TextPsalm84 = 3584
     }
 
-    // Table 15: "textBlessedPurity" in i18n/<lang>.json.
+    // Table 15: "textPsalm136" in i18n/<lang>.json.
     enum {
-        TextBlessedPurity = 3840
+        TextPsalm136 = 3840
     }
 
-    // Table 16: "textConsecration" in i18n/<lang>.json.
+    // Table 16: "textBeatitudes" in i18n/<lang>.json.
     enum {
-        TextConsecration = 4096
+        TextBeatitudes = 4096
     }
 
-    // Table 17: "textSpiritualCommunion" in i18n/<lang>.json.
+    // Table 17: "textHymnOfLove" in i18n/<lang>.json.
     enum {
-        TextSpiritualCommunion = 4352
+        TextHymnOfLove = 4352
     }
 
-    // Table 18: "textAdoroTe" in i18n/<lang>.json.
+    // Table 18: "textJohnPrologue" in i18n/<lang>.json.
     enum {
-        TextAdoroTe = 4608
+        TextJohnPrologue = 4608
     }
 
-    // Table 19: "textDailyOffering" in i18n/<lang>.json.
+    // Table 19: "textMagnificat" in i18n/<lang>.json.
     enum {
-        TextDailyOffering = 4864
+        TextMagnificat = 4864
     }
 
-    // Table 20: "textContrition" in i18n/<lang>.json.
+    // Table 20: "textAngelus" in i18n/<lang>.json.
     enum {
-        TextContrition = 5120
+        TextAngelus = 5120
     }
 
-    // Table 21: "textNightPrayer" in i18n/<lang>.json.
+    // Table 21: "textBlessedPurity" in i18n/<lang>.json.
     enum {
-        TextNightPrayer = 5376
+        TextBlessedPurity = 5376
     }
 
-    // Table 22: "textAnimaChristi" in i18n/<lang>.json.
+    // Table 22: "textConsecration" in i18n/<lang>.json.
     enum {
-        TextAnimaChristi = 5632
+        TextConsecration = 5632
     }
 
-    // Table 23: "textSaintFrancis" in i18n/<lang>.json.
+    // Table 23: "textSpiritualCommunion" in i18n/<lang>.json.
     enum {
-        TextSaintFrancis = 5888
+        TextSpiritualCommunion = 5888
     }
 
-    // Table 24: "textNadaTeTurbe" in i18n/<lang>.json.
+    // Table 24: "textAdoroTe" in i18n/<lang>.json.
     enum {
-        TextNadaTeTurbe = 6144
+        TextAdoroTe = 6144
     }
 
-    // Table 25: "textAbandonment" in i18n/<lang>.json.
+    // Table 25: "textDailyOffering" in i18n/<lang>.json.
     enum {
-        TextAbandonment = 6400
+        TextDailyOffering = 6400
     }
 
-    // Table 26: "textSaintMichael" in i18n/<lang>.json.
+    // Table 26: "textContrition" in i18n/<lang>.json.
     enum {
-        TextSaintMichael = 6656
+        TextContrition = 6656
+    }
+
+    // Table 27: "textNightPrayer" in i18n/<lang>.json.
+    enum {
+        TextNightPrayer = 6912
+    }
+
+    // Table 28: "textAnimaChristi" in i18n/<lang>.json.
+    enum {
+        TextAnimaChristi = 7168
+    }
+
+    // Table 29: "textSaintFrancis" in i18n/<lang>.json.
+    enum {
+        TextSaintFrancis = 7424
+    }
+
+    // Table 30: "textNadaTeTurbe" in i18n/<lang>.json.
+    enum {
+        TextNadaTeTurbe = 7680
+    }
+
+    // Table 31: "textAbandonment" in i18n/<lang>.json.
+    enum {
+        TextAbandonment = 7936
+    }
+
+    // Table 32: "textSaintMichael" in i18n/<lang>.json.
+    enum {
+        TextSaintMichael = 8192
     }
 
     // The resource of a table (0..TABLE_COUNT - 1) in a language: every language's tables in turn.
@@ -208,9 +245,15 @@ module I18n {
             Rez.JsonData.TextHailMaryEngSpa,
             Rez.JsonData.TextComeHolySpiritSpa,
             Rez.JsonData.TextSequenceSpa,
+            Rez.JsonData.TextPsalm16Spa,
             Rez.JsonData.TextPsalm23Spa,
             Rez.JsonData.TextPsalm27Spa,
             Rez.JsonData.TextPsalm51Spa,
+            Rez.JsonData.TextPsalm84Spa,
+            Rez.JsonData.TextPsalm136Spa,
+            Rez.JsonData.TextBeatitudesSpa,
+            Rez.JsonData.TextHymnOfLoveSpa,
+            Rez.JsonData.TextJohnPrologueSpa,
             Rez.JsonData.TextMagnificatSpa,
             Rez.JsonData.TextAngelusSpa,
             Rez.JsonData.TextBlessedPuritySpa,
