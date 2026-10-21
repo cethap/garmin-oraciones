@@ -59,7 +59,7 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
 |----|------|-------|--------|
 | O1 | Research: the verbatim Spanish text and source URL of each of the 13 prayers. Report the copyright status, length and any variant | delegated research worker (more than 5 lookups) | [ ] |
 | O2 | `feat`: app scaffold from the Rosario. Manifest (UUID 10421347-cc46-4b32-9c0c-4faa7adf3579), jungle, the copied layout and i18n code, the group and prayer lists, the reading view, the dove ring, tests | delegated writer (2+ non-trivial files) | [x] b353e4d lists (+2435: 102 generated, about 590 copied scripts, 764 tests, this document) RED 10 passed, 8 failed -> GREEN 18/18; 8f5adc9 reading (+751/-3) RED 21 passed, 4 failed -> GREEN 25/25. Debug and release `-w`: 0 warnings, release 15,900 bytes |
-| O3 | `feat`: the 13 prayer texts from O1 and the glance with the last prayer read, plus fit tests over every text | delegated writer | [ ] |
+| O3 | `feat`: the 13 prayer texts from O1 and the glance with the last prayer read, plus fit tests over every text | delegated writer (2+ non-trivial files) | [ ] code done, memory pending: 459a2e6 texts (+527/-23) RED 25 passed, 2 failed -> GREEN 28/28; 1faca9b glance (+255/-122) RED 28 passed, 2 failed -> GREEN 30/30. `check-texts.py` ALL VERBATIM (13 texts, the Magníficat's 2 corrections). Debug and release `-w`: 0 warnings, release 26,348 bytes. The glance and widget memory runs are pending: the simulator stopped answering |
 | O4 | `docs`: README, LICENSE (MIT), NOTICE with the text sources | delegated writer | [ ] |
 
 ## Acceptance criteria
@@ -112,6 +112,47 @@ Out of scope for now: other languages, the Connect IQ Store, and the GitHub repo
 
   - **Open for the user:** a 2,500-character text takes 48 DOWN presses at 4 lines a page. To decide after reading the real Psalm 51 on the watch.
 
+- O3, route: delegated writer. Two commits on `feat/oraciones-mvp`.
+  - **459a2e6 `feat(texts)`: the 13 texts.**
+    - The texts are copied from O1's research (`texts.json`, with the parent's decisions): Ven, Espíritu Santo in the Toledo text; the psalms without their superscriptions; the Sequence ending at "gozo eterno." with no "Amén"; every other text as researched.
+    - The Magníficat corrects two transcription typos of its page (https://www.vatican.va/archive/ESL0506/__PVJ.HTM), Lc 1, 48 "porque el miró" -> "porque él miró" and Lc 1, 49 "el Todopoderoso he hecho" -> "el Todopoderoso ha hecho". Both are recorded in the text's `//` note and in `scripts/check-texts.py`.
+    - Each text is a table of its own (`text<Name>` in `i18n/spa.json`, one text each), whose `//` note names its source URL and publisher. Loaded, they hold 200 to 1,576 bytes (text budget 2,560).
+    - `scripts/check-texts.py <sources-dir> [i18n/spa.json]` compares every text with its downloaded pages, word for word. Corrections count only when the page prints the wrong words exactly once and the text holds the right ones. It also fails when a table's note does not name its source. `scripts/test-all.sh` runs it when `TEXT_SOURCES` names the downloads, which stay out of the repository.
+    - A one-word change ("mi copa" -> "mi vaso") and the Magníficat's uncorrected "el miró" both made it fail.
+    - Pins hold each text's opening, close and length; a second pin holds the Magníficat's corrected words.
+  - **1faca9b `feat(glance)`: the last prayer read.**
+    - The reading view saves its prayer under `Application.Storage` key `lastPrayer` in `onShow`.
+    - The glance reads "Oraciones" over that prayer's short title, or over "13 oraciones" before any prayer has been read. A stored value that is not a prayer index reads as none.
+    - The 13 short titles moved into the glance table, the only one the glance can load. It now holds 15 texts, 584 bytes loaded (budget 1,024).
+    - Every second line fits the glance; the widest, "Alma de Cristo", leaves 34px to the content's edge.
+  - **Evidence:**
+    - RED for the pins: FAILED (passed=25, failed=2), the two pin tests, while every prayer still read the pending notice.
+    - RED for the glance: FAILED (passed=28, failed=2), the two glance tests, on stubs.
+    - `scripts/test-all.sh` with `TEXT_SOURCES`: Texts ALL VERBATIM: 13 texts; Translations OK (15 tables, 33 texts); Glance texts OK (15 texts looked up); Tests PASSED (passed=30, failed=0, errors=0).
+    - Debug `-w` and release `-r -w`: 0 warnings. Release `.prg`: 26,348 bytes.
+    - FONT_TINY has every glyph the texts use, the en dash "–" of Psalm 51 included. The texts hold no curly quotes.
+  - **Pages per prayer,** at 4 lines a page, with a blank line after each "\n" as O2 built it (in brackets: without the blank lines):
+
+    | Prayer | Characters | Lines | Pages |
+    |---|---|---|---|
+    | Ven, Espíritu | 381 | 33 | 9 (7) |
+    | Veni Creator | 819 | 91 | 23 (16) |
+    | Secuencia | 822 | 88 | 22 (15) |
+    | Salmo 23 | 529 | 60 | 15 (11) |
+    | Salmo 27 | 1,472 | 155 | 39 (28) |
+    | Salmo 51 | 1,466 | 149 | 38 (28) |
+    | Magníficat | 733 | 60 | 15 (13) |
+    | Ángelus | 667 | 72 | 18 (13) |
+    | Alma de Cristo | 396 | 40 | 10 (7) |
+    | San Francisco | 588 | 58 | 15 (11) |
+    | Nada te turbe | 143 | 18 | 5 (3) |
+    | Abandono | 407 | 45 | 12 (8) |
+    | San Miguel | 384 | 33 | 9 (7) |
+
+  - **Reading view memory, in the test suite:** a view holds 1,336 to 6,224 bytes (Psalm 27) of a 12,288-byte budget, and leaves 0 bytes once closed.
+  - **Pending:** the glance memory, with no prayer read and after one, and the widget peak with Psalm 27, measured with instrumented copies. The simulator stopped answering every run, tests included, after the last test run at 15:49; it was not restarted.
+  - **Open for the user:** the texts' "\n" are printed lines, not paragraphs, so the blank lines add a third to the psalms' pages (Psalm 27: 39 pages, or 28 without them). Dropping the blank lines would make a wrapped line look like a new one in the centered text. To decide on the watch.
+
 ## Next step
 
-O3 brings in O1's texts: one `i18n` table per prayer, `Prayers.text` loading it, and fit tests over every text. Then O4.
+Restart the simulator, then measure the glance (no prayer read, then one) and the widget peak with Psalm 27, and check O3 off. Then O4.
